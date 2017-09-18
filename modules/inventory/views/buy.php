@@ -81,12 +81,13 @@ class View extends \Gcms\View
       'value' => $index->order_no
     ));
     // order_date
+    $order_date = explode(' ', $index->order_date);
     $groups->add('date', array(
       'id' => 'order_date',
       'labelClass' => 'g-input icon-calendar',
       'itemClass' => 'width25',
       'label' => '{LNG_Transaction date}',
-      'value' => explode(' ', $index->order_date)[0]
+      'value' => $order_date[0]
     ));
     if ($index->status == self::$cfg->instock_status) {
       // บันทึกรายจ่าย/เจ้าหนี้ due_date
