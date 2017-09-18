@@ -1,0 +1,126 @@
+<title>ใบรับสินค้า</title>
+<detail>
+  <item>item</item>
+  <item>topic</item>
+  <item>quantity</item>
+  <item>price</item>
+  <item>discount</item>
+  <item>amount</item>
+</detail>
+<body>
+  <table>
+    <tbody>
+      <tr>
+        <td>
+          %LOGO%
+          <div>
+            <b>%AUTHORITYNAME% %AUTHORITYBRANCH%</b><br>
+            %AUTHORITYADDRESS% %AUTHORITYPROVINCE% %AUTHORITYZIPCODE%
+          </div>
+        </td>
+        <th class="border-all" style="width:30%;">
+          <h1>ใบรับสินค้า / Receiving Inventory</h1>
+        </th>
+      </tr>
+    </tbody>
+  </table>
+  <table class="border-all" style="margin-top:1em;">
+    <tbody>
+      <tr>
+        <td style="width:21%;">ผู้ส่งสินค้า/Sent By</td>
+        <td>:</td>
+        <td>%COMPANY%</td>
+        <td style="width:15%;border-left-style:solid;"><b>เลขที่/NO.</b></td>
+        <td class="right" style="width:15%;"><b>%ORDERNO%</b></td>
+      </tr>
+      <tr>
+        <td>ผู้ติดต่อ/Contactor</td>
+        <td>:</td>
+        <td>%CONTACTOR%</td>
+        <td class="align-top" style="border-left-style:solid;"><b>วันที่/Date</b></td>
+        <td class="right align-top"><b>%ORDERDATE%</b></td>
+      </tr>
+      <tr>
+        <td>โทรศัพท์/Telephone</td>
+        <td>:</td>
+        <td>%PHONE%</td>
+        <td colspan="2" rowspan="3" style="vertical-align:bottom;border-left-style:solid;" class="center"></td>
+      </tr>
+      <tr>
+        <td>อีเมล/Email</td>
+        <td>:</td>
+        <td>%EMAIL%</td>
+      </tr>
+    </tbody>
+  </table>
+  <table style="margin-top:1em;">
+    <thead>
+      <tr>
+        <th class="item">ลำดับ<br>
+          Item</th>
+        <th class="description">รายการ<br>
+          Description</th>
+        <th class="quantity">จำนวน<br>
+          Quantity</th>
+        <th class="price">ราคา<br>
+          Unit Price</th>
+        <th class="discount">ส่วนลด<br>
+          Discount</th>
+        <th class="amount">จำนวนเงิน (บาท)<br>
+          Amount (Baht)</th>
+      </tr>
+    </thead>
+    <tbody class="detail">
+      <tr>
+        <td>%DETAIL%</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3" rowspan="3">%COMMENT%</td>
+        <td colspan="2" class="border border-left">รวมเงิน/Total</td>
+        <td class="right border">%SUBTOTAL%</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="border border-left">ส่วนลด/Discount</td>
+        <td class="right border">%DISCOUNT%</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="border border-left">หัก ภาษี หัก ณ ที่จ่าย/Less W/H Tax</td>
+        <td class="right border">%TAX%</td>
+      </tr>
+      <tr>
+        <td colspan="3" rowspan="2" class="bottom">%THAIBAHT%</td>
+        <td colspan="2" class="border border-left">ภาษีมูลค่าเพิ่ม/VAT</td>
+        <td class="right border">%VAT%</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="label border border-left"><b>จำนวนเงินทั้งสิ้น/Grand Total</b></td>
+        <td class="right border"><b>%NETAMOUNT%</b></td>
+      </tr>
+    </tfoot>
+  </table>
+  <table style="margin-top:1em;">
+    <tbody>
+      <tr>
+        <td style="width:33%;border-style:solid;"><br><br><br><br></td>
+        <td style="width:33%;border-style:solid solid solid none;"><br><br><br><br></td>
+        <td style="border-style:solid solid solid none;"><br><br><br><br></td>
+      </tr>
+      <tr>
+        <td class="center" style="border-style:none solid solid solid">
+          ผู้รับสินค้า/Received By<br>
+          %ORDERDATE%
+        </td>
+        <td class="center" style="border-style:none solid solid none">
+          ผู้ส่งสินค้า/Sent By<br>
+          %ORDERDATE%
+        </td>
+        <td class="center" style="border-style:none solid solid none">
+          ผู้มีอำนาจอนุมัติ/Manager<br>
+          %ORDERDATE%
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</body>

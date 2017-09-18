@@ -1,0 +1,34 @@
+<article id=login_div>
+  <h1>
+    <a href="{WEBURL}index.php" id=logo class="icon-billing">{WEBTITLE}</a>
+  </h1>
+  <form id=register_frm method=post autocomplete=off>
+    <h2 class="table fullwidth">
+      <span class="td icon-register">{LNG_Register}</span>
+      <span class="td icon-language language-menu" title="{LNG_change language}"><ul>{LANGUAGES}</ul></span>
+    </h2>
+    <fieldset>
+      <p><label class="g-input icon-email"><input type=text name=register_email id=register_email maxlength=255 placeholder="{LNG_Email}"></label></p>
+      <p><label class="g-input icon-password"><input type=password name=register_password id=register_password maxlength=10 placeholder="{LNG_Password}"></label></p>
+      <p><label class="g-input icon-user"><input type=text name=register_name id=register_name maxlength=150 placeholder="{LNG_Name}"></label></p>
+      <p><label class="g-input icon-phone"><input type=text name=register_phone id=register_phone maxlength=20 placeholder="{LNG_Phone}"></label></p>
+      <p class="center"><label><input type="checkbox" name="register_accept" id="register_accept" value="1"> {LNG_I have read and I agree to the} {Terms of Use}, {Privacy Policy}</label></p>
+    </fieldset>
+    <fieldset>
+      <button type=submit disabled class="button login wide" id="register_submit">{LNG_Register}</button>
+      <button type=button disabled class="button facebook wide margin-top" id=facebook_login><span class="icon-facebook">Login with Facebook</span></button>
+      <input type="hidden" name="token" id="token" value="{TOKEN}">
+    </fieldset>
+    <fieldset class="center">
+      <a href="index.php?action=login">{LNG_Login with an existing account}</a>
+    </fieldset>
+  </form>
+  <script>
+    new GForm('register_frm', '{WEBURL}index.php/index/model/register/submit').onsubmit(doFormSubmit);
+    callClick('facebook_login', fbLogin);
+    callClick('register_accept', function () {
+      $E('register_submit').disabled = this.checked ? false : true;
+      $E('facebook_login').disabled = this.checked ? false : true;
+    });
+  </script>
+</article>

@@ -1,0 +1,66 @@
+body {
+	background-color: #f1f1e3;
+	margin: 0 10px;
+}
+body, html {
+	height: 100%;
+	min-height: 100%;
+}
+form {
+	margin: 0;
+	padding: 0;
+}
+.Frame {
+	background-color: #f1f1e3;
+	border: thin inset #f1f1e3;
+}
+body.FileArea {
+	background-color: #fff;
+}
+body, td, input, select {
+	font-size: 11px;
+	font-family: Tahoma, 'Microsoft Sans Serif', Arial, Helvetica, Verdana;
+}
+.ActualFolder {
+	font-weight: bold;
+	font-size: 14px;
+}
+.PopupButtons {
+	border-top: #d5d59d 1px solid;
+	background-color: #e3e3c7;
+	padding: 7px 10px 7px 10px;
+}
+.Button, button {
+	color: #3b3b1f;
+	border: #737357 1px solid;
+	background-color: #c7c78f;
+}
+.FolderListCurrentFolder img {
+	background-image: url(images/FolderOpened.gif);
+}
+.FolderListFolder img {
+	background-image: url(images/Folder.gif);
+}
+.fullHeight {
+	height: 100%;
+}
+table {
+	border-collapse: collapse;
+}
+#divthumb {
+	display: table;
+	position: absolute;
+	height: 130px;
+	background-position: 50% 30%;
+	background-repeat: no-repeat;
+	border: 1px solid #999;
+	background-color: #EEE;
+	padding: 5px 5px 0 5px;
+}
+#divthumb > #divtext {
+	display: block;
+	text-align: center;
+	min-width: 100px;
+	margin-top: 110px;
+	padding: 3px;
+}

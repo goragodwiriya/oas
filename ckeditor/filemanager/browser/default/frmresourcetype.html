@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+		<title>Available types</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link href="browser.css" type="text/css" rel="stylesheet" />
+		<script type="text/javascript" src="js/common.js">
+		</script>
+		<script type="text/javascript">
+			//<![CDATA[
+			function SetResourceType(type) {
+				window.parent.frames["frmFolders"].SetResourceType(type);
+			}
+			var aTypes =[
+				['File', 'File'],
+				['Image', 'Image'],
+				['Flash', 'Flash'],
+				['Media', 'Media']
+			];
+			window.onload = function() {
+				document.getElementById('res').innerHTML = top.RESOURCE_TYPE;
+				var oCombo = document.getElementById('cmbType');
+				oCombo.innerHTML = '';
+				for (var i = 0; i < aTypes.length; i++) {
+					if (oConnector.ShowAllTypes || aTypes[i][0] == oConnector.ResourceType) {
+						AddSelectOption(oCombo, aTypes[i][1], aTypes[i][0]);
+					}
+				}
+			}
+			//]]>
+		</script>
+	</head>
+	<body>
+		<table class="fullHeight" cellspacing="0" cellpadding="0" width="100%" border="0">
+			<tr>
+				<td nowrap="nowrap">
+					<p id="res" style="margin:0">
+						Resource Type
+					</p><select id="cmbType" style="WIDTH: 100%" onchange="SetResourceType(this.value);">
+					</select>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

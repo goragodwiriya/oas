@@ -1,0 +1,24 @@
+<header class="header">
+  <div class="table fullwidth">
+    <h2 class="td">
+      <a href="{WEBURL}index.php" id=logo title="{WEBDESCRIPTION}" class="icon-billing">{WEBTITLE}</a>
+    </h2>
+    <div class="td right">
+      <div class="icon-language language-menu" title="{LNG_change language}"><ul>{LANGUAGES}</ul></div>
+      <span>{LNG_Welcome}, <a class="icon-user loginname" href="index.php?module=editprofile">{LOGINNAME}</a></span>
+    </div>
+  </div>
+  <div class="menu_wrapper">
+    <nav id=topmenu class="topmenu slidemenu">
+      <ul>{MENUS}</ul>
+    </nav>
+  </div>
+</header>
+<div id="skip" class="clear">
+  <main id="content">{CONTENT}</main>
+</div>
+<script>
+  $G(window).Ready(function () {
+    initWeb();
+  });
+</script>

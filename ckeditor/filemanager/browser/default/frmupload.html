@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<title>File Upload</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="browser.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="js/common.js">
+</script>
+<script type="text/javascript">
+	//<![CDATA[
+	function SetCurrentFolder(resourceType, folderPath) {
+		var sUrl = oConnector.ConnectorUrl + 'Command=FileUpload';
+		sUrl += '&Type=' + resourceType;
+		sUrl += '&CurrentFolder=' + encodeURIComponent(folderPath);
+		document.getElementById('frmUpload').action = sUrl;
+	}
+	function OnSubmit() {
+		if (document.getElementById('NewFile').value.length == 0) {
+			alert(top.FILE_UPLOAD_EMPTY);
+			return false;
+		}
+		// Set the interface elements.
+		document.getElementById('eUploadMessage').innerHTML = top.UPLOADING;
+		document.getElementById('btnUpload').disabled = true;
+		return true;
+	}
+	function OnUploadCompleted(errorNumber, data) {
+		// Reset the Upload Worker Frame.
+		window.parent.frames['frmUploadWorker'].location = 'javascript:void(0)';
+		// Reset the upload form (On IE we must do a little trick to avoid problems).
+		if (document.all) {
+			document.getElementById('NewFile').outerHTML = '<input id="NewFile" name="NewFile" type="file" value="' + top.UPLOAD_SUBMIT + '">';
+		} else {
+			document.getElementById('frmUpload').reset();
+		}
+		// Reset the interface elements.
+		document.getElementById('eUploadMessage').innerHTML = top.FILE_UPLOAD_TITLE;
+		document.getElementById('btnUpload').disabled = false;
+		switch (errorNumber) {
+			case 0:
+				window.parent.frames['frmResourcesList'].Refresh();
+				break;
+			case 1: // Custom error.
+				alert(data);
+				break;
+			case 201:
+				window.parent.frames['frmResourcesList'].Refresh();
+				alert(top.FILE_UPLOAD_EXISTS.replace('%1', data));
+				break;
+			case 202:
+				alert(top.INVALID_FILE);
+				break;
+			default:
+				alert(top.UPLOAD_ERROR.replace('%1', errorNumber));
+				break;
+		}
+	}
+	window.onload = function() {
+		window.top.IsLoadedUpload = true;
+		document.getElementById('eUploadMessage').innerHTML = top.FILE_UPLOAD_TITLE;
+		document.getElementById('btnUpload').value = top.UPLOAD_SUBMIT;
+	}
+	//]]>
+</script>
+ </head>
+ <body>
+   <table class="fullHeight" width="100%">
+    <tr>
+     <td nowrap="nowrap">
+      <span id="eUploadMessage"> </span><br />
+      <form id="frmUpload" action="" target="frmUploadWorker" method="post" enctype="multipart/form-data" onsubmit="return OnSubmit();" name="frmUpload">
+      <table width="100%">
+       <tr>
+        <td width="100%">
+         <input id="NewFile" name="NewFile" type="file" />
+        </td>
+        <td nowrap="nowrap">
+          <input id="btnUpload" type="submit" />
+        </td>
+       </tr>
+      </table>
+      </form>
+     </td>
+    </tr>
+   </table>
+
+ </body>
+</html>

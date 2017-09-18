@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<title>Create Folder</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="browser.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="js/common.js">
+</script>
+<script type="text/javascript">
+	//<![CDATA[
+	function SetCurrentFolder(resourceType, folderPath) {
+		oConnector.ResourceType = resourceType;
+		oConnector.CurrentFolder = folderPath;
+	}
+	function CreateFolder() {
+		var sFolderName;
+		while (true) {
+			sFolderName = prompt(top.CREATE_FOLDER_PROMPT, '');
+			if (sFolderName == null) {
+				return;
+			} else if (sFolderName.length == 0) {
+				alert(top.FOLDER_NAME_EMPTY);
+			} else {
+				break;
+			}
+		}
+		oConnector.SendCommand('CreateFolder', 'NewFolderName=' + encodeURIComponent(sFolderName), CreateFolderCallBack);
+	}
+	function CreateFolderCallBack(fckXml) {
+		if (oConnector.CheckError(fckXml) == 0) {
+			window.parent.frames['frmResourcesList'].Refresh();
+		}
+	}
+	window.onload = function() {
+		window.top.IsLoadedCreateFolder = true;
+		document.getElementById('newfolder').innerHTML = top.CREATE_NEW_FOLDER;
+	}
+	//]]>
+</script>
+ </head>
+	<body>
+		<table class="fullHeight" style="width:100%">
+			<tr>
+				<td>
+					<button type="button" onclick="CreateFolder()" style="cursor: pointer;width:100%;">
+						<table>
+							<tr>
+								<td><img alt="" src="images/folder.gif" style="width:16px;height:16px" /></td>
+								<td>&nbsp;</td>
+								<td id="newfolder" nowrap="nowarp">Create New Folder</td>
+							</tr>
+						</table>
+					</button>
+				</td>
+			</tr>
+		</table>
+	</body>
+
+</html>

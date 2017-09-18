@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+		<title>Resources</title>
+		<link href="browser.css" type="text/css" rel="stylesheet" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="../../../../js/gajax.js"></script>
+		<script type="text/javascript">
+			//<![CDATA[
+			var oListManager = new Object();
+			//**** Patch to integrate FCK FileManager with CKEDITOR ******
+			function GetUrlParam(paramName) {
+				var oRegex = new RegExp('[\?&]' + paramName + '=([^&]+)', 'i');
+				var oMatch = oRegex.exec(window.top.location.search);
+				if (oMatch && oMatch.length > 1) {
+					return decodeURIComponent(oMatch[1]);
+				} else {
+					return '';
+				}
+			}
+			oListManager.Clear = function() {
+				document.body.innerHTML = '';
+			}
+			function ProtectPath(path) {
+				path = path.replace(/\\/g, '\\\\');
+				path = path.replace(/'/g, '\\\'');
+				return path;
+			}
+			oListManager.GetFolderRowHtml = function(folderName, folderPath, folderUrl) {
+				// Build the link to view the folder.
+				var sDir = ProtectPath(folderPath);
+				var sLink = '<a href="#" onclick="OpenFolder(\'' + sDir + '\');return false;">';
+				var sDel = '<a href="#" title="' + folderUrl + folderName + '/" onclick="DeleteDirectory.call(this)">';
+				var ret = '<tr>';
+				ret += '<td width="20">';
+				ret += sDel;
+				ret += '<img src="images/delete.gif" alt="delete" style="border:none" /><\/a>';
+				ret += '<\/td><td width="16">';
+				ret += sLink;
+				ret += '<img alt="" src="images/folder.gif" width="16" height="16" border="0"><\/a>';
+				ret += '<\/td><td nowrap colspan="2">&nbsp;';
+				ret += sLink;
+				ret += folderName;
+				ret += '<\/a>';
+				ret += '<\/td><\/tr>';
+				return ret;
+			}
+			oListManager.GetFileRowHtml = function(fileName, fileUrl, fileSize) {
+				// Build the link to view the folder.
+				var sFile = ProtectPath(fileUrl);
+				var sLink = '<a href="#" onclick="OpenFile(\'' + sFile + '\');return false;" onmouseover="doThumbnail.call(this)" onmouseout="doHide.call(this)" title="' + fileUrl + '">';
+				// ลบไฟล์
+				var sDel = '<a href="#" title="' + sFile + '" onclick="DeleteFile.call(this)">';
+				// Get the file icon.
+				var sIcon = oIcons.GetIcon(fileName);
+				return '<tr>' +
+					'<td width="20">' +
+					sDel +
+					'<img src="images/delete.gif" alt="delete" style="border:none" /><\/a>' +
+					'<\/td><td width="16">' +
+					sLink +
+					'<img alt="" src="images/icons/' + sIcon + '.gif" width="16" height="16" border="0"><\/a>' +
+					'<\/td><td>&nbsp;' +
+					sLink +
+					fileName +
+					'<\/a>' +
+					'<\/td><td align="right" nowrap>&nbsp;' +
+					fileSize +
+					' KB' +
+					'<\/td><\/tr>';
+			}
+			function OpenFolder(folderPath) {
+				// Load the resources list for this folder.
+				window.parent.frames['frmFolders'].LoadFolders(folderPath);
+			}
+			function OpenFile(fileUrl) {
+				//PATCH: Using CKEditors API we set the file in preview window.
+				funcNum = GetUrlParam('CKEditorFuncNum');
+				window.top.opener.CKEDITOR.tools.callFunction(funcNum, window.top.opener.WEB_URL + encodeURI(fileUrl).replace('#', '%23'));
+				///////////////////////////////////
+				window.top.close();
+				window.top.opener.focus();
+			}
+			function LoadResources(resourceType, folderPath) {
+				oListManager.Clear();
+				oConnector.ResourceType = resourceType;
+				oConnector.CurrentFolder = folderPath;
+				oConnector.SendCommand('GetFoldersAndFiles', null, GetFoldersAndFilesCallBack);
+			}
+			function Refresh() {
+				LoadResources(oConnector.ResourceType, oConnector.CurrentFolder);
+			}
+			function GetFoldersAndFilesCallBack(fckXml) {
+				if (oConnector.CheckError(fckXml) != 0) {
+					return;
+				}
+				// Get the current folder path.
+				var oFolderNode = fckXml.SelectSingleNode('Connector/CurrentFolder');
+				if (oFolderNode == null) {
+					alert('The server didn\'t reply with a proper XML data. Please check your configuration.');
+					return;
+				}
+				var sCurrentFolderPath = oFolderNode.attributes.getNamedItem('path').value;
+				var sCurrentFolderUrl = oFolderNode.attributes.getNamedItem('url').value;
+				// var dTimer = new Date() ;
+				var oHtml = new StringBuilder('<table id="tableFiles" cellspacing="1" cellpadding="0" width="100%" border="0">');
+				// Add the Folders.
+				var oNodes;
+				oNodes = fckXml.SelectNodes('Connector/Folders/Folder');
+				for (var i = 0; i < oNodes.length; i++) {
+					var sFolderName = oNodes[i].attributes.getNamedItem('name').value;
+					oHtml.Append(oListManager.GetFolderRowHtml(sFolderName, sCurrentFolderPath + sFolderName + "/", sCurrentFolderUrl));
+				}
+				// Add the Files.
+				oNodes = fckXml.SelectNodes('Connector/Files/File');
+				for (var j = 0; j < oNodes.length; j++) {
+					var oNode = oNodes[j];
+					var sFileName = oNode.attributes.getNamedItem('name').value;
+					var sFileSize = oNode.attributes.getNamedItem('size').value;
+					// Get the optional "url" attribute. If not available, build the url.
+					var oFileUrlAtt = oNodes[j].attributes.getNamedItem('url');
+					var sFileUrl = oFileUrlAtt != null? oFileUrlAtt.value: encodeURI(sCurrentFolderUrl + sFileName).replace(/#/g, '%23');
+					oHtml.Append(oListManager.GetFileRowHtml(sFileName, sFileUrl, sFileSize));
+				}
+				oHtml.Append('<\/table>');
+				document.body.innerHTML = oHtml.ToString() + '<div id="divthumb"><div id="divimage"></div><div id="divtext"></div></div>';
+				$G('divthumb').Ready(function(){
+					this.hide();
+				});
+			}
+			function DeleteFile() {
+				if(confirm(top.CONFIRM_DELETE_FILE)) {
+					var req = new GAjax();
+					req.send('delete.php', 'fid=' + encodeURIComponent(this.title), function(xhr){
+						if (xhr.responseText != '') {
+							alert(xhr.responseText );
+						} else {
+							window.parent.frames['frmResourcesList'].Refresh();
+						}
+					});
+				}
+			}
+			function DeleteDirectory() {
+				if(confirm(top.CONFIRM_DELETE_FOLDER)) {
+					var req = new GAjax();
+					req.send('delete.php', 'did=' + encodeURIComponent(this.title), function(xhr){
+						if (xhr.responseText != '') {
+							alert(xhr.responseText );
+						} else {
+							window.parent.frames['frmResourcesList'].Refresh();
+						}
+					});
+				}
+			}
+			var last_hover = '';
+			function doThumbnail() {
+				var fs = this.title.split('.');
+				var ext = fs[fs.length - 1];
+				if (ext == 'jpg' || ext == 'gif' || ext == 'jpeg' || ext == 'png') {
+					var img = new Image();
+					var img = 'image.php?fid=' + encodeURIComponent(fs[0] + '.' + fs[1]) + '&w=100&h=100';
+					if (last_hover != img) {
+						last_hover = img;
+						new preload(img, function() {
+							var src = this.src;
+							$G('divthumb').setStyle('backgroundImage', 'url(' + src + ')');
+							var p = /^.*\/(.*\.(gif|jpg|jpeg|png))&w=100&h=100$/;
+							var s = p.exec(decodeURIComponent(src));
+							$G('divtext').setValue(s[1]);
+							$G('divthumb').show().center().fadeIn();
+						});
+					}
+				}
+			}
+			function doHide() {
+				$G('divthumb').fadeOut(function() {
+					last_hover = '';
+					this.hide();
+				});
+			}
+			window.onload = function() {
+				window.top.IsLoadedResourcesList = true;
+			}
+			//]]>
+		</script>
+	</head>
+	<body class="FileArea" id="FileArea">
+	</body>
+</html>
