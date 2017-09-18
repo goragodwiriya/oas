@@ -2,3 +2,5 @@
 
 .htaccess
 robots.txt
+/settings/*
+/datas/*
