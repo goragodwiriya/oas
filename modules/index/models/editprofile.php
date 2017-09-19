@@ -9,7 +9,7 @@
 namespace Index\Editprofile;
 
 use \Kotchasan\Http\Request;
-use \Kotchasan\Login;
+use \Gcms\Login;
 use \Kotchasan\Language;
 
 /**
@@ -55,9 +55,9 @@ class Model extends \Kotchasan\Model
   public function submit(Request $request)
   {
     $ret = array();
-    // session, token, member
+    // session, token, สมาชิก และไม่ใช่สมาชิกตัวอย่าง
     if ($request->initSession() && $request->isSafe() && $login = Login::isMember()) {
-      if (empty($login['fb'])) {
+      if (Login::notDemoMode()) {
         // รับค่าจากการ POST
         $save = array(
           'name' => $request->post('register_name')->topic(),

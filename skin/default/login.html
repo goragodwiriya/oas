@@ -15,6 +15,7 @@
     </fieldset>
     <fieldset>
       <button type=submit class="button login wide">{LNG_Sign In}</button>
+      <FACEBOOK><button type=button class="button facebook wide margin-top" id=facebook_login><span class="icon-facebook">Login with Facebook</span></button></FACEBOOK>
       <input type="hidden" name="token" id="token" value="{TOKEN}">
     </fieldset>
     <fieldset class="center">
@@ -23,5 +24,8 @@
   </form>
   <script>
     new GForm('login_frm');
+    if ($E('facebook_login')) {
+      callClick('facebook_login', fbLogin);
+    }
   </script>
 </article>

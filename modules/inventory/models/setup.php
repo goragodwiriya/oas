@@ -49,46 +49,48 @@ class Model extends \Kotchasan\Model
   public function action(Request $request)
   {
     $ret = array();
-    // session, referer, can_manage_inventory
-    if ($request->initSession() && $request->isReferer() && $login = Login::checkPermission(Login::isMember(), 'can_manage_inventory')) {
-      // รับค่าจากการ POST
-      $action = $request->post('action')->toString();
-      // id ที่ส่งมา
-      if (preg_match_all('/,?([0-9]+),?/', $request->post('id')->toString(), $match)) {
-        // Model
-        $model = new \Kotchasan\Model;
-        // ตาราง user
-        $table = $model->getTableName('product');
-        if ($action === 'delete') {
-          // ลบสินค้า ไม่สามารถลบรายการที่ขายไปแล้วได้
-          $query = $model->db()->createQuery()
-            ->select('P.id')
-            ->from('product P')
-            ->where(array(
-              array('P.id', $match[1]),
-            ))
-            ->notExists('stock', array(
-              array('product_id', 'P.id'),
-              array('status', 'OUT')
-            ))
-            ->toArray();
-          $ids = array();
-          foreach ($query->execute() as $item) {
-            $ids[] = $item['id'];
+    // session, referer, can_manage_inventory, ไม่ใช่สมาชิกตัวอย่าง
+    if ($request->initSession() && $request->isReferer() && $login = Login::isMember()) {
+      if (Login::checkPermission($login, 'can_manage_inventory') && Login::notDemoMode($login)) {
+        // รับค่าจากการ POST
+        $action = $request->post('action')->toString();
+        // id ที่ส่งมา
+        if (preg_match_all('/,?([0-9]+),?/', $request->post('id')->toString(), $match)) {
+          // Model
+          $model = new \Kotchasan\Model;
+          // ตาราง user
+          $table = $model->getTableName('product');
+          if ($action === 'delete') {
+            // ลบสินค้า ไม่สามารถลบรายการที่ขายไปแล้วได้
+            $query = $model->db()->createQuery()
+              ->select('P.id')
+              ->from('product P')
+              ->where(array(
+                array('P.id', $match[1]),
+              ))
+              ->notExists('stock', array(
+                array('product_id', 'P.id'),
+                array('status', 'OUT')
+              ))
+              ->toArray();
+            $ids = array();
+            foreach ($query->execute() as $item) {
+              $ids[] = $item['id'];
+            }
+            if (!empty($ids)) {
+              // ลบสินค้า
+              $model->db()->delete($table, array('id', $ids), 0);
+              // ลบ inventory
+              $model->db()->delete($model->getTableName('stock'), array('product_id', $ids), 0);
+            }
+            $ret = array();
+            if (sizeof($ids) != sizeof($match[1])) {
+              // บางรายการลบไม่ได้
+              $ret['alert'] = Language::get('Some items can not be removed because it is in use');
+            }
+            // reload
+            $ret['location'] = 'reload';
           }
-          if (!empty($ids)) {
-            // ลบสินค้า
-            $model->db()->delete($table, array('id', $ids), 0);
-            // ลบ inventory
-            $model->db()->delete($model->getTableName('stock'), array('product_id', $ids), 0);
-          }
-          $ret = array();
-          if (sizeof($ids) != sizeof($match[1])) {
-            // บางรายการลบไม่ได้
-            $ret['alert'] = Language::get('Some items can not be removed because it is in use');
-          }
-          // reload
-          $ret['location'] = 'reload';
         }
       }
     }

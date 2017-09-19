@@ -52,23 +52,25 @@ class Model extends \Kotchasan\Model
   public function action(Request $request)
   {
     $ret = array();
-    // session, referer, can_manage_inventory
+    // session, referer, can_buy, ไม่ใช่สมาชิกตัวอย่าง
     if ($request->initSession() && $request->isReferer() && $login = Login::isMember()) {
-      // รับค่าจากการ POST
-      $action = $request->post('action')->toString();
-      // id ที่ส่งมา
-      if (preg_match_all('/,?([0-9]+),?/', $request->post('id')->toString(), $match)) {
-        // Model
-        $model = new \Kotchasan\Model;
-        // ตาราง user
-        $table = $model->getTableName('product');
-        if ($action === 'delete') {
-          // ลบ order
-          $model->db()->delete($model->getTableName('orders'), array('id', $match[1]), 0);
-          // ลบ stock
-          $model->db()->delete($model->getTableName('stock'), array('order_id', $match[1]), 0);
-          // reload
-          $ret['location'] = 'reload';
+      if (Login::checkPermission($login, 'can_buy') && Login::notDemoMode($login)) {
+        // รับค่าจากการ POST
+        $action = $request->post('action')->toString();
+        // id ที่ส่งมา
+        if (preg_match_all('/,?([0-9]+),?/', $request->post('id')->toString(), $match)) {
+          // Model
+          $model = new \Kotchasan\Model;
+          // ตาราง user
+          $table = $model->getTableName('product');
+          if ($action === 'delete') {
+            // ลบ order
+            $model->db()->delete($model->getTableName('orders'), array('id', $match[1]), 0);
+            // ลบ stock
+            $model->db()->delete($model->getTableName('stock'), array('order_id', $match[1]), 0);
+            // reload
+            $ret['location'] = 'reload';
+          }
         }
       }
     }

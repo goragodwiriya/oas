@@ -72,7 +72,6 @@ class Controller extends \Kotchasan\KBase
    */
   public static function updatePermissions($permissions)
   {
-    $permissions['can_stock'] = '{LNG_Can manage the product}';
     $permissions['can_sell'] = '{LNG_Can sell items}';
     $permissions['can_buy'] = '{LNG_Can make an order}';
     $permissions['can_manage_inventory'] = '{LNG_Can manage the inventory}';

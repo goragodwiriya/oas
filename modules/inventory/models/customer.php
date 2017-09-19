@@ -9,7 +9,7 @@
 namespace Inventory\Customer;
 
 use \Kotchasan\Http\Request;
-use \Kotchasan\Login;
+use \Gcms\Login;
 use \Kotchasan\Language;
 
 /**
@@ -68,9 +68,9 @@ class Model extends \Kotchasan\Model
   public function submit(Request $request)
   {
     $ret = array();
-    // session, token, member
+    // session, token, สามารถขายได้, ไม่ใช่สมาชิกตัวอย่าง
     if ($request->initSession() && $request->isSafe() && $login = Login::isMember()) {
-      if (empty($login['fb'])) {
+      if (Login::checkPermission($login, array('can_buy', 'can_sell', 'can_manage_inventory')) && Login::notDemoMode($login)) {
         // รับค่าจากการ POST
         $save = array(
           'company' => $request->post('register_company')->topic(),

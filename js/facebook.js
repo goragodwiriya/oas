@@ -1,5 +1,5 @@
 /**
- * Javascript Libraly for GCMS (front-end)
+ * Facebook Script
  *
  * @filesource js/gcms.js
  * @link http://www.kotchasan.com/
@@ -18,7 +18,7 @@ function fbLogin() {
           for (var prop in response) {
             q.push(prop + '=' + encodeURIComponent(response[prop]));
           }
-          send(WEB_URL + 'xhr.php/index/model/fblogin/chklogin', q.join('&'), function (xhr) {
+          send(WEB_URL + 'index.php/index/model/fblogin/chklogin', q.join('&'), function (xhr) {
             var ds = xhr.responseText.toJSON();
             if (ds) {
               if (ds.alert) {
@@ -57,42 +57,3 @@ function initFacebook(appId, lng) {
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
 }
-function loaddoc(url) {
-  if (loader && url != WEB_URL) {
-    loader.location(url);
-  } else {
-    window.location = url;
-  }
-}
-var initWeb = function () {
-  loader = new GLoader(WEB_URL + 'loader.php/index/controller/loader/index', function (xhr) {
-    var scroll_to = 'scroll-to';
-    var content = $G('content');
-    var datas = xhr.responseText.toJSON();
-    if (datas) {
-      for (var prop in datas) {
-        var value = datas[prop];
-        if (prop == 'detail') {
-          content.setHTML(value);
-          loader.init(content);
-          value.evalScript();
-        } else if (prop == 'topic') {
-          document.title = value.unentityify();
-        } else if (prop == 'menu') {
-          selectMenu(value);
-        } else if (prop == 'to') {
-          scroll_to = value;
-        } else if ($E(prop)) {
-          $E(prop).innerHTML = value;
-        }
-      }
-      if ($E(scroll_to)) {
-        window.scrollTo(0, $G(scroll_to).getTop() - 10);
-      }
-    } else {
-      content.setHTML(xhr.responseText);
-    }
-  });
-  loader.initLoading('wait', false);
-  loader.init(document);
-};

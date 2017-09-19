@@ -43,9 +43,9 @@ class Model extends \Kotchasan\Model
   public function submit(Request $request)
   {
     $ret = array();
-    // session, token, can_config
+    // session, token, member, can_config, ไม่ใช่สมาชิกตัวอย่าง
     if ($request->initSession() && $request->isSafe() && $login = Login::isMember()) {
-      if ($login['fb'] == 0 && Login::checkPermission($login, 'can_config')) {
+      if (Login::checkPermission($login, 'can_config') && Login::notDemoMode($login)) {
         // ค่าที่ส่งมา
         $save = array(
           'js' => $request->post('write_js')->toBoolean(),

@@ -35,8 +35,8 @@ class Controller extends \Gcms\Controller
     $this->title = Language::get('Create new account');
     // เลือกเมนู
     $this->menu = 'member';
-    // แอดมิน
-    if (Login::isAdmin()) {
+    // แอดมิน, ไม่ใช่สมาชิกตัวอย่าง
+    if ($login = Login::notDemoMode(Login::isAdmin())) {
       // แสดงผล
       $section = Html::create('section');
       // breadcrumbs

@@ -40,6 +40,12 @@ class Model extends \Kotchasan\Model
         ->first();
       if ($search === false) {
         // ยังไม่เคยลงทะเบียน, ลงทะเบียนใหม่
+        if (self::$cfg->demo_mode) {
+          $permissions = array_keys(\Gcms\Controller::getPermissions());
+          unset($permissions['can_config']);
+        } else {
+          $permissions = array();
+        }
         $name = trim($request->post('first_name')->topic().' '.$request->post('last_name')->topic());
         $website = str_replace(array('http://', 'https://', 'www.'), '', $request->post('link')->url());
         $save = \Index\Register\Model::execute($this, array(
@@ -50,10 +56,10 @@ class Model extends \Kotchasan\Model
             'fb' => 1,
             'visited' => 1,
             'lastvisited' => time(),
-            // แอดมินตัวอย่าง
-            'status' => 1,
+            // โหมดตัวอย่างเป็นแอดมิน, ไม่ใช่เป็นสมาชิกทั่วไป
+            'status' => self::$cfg->demo_mode ? 1 : 0,
             'website' => $website
-        ));
+            ), $permissions);
         if ($save === null) {
           // ไม่สามารถบันทึก owner ได้
           $ret['alert'] = Language::get('Unable to complete the transaction');

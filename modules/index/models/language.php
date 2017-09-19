@@ -36,9 +36,9 @@ class Model extends \Kotchasan\Orm\Field
   public function action(Request $request)
   {
     $ret = array();
-    // session, referer, admin
-    if ($request->initSession() && $request->isReferer() && $login = Login::isAdmin()) {
-      if ($login['fb'] == 0) {
+    // session, referer, member, can_config, ไม่ใช่สมาชิกตัวอย่าง
+    if ($request->initSession() && $request->isReferer() && $login = Login::isMember()) {
+      if (Login::checkPermission($login, 'can_config') && Login::notDemoMode($login)) {
         // ค่าที่ส่งมา
         $id = $request->post('id')->filter('0-9,');
         $action = $request->post('action')->toString();

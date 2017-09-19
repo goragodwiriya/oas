@@ -34,6 +34,7 @@ class View extends \Kotchasan\View
     // template
     $template = Template::create('', '', 'login');
     $template->add(array(
+      '/<FACEBOOK>(.*)<\/FACEBOOK>/' => empty(self::$cfg->facebook_appId) ? '' : '\\1',
       '/{TOKEN}/' => $request->createToken(),
       '/{EMAIL}/' => Login::$login_params['username'],
       '/{PASSWORD}/' => Login::$login_params['password'],

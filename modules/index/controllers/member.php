@@ -35,9 +35,8 @@ class Controller extends \Gcms\Controller
     $this->title = Language::get('Member list');
     // เลือกเมนู
     $this->menu = 'member';
-    // แอดมิน
-    $login = Login::isAdmin();
-    if ($login && empty($login['fb'])) {
+    // แอดมิน, ไม่ใช่สมาชิกตัวอย่าง
+    if ($login = Login::notDemoMode(Login::isAdmin())) {
       // แสดงผล
       $section = Html::create('section');
       // breadcrumbs

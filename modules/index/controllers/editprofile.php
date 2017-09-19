@@ -35,8 +35,8 @@ class Controller extends \Gcms\Controller
     $this->title = Language::get('Edit profile');
     // เลือกเมนู
     $this->menu = 'member';
-    // สมาชิก
-    if ($login = Login::isMember()) {
+    // สมาชิก, ไม่ใช่สมาชิกตัวอย่าง
+    if ($login = Login::notDemoMode(Login::isMember())) {
       // อ่านข้อมูลสมาชิก
       $user = \Index\Editprofile\Model::get($request->request('id', $login['id'])->toInt());
       if ($user && $user['id'] > 0 && ($login['id'] == $user['id'] || Login::isAdmin())) {

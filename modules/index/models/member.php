@@ -52,16 +52,16 @@ class Model extends \Kotchasan\Model
   }
 
   /**
-   * ตารางสมาชิก member.php
+   * ตารางสมาชิก (member.php)
    *
    * @param Request $request
    */
   public function action(Request $request)
   {
     $ret = array();
-    // session, referer, admin
+    // session, referer, admin, ไม่ใช่สมาชิกตัวอย่าง
     if ($request->initSession() && $request->isReferer() && $login = Login::isAdmin()) {
-      if (empty($login['fb'])) {
+      if (Login::notDemoMode($login)) {
         // รับค่าจากการ POST
         $action = $request->post('action')->toString();
         // id ที่ส่งมา

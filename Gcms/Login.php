@@ -126,6 +126,17 @@ class Login extends \Kotchasan\Login implements \Kotchasan\LoginInterface
   }
 
   /**
+   * ฟังก์ชั่นตรวจสอบว่า เป็นสมาชิกตัวอย่างหรือไม่
+   *
+   * @param array|null $login
+   * @return array|null คืนค่าข้อมูลสมาชิก (แอเรย์) ถ้าไม่ใช่สมาชิกตัวอย่าง, null ถ้าเป็นสมาชิกตัวอย่างและเปิดโหมดตัวอย่างไว้
+   */
+  public static function notDemoMode($login)
+  {
+    return $login && (empty($login['fb']) || !self::$cfg->demo_mode) ? $login : null;
+  }
+
+  /**
    * ฟังก์ชั่นส่งอีเมล์ลืมรหัสผ่าน
    */
   public function forgot(Request $request)

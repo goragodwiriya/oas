@@ -36,7 +36,7 @@ class Controller extends \Gcms\Controller
     // เลือกเมนู
     $this->menu = 'customer';
     // สามารถดูรายชื่อลูกค้าได้
-    if ($login = Login::checkPermission(Login::isMember(), 'can_customer')) {
+    if ($login = Login::checkPermission(Login::isMember(), array('can_buy', 'can_sell', 'can_manage_inventory'))) {
       // แสดงผล
       $section = Html::create('section');
       // breadcrumbs

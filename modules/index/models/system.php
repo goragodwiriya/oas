@@ -14,7 +14,7 @@ use \Kotchasan\Language;
 use \Gcms\Config;
 
 /**
- * ตั้งค่าเว็บไซต์
+ * บันทึกการตั้งค่าเว็บไซต์
  *
  * @author Goragod Wiriya <admin@goragod.com>
  *
@@ -31,9 +31,9 @@ class Model extends \Kotchasan\KBase
   public function submit(Request $request)
   {
     $ret = array();
-    // session, token, admin
-    if ($request->initSession() && $request->isSafe() && $login = Login::isAdmin()) {
-      if (empty($login['fb'])) {
+    // session, token, member, can_config, ไม่ใช่สมาชิกตัวอย่าง
+    if ($request->initSession() && $request->isSafe() && $login = Login::isMember()) {
+      if (Login::checkPermission($login, 'can_config') && Login::notDemoMode($login)) {
         // โหลด config
         $config = Config::load(ROOT_PATH.'settings/config.php');
         foreach (array('web_title', 'web_description') as $key) {

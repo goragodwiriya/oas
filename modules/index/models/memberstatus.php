@@ -31,9 +31,9 @@ class Model extends \Kotchasan\KBase
   public function action(Request $request)
   {
     $ret = array();
-    // session, referer, can_config
-    if ($request->initSession() && $request->isReferer() && $login = Login::checkPermission(Login::isMember(), 'can_config')) {
-      if (empty($login['fb'])) {
+    // session, token, member, can_config, ไม่ใช่สมาชิกตัวอย่าง
+    if ($request->initSession() && $request->isReferer() && $login = Login::isMember()) {
+      if (Login::checkPermission($login, 'can_config') && Login::notDemoMode($login)) {
         // โหลด config
         $config = Config::load(ROOT_PATH.'settings/config.php');
         // รับค่าจากการ POST

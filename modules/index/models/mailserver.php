@@ -9,7 +9,7 @@
 namespace Index\Mailserver;
 
 use \Kotchasan\Http\Request;
-use \Kotchasan\Login;
+use \Gcms\Login;
 use \Kotchasan\Language;
 use \Kotchasan\Config;
 use \Kotchasan\Validator;
@@ -25,16 +25,16 @@ class Model extends \Kotchasan\KBase
 {
 
   /**
-   * module=mailserver
+   * form submit (mailserver.php)
    *
    * @param Request $request
    */
   public function submit(Request $request)
   {
     $ret = array();
-    // session, token, admin
-    if ($request->initSession() && $request->isSafe() && $login = Login::isAdmin()) {
-      if (empty($login['fb'])) {
+    // session, token, member, can_config, ไม่ใช่สมาชิกตัวอย่าง
+    if ($request->initSession() && $request->isSafe() && $login = Login::isMember()) {
+      if (Login::checkPermission($login, 'can_config') && Login::notDemoMode($login)) {
         // โหลด config
         $config = Config::load(ROOT_PATH.'settings/config.php');
         // รับค่าจากการ POST

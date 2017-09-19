@@ -64,17 +64,25 @@ class Config extends \Kotchasan\Config
    */
   public $skin = 'default';
   /*
-   * คีย์สำหรับการเข้ารหัส
+   * คีย์สำหรับการเข้ารหัส ควรแก้ไขให้เป็นรหัสของตัวเอง
+   * ตัวเลขหรือภาษาอังกฤษเท่านั้น ไม่น้อยกว่า 10 ตัว
    *
    * @var string
    */
   public $password_key = '1245678912';
   /**
-   * ถ้ากำหนดเป็น true บัญชี demo จะสามารถเข้าระบบได้
+   * ถ้ากำหนดเป็น true บัญชี Facebook จะเป็นบัญชีตัวอย่าง
+   * ได้รับสถานะแอดมิน (สมาชิกใหม่) แต่อ่านได้อย่างเดียว
    *
-   * @var boolean default false
+   * @var boolean
    */
   public $demo_mode = false;
+  /**
+   * App ID สำหรับการเข้าระบบด้วย Facebook https://gcms.in.th/howto/การขอ_app_id_จาก_facebook.html
+   *
+   * @var string
+   */
+  public $facebook_appId = '';
   /**
    * VAT
    *

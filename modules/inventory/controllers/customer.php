@@ -37,8 +37,8 @@ class Controller extends \Gcms\Controller
     $this->title = $type;
     // เลือกเมนู
     $this->menu = 'customer';
-    // สมาชิก
-    if ($login = Login::isMember()) {
+    // สามารถดูรายชื่อลูกค้าได้
+    if ($login = Login::checkPermission(Login::isMember(), array('can_buy', 'can_sell', 'can_manage_inventory'))) {
       // อ่านข้อมูลลูกค้า
       $customer = \Inventory\Customer\Model::get($request->request('id')->toInt());
       if ($customer) {
