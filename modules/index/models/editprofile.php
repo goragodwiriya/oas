@@ -57,7 +57,7 @@ class Model extends \Kotchasan\Model
     $ret = array();
     // session, token, สมาชิก และไม่ใช่สมาชิกตัวอย่าง
     if ($request->initSession() && $request->isSafe() && $login = Login::isMember()) {
-      if (Login::notDemoMode()) {
+      if (Login::notDemoMode($login)) {
         // รับค่าจากการ POST
         $save = array(
           'name' => $request->post('register_name')->topic(),

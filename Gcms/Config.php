@@ -31,10 +31,8 @@ class Config extends \Kotchasan\Config
    * @var array
    */
   public $member_status = array(
-    // พนักงาน
-    0 => 'Officer',
-    // ผู้ดูแลระบบสูงสุด
-    1 => 'Administrator'
+    0 => 'สมาชิก',
+    1 => 'ผู้ดูแลระบบ',
   );
   /**
    * สีของสมาชิกตามสถานะ

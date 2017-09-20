@@ -58,7 +58,7 @@ class Schema
       $sql = "SHOW FULL COLUMNS FROM $table";
       $columns = $this->db->cacheOn()->customQuery($sql, true);
       if (empty($columns)) {
-        throw new Exception($this->db->getError());
+        throw new \Exception($this->db->getError());
       } else {
         $datas = array();
         foreach ($columns as $column) {

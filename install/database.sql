@@ -1,26 +1,22 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.6
--- https://www.phpmyadmin.net/
+-- version 4.0.8
+-- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Sep 17, 2017 at 03:05 PM
--- Server version: 10.1.26-MariaDB
--- PHP Version: 7.0.17
+-- โฮสต์: localhost
+-- เวอร์ชั่นของเซิร์ฟเวอร์: 5.1.73-log
+-- รุ่นของ PHP: 5.4.45
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
---
--- Database: `acc_account`
---
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_category`
+-- Table structure for table `{prefix}_category`
 --
 
-CREATE TABLE `app_category` (
+CREATE TABLE `{prefix}_category` (
   `id` int(11) NOT NULL,
   `type` int(11) UNSIGNED NOT NULL,
   `category_id` int(11) UNSIGNED NOT NULL,
@@ -28,10 +24,10 @@ CREATE TABLE `app_category` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `app_category`
+-- Dumping data for table `{prefix}_category`
 --
 
-INSERT INTO `app_category` (`id`, `type`, `category_id`, `topic`) VALUES
+INSERT INTO `{prefix}_category` (`id`, `type`, `category_id`, `topic`) VALUES
 (1, 3, 1, 'ชิ้น'),
 (2, 3, 2, 'ชุด'),
 (3, 3, 3, 'ลัง'),
@@ -48,10 +44,10 @@ INSERT INTO `app_category` (`id`, `type`, `category_id`, `topic`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_customer`
+-- Table structure for table `{prefix}_customer`
 --
 
-CREATE TABLE `app_customer` (
+CREATE TABLE `{prefix}_customer` (
   `id` int(11) UNSIGNED NOT NULL,
   `company` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `branch` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -74,20 +70,20 @@ CREATE TABLE `app_customer` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `app_customer`
+-- Dumping data for table `{prefix}_customer`
 --
 
-INSERT INTO `app_customer` (`id`, `company`, `branch`, `name`, `idcard`, `tax_id`, `phone`, `fax`, `email`, `address`, `provinceID`, `province`, `zipcode`, `country`, `website`, `bank`, `bank_name`, `bank_no`, `discount`) VALUES
+INSERT INTO `{prefix}_customer` (`id`, `company`, `branch`, `name`, `idcard`, `tax_id`, `phone`, `fax`, `email`, `address`, `provinceID`, `province`, `zipcode`, `country`, `website`, `bank`, `bank_name`, `bank_no`, `discount`) VALUES
 (1, 'ทดสอบ คู่ค้า', '', '', '', '', '03412345678', '', '', '123/45 อ.เมือง', 103, 'กาญจนบุรี', '71000', 'TH', '', '', '', '', '10.00'),
 (2, 'ทดสอบ ลูกค้า', '', '', '', '', '03412456', '', '', '', 102, 'กรุงเทพมหานคร', '10000', 'TH', '', NULL, NULL, NULL, '0.00');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_number`
+-- Table structure for table `{prefix}_number`
 --
 
-CREATE TABLE `app_number` (
+CREATE TABLE `{prefix}_number` (
   `id` int(11) NOT NULL,
   `product_no` int(11) DEFAULT '0',
   `order_no` int(11) DEFAULT '0',
@@ -95,19 +91,19 @@ CREATE TABLE `app_number` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `app_number`
+-- Dumping data for table `{prefix}_number`
 --
 
-INSERT INTO `app_number` (`id`, `product_no`, `order_no`, `billing_no`) VALUES
+INSERT INTO `{prefix}_number` (`id`, `product_no`, `order_no`, `billing_no`) VALUES
 (1, 4, 0, 4);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_orders`
+-- Table structure for table `{prefix}_orders`
 --
 
-CREATE TABLE `app_orders` (
+CREATE TABLE `{prefix}_orders` (
   `id` int(11) UNSIGNED NOT NULL,
   `order_no` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `customer_id` int(11) UNSIGNED NOT NULL,
@@ -131,10 +127,10 @@ CREATE TABLE `app_orders` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `app_orders`
+-- Dumping data for table `{prefix}_orders`
 --
 
-INSERT INTO `app_orders` (`id`, `order_no`, `customer_id`, `order_date`, `member_id`, `discount`, `vat`, `tax`, `total`, `status`, `stock_status`, `paid`, `discount_percent`, `tax_status`, `vat_status`, `order`, `due_date`, `payment_date`, `payment_method`, `comment`) VALUES
+INSERT INTO `{prefix}_orders` (`id`, `order_no`, `customer_id`, `order_date`, `member_id`, `discount`, `vat`, `tax`, `total`, `status`, `stock_status`, `paid`, `discount_percent`, `tax_status`, `vat_status`, `order`, `due_date`, `payment_date`, `payment_method`, `comment`) VALUES
 (1, 'inv00001', 0, '2016-02-08 00:00:00', 1, '0.00', '19.63', '0.00', '280.37', 6, 'OUT', '0.00', '0.00', '0.00', 2, NULL, NULL, NULL, NULL, ''),
 (2, 'inv00002', 0, '2017-09-09 00:00:00', 1, '0.00', '19.63', '0.00', '280.37', 6, 'OUT', '0.00', '0.00', '0.00', 2, NULL, NULL, NULL, NULL, ''),
 (3, 'inv00003', 0, '2017-09-17 00:00:00', 11, '10.00', '0.00', '0.00', '990.00', 1, 'OUT', '0.00', '0.00', '0.00', 0, NULL, NULL, NULL, NULL, ''),
@@ -143,10 +139,10 @@ INSERT INTO `app_orders` (`id`, `order_no`, `customer_id`, `order_date`, `member
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_product`
+-- Table structure for table `{prefix}_product`
 --
 
-CREATE TABLE `app_product` (
+CREATE TABLE `{prefix}_product` (
   `id` int(11) UNSIGNED NOT NULL,
   `product_no` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
   `topic` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
@@ -160,10 +156,10 @@ CREATE TABLE `app_product` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `app_product`
+-- Dumping data for table `{prefix}_product`
 --
 
-INSERT INTO `app_product` (`id`, `product_no`, `topic`, `description`, `last_update`, `price`, `vat`, `unit`, `category_id`, `count_stock`) VALUES
+INSERT INTO `{prefix}_product` (`id`, `product_no`, `topic`, `description`, `last_update`, `price`, `vat`, `unit`, `category_id`, `count_stock`) VALUES
 (1, 'P00001', 'iPhone 7SE case', 'iPhone 7SE เคสสีขาวใส มีลายกาตูน', 1505657641, '500.00', 1, 'เครื่อง', 2, 1),
 (2, 'P00002', 'iPhone film', 'iPhone film แบบใส่สุด ป้องกันรอย', 1505657573, '200.00', 2, 'ชิ้น', 1, 1),
 (3, 'P00003', 'บริการติดตั้ง', 'ติดฟิลม์ และเช็คความสะอาดเครื่อง', 1505657838, '500.00', 2, 'ครั้ง', 3, 0),
@@ -172,10 +168,10 @@ INSERT INTO `app_product` (`id`, `product_no`, `topic`, `description`, `last_upd
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_stock`
+-- Table structure for table `{prefix}_stock`
 --
 
-CREATE TABLE `app_stock` (
+CREATE TABLE `{prefix}_stock` (
   `id` int(11) UNSIGNED NOT NULL,
   `order_id` int(11) NOT NULL,
   `member_id` int(11) UNSIGNED NOT NULL,
@@ -191,10 +187,10 @@ CREATE TABLE `app_stock` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `app_stock`
+-- Dumping data for table `{prefix}_stock`
 --
 
-INSERT INTO `app_stock` (`id`, `order_id`, `member_id`, `product_id`, `status`, `create_date`, `topic`, `quantity`, `price`, `vat`, `discount`, `total`) VALUES
+INSERT INTO `{prefix}_stock` (`id`, `order_id`, `member_id`, `product_id`, `status`, `create_date`, `topic`, `quantity`, `price`, `vat`, `discount`, `total`) VALUES
 (1, 0, 1, 1, 'IN', '2017-01-10 21:10:41', NULL, 100, '100.00', '700.00', '0.00', '10000.00'),
 (2, 0, 1, 2, 'IN', '2017-01-11 21:12:53', NULL, 50, '50.00', '175.00', '0.00', '2500.00'),
 (3, 0, 1, 4, 'IN', '2016-01-01 21:18:36', NULL, 100, '10.00', '65.42', '0.00', '934.58'),
@@ -207,35 +203,35 @@ INSERT INTO `app_stock` (`id`, `order_id`, `member_id`, `product_id`, `status`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_user`
+-- Table structure for table `{prefix}_user`
 --
 
-CREATE TABLE `app_user` (
-  `id` int(11) NOT NULL,
+CREATE TABLE `{prefix}_user` (
+  `id` int(11) UNSIGNED,
   `username` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
-  `fb` tinyint(1) NOT NULL DEFAULT '0',
-  `active` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
-  `name` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
-  `phone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `fax` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `create_date` datetime NOT NULL,
-  `visited` int(11) UNSIGNED DEFAULT '0',
-  `lastvisited` int(11) UNSIGNED DEFAULT NULL,
-  `status` tinyint(1) UNSIGNED NOT NULL,
-  `ip` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `session_id` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `status` tinyint(1) NOT NULL,
   `permission` text COLLATE utf8_unicode_ci NOT NULL,
-  `website` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `phone` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `fax` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `visited` int(11) UNSIGNED DEFAULT '0',
+  `lastvisited` int(11) DEFAULT NULL,
+  `session_id` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ip` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `create_date` datetime NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  `fb` tinyint(1) NOT NULL DEFAULT '0',
+  `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `website` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `type` tinyint(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `app_user`
+-- Dumping data for table `{prefix}_user`
 --
 
-INSERT INTO `app_user` (`id`, `username`, `password`, `fb`, `active`, `name`, `phone`, `fax`, `create_date`, `visited`, `lastvisited`, `status`, `ip`, `session_id`, `permission`, `website`, `email`, `type`) VALUES
+INSERT INTO `{prefix}_user` (`id`, `username`, `password`, `fb`, `active`, `name`, `phone`, `fax`, `create_date`, `visited`, `lastvisited`, `status`, `ip`, `session_id`, `permission`, `website`, `email`, `type`) VALUES
 (2, 'demo@localhost', 'db75cdf3d5e77181ec3ed6072b56a8870eb6822d', 0, 1, 'พนักงาน', '', NULL, '2017-09-16 10:38:02', 91, 1505659350, 0, '223.24.90.121', '16m0q0bd2tae0dg5bkd0692sb7', 'can_customer,can_stock,can_sell,can_buy,can_manage_inventory', '', '', 0),
 (1, 'admin@localhost', 'b620e8b83d7fcf7278148d21b088511917762014', 0, 1, 'แอดมิน', '', NULL, '2017-09-17 21:07:06', 1, 1505660615, 1, '119.76.143.13', '9n4572970bq87ee1gin5ip2bh5', 'can_config,can_customer,can_stock,can_sell,can_buy,can_manage_inventory', '', '', 0);
 --
@@ -243,47 +239,47 @@ INSERT INTO `app_user` (`id`, `username`, `password`, `fb`, `active`, `name`, `p
 --
 
 --
--- Indexes for table `app_category`
+-- Indexes for table `{prefix}_category`
 --
-ALTER TABLE `app_category`
+ALTER TABLE `{prefix}_category`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `app_customer`
+-- Indexes for table `{prefix}_customer`
 --
-ALTER TABLE `app_customer`
+ALTER TABLE `{prefix}_customer`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `app_number`
+-- Indexes for table `{prefix}_number`
 --
-ALTER TABLE `app_number`
+ALTER TABLE `{prefix}_number`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `app_orders`
+-- Indexes for table `{prefix}_orders`
 --
-ALTER TABLE `app_orders`
+ALTER TABLE `{prefix}_orders`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `app_product`
+-- Indexes for table `{prefix}_product`
 --
-ALTER TABLE `app_product`
+ALTER TABLE `{prefix}_product`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `product_no` (`product_no`);
 
 --
--- Indexes for table `app_stock`
+-- Indexes for table `{prefix}_stock`
 --
-ALTER TABLE `app_stock`
+ALTER TABLE `{prefix}_stock`
   ADD PRIMARY KEY (`id`),
   ADD KEY `owner_id` (`order_id`) USING BTREE;
 
 --
--- Indexes for table `app_user`
+-- Indexes for table `{prefix}_user`
 --
-ALTER TABLE `app_user`
+ALTER TABLE `{prefix}_user`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `username` (`username`);
 
@@ -292,32 +288,32 @@ ALTER TABLE `app_user`
 --
 
 --
--- AUTO_INCREMENT for table `app_category`
+-- AUTO_INCREMENT for table `{prefix}_category`
 --
-ALTER TABLE `app_category`
+ALTER TABLE `{prefix}_category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
--- AUTO_INCREMENT for table `app_customer`
+-- AUTO_INCREMENT for table `{prefix}_customer`
 --
-ALTER TABLE `app_customer`
+ALTER TABLE `{prefix}_customer`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
--- AUTO_INCREMENT for table `app_orders`
+-- AUTO_INCREMENT for table `{prefix}_orders`
 --
-ALTER TABLE `app_orders`
+ALTER TABLE `{prefix}_orders`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
--- AUTO_INCREMENT for table `app_product`
+-- AUTO_INCREMENT for table `{prefix}_product`
 --
-ALTER TABLE `app_product`
+ALTER TABLE `{prefix}_product`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
--- AUTO_INCREMENT for table `app_stock`
+-- AUTO_INCREMENT for table `{prefix}_stock`
 --
-ALTER TABLE `app_stock`
+ALTER TABLE `{prefix}_stock`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
--- AUTO_INCREMENT for table `app_user`
+-- AUTO_INCREMENT for table `{prefix}_user`
 --
-ALTER TABLE `app_user`
+ALTER TABLE `{prefix}_user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;

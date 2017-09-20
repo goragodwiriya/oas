@@ -50,7 +50,7 @@ class PdoMysqlDriver extends Driver
       try {
         $this->connection = new \PDO($sql, $this->settings->username, $this->settings->password, $this->options);
       } catch (\PDOException $e) {
-        throw new Exception($e->getMessage(), 500, $e);
+        throw new \Exception($e->getMessage(), 500, $e);
       }
     } else {
       throw new \InvalidArgumentException('Database configuration is invalid');
@@ -83,14 +83,14 @@ class PdoMysqlDriver extends Driver
           $this->result_id->execute($values);
         }
         self::$query_count++;
-        $result = $this->result_id->fetchAll(PDO::FETCH_ASSOC);
+        $result = $this->result_id->fetchAll(\PDO::FETCH_ASSOC);
         if ($action == 1) {
           $this->cache->save($cache, $result);
         } elseif ($action == 2) {
           $this->cache_item = $cache;
         }
-      } catch (PDOException $e) {
-        throw new Exception($e->getMessage(), 500, $e);
+      } catch (\PDOException $e) {
+        throw new \Exception($e->getMessage(), 500, $e);
       }
       $this->log('Database', $sql, $values);
     } else {
@@ -120,8 +120,8 @@ class PdoMysqlDriver extends Driver
       self::$query_count++;
       $this->log(__FUNCTION__, $sql, $values);
       return $query->rowCount();
-    } catch (PDOException $e) {
-      throw new Exception($e->getMessage(), 500, $e);
+    } catch (\PDOException $e) {
+      throw new \Exception($e->getMessage(), 500, $e);
     }
   }
 
@@ -202,8 +202,8 @@ class PdoMysqlDriver extends Driver
       $this->log('insert', $sql, $params);
       self::$query_count++;
       return (int)$this->connection->lastInsertId();
-    } catch (PDOException $e) {
-      throw new Exception($e->getMessage(), 500, $e);
+    } catch (\PDOException $e) {
+      throw new \Exception($e->getMessage(), 500, $e);
     }
   }
 
@@ -232,8 +232,8 @@ class PdoMysqlDriver extends Driver
       $this->log(__FUNCTION__, $sql);
       self::$query_count++;
       return (int)$this->connection->lastInsertId();
-    } catch (PDOException $e) {
-      throw new Exception($e->getMessage(), 500, $e);
+    } catch (\PDOException $e) {
+      throw new \Exception($e->getMessage(), 500, $e);
     }
   }
 
@@ -385,8 +385,8 @@ class PdoMysqlDriver extends Driver
       $this->log(__FUNCTION__, $sql, $values);
       self::$query_count++;
       return true;
-    } catch (PDOException $e) {
-      throw new Exception($e->getMessage(), 500, $e);
+    } catch (\PDOException $e) {
+      throw new \Exception($e->getMessage(), 500, $e);
     }
   }
 

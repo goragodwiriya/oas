@@ -8,4 +8,9 @@ return array (
   'billing_no' => 'inv%05d',
   'order_no' => 'ord%05d',
   'currency_unit' => 'THB',
+  'member_status' =>
+  array(
+    0 => 'พนักงาน',
+    1 => 'ผู้ดูแลระบบ',
+  ),
 );

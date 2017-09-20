@@ -9,27 +9,10 @@
 * ext-mbstring
 * PDO Mysql
 
-## การติดตั้ง
-### 1. สร้างฐานข้อมูล ```account``` และ นำเข้าข้อมูลจากไฟล์ ```account.sql```
-### 2. แก้ไขค่าติดตั้งของฐานข้อมูลให้ถูกต้อง ไฟล์ settings/database.php
-
-```
-<?php
-/* settings/database.php */
-return array(
-  'mysql' => array(
-    'dbdriver' => 'mysql',
-    'username' => 'root',
-    'password' => '',
-    'dbname' => 'account',
-    'prefix' => 'app',
-  ),
-  'tables' => array(
-  )
-);
-```
-
-### 3. สร้างไดเร็คทอรี่ ```datas/``` ถ้ายังไม่มีและปรับ chmod ให้สามารถเขียนได้หรือปรับ chmod ให้เป็น 777
+## การติดตั้งและการอัปเกรด
+### 1. ให้อัปโหลดโค้ดทั้งหมดจากที่ดาวน์โหลด ขึ้นไปบน Server
+### 2. ในกรณีที่มีการติดตั้งใหม่ ให้เรียกตัวติดตั้ง http://domain.tld/install/ และดำเนินการตามขั้นตอนการติดตั้งจนกว่าจะเสร็จสิ้น
+### 3. ลบไดเร็คทอรี่ install/ ออก
 
 ## การใช้งาน
 * เข้าระบบเป็นผู้ดูแลระบบ : ```admin@localhost``` และ Password : ```admin```
