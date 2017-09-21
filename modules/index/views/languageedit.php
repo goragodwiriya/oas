@@ -63,6 +63,15 @@ class View extends \Gcms\View
       'options' => array('text' => 'Text', 'int' => 'Integer', 'array' => 'Array'),
       'value' => $language->type
     ));
+    // owner
+    $fieldset->add('select', array(
+      'id' => 'write_owner',
+      'labelClass' => 'g-input icon-modules',
+      'label' => '{LNG_Module}',
+      'itemClass' => 'item',
+      'options' => \Index\Languageedit\Model::getOwners(),
+      'value' => $language->owner
+    ));
     // key
     $fieldset->add('text', array(
       'id' => 'write_key',

@@ -28,8 +28,6 @@ class View extends \Gcms\View
    */
   public function render()
   {
-    // ผู้ดูแลระบบ
-    $isAdmin = Login::isAdmin();
     // register form
     $form = Html::create('form', array(
         'id' => 'setup_frm',

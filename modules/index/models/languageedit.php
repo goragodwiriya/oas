@@ -23,6 +23,26 @@ class Model extends \Kotchasan\Model
 {
 
   /**
+   * อ่านรายการ owner จากฐานข้อมูลภาษา
+   *
+   * @return array
+   */
+  public static function getOwners()
+  {
+    $model = new static;
+    $query = $model->db()->createQuery()
+      ->select('owner')
+      ->from('language')
+      ->groupBy('owner')
+      ->toArray();
+    $result = array();
+    foreach ($query->execute() as $item) {
+      $result[$item['owner']] = $item['owner'];
+    }
+    return $result;
+  }
+
+  /**
    * ยอมรับ tag บางตัว ในภาษา a em b strong ul ol li dd dt dl
    *
    * @param string $string
@@ -50,6 +70,7 @@ class Model extends \Kotchasan\Model
         $save = array(
           'js' => $request->post('write_js')->toBoolean(),
           'type' => $request->post('write_type')->topic(),
+          'owner' => $request->post('write_owner')->topic(),
           'key' => $this->allowTags($request->post('write_key')->topic())
         );
         // ภาษาที่ติดตั้ง

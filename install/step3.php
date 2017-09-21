@@ -40,7 +40,7 @@ if (defined('ROOT_PATH')) {
         $commands .= $line."\n";
       }
     }
-    $commands = explode(";", $commands);
+    $commands = explode(";\n", $commands);
     foreach ($commands as $command) {
       if (trim($command)) {
         $command = str_replace('{prefix}', $_SESSION['prefix'], $command);
