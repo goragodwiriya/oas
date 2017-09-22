@@ -13,8 +13,7 @@ use \Gcms\Login;
 use \Kotchasan\Language;
 
 /**
- * ข้อมูลพนักงาน, การ login
- * ตาราง user ใช้ id เป็น primaryKey
+ * ลงทะเบียนสมาชิกใหม่
  *
  * @author Goragod Wiriya <admin@goragod.com>
  *
