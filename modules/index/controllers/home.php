@@ -74,7 +74,7 @@ class Controller extends \Gcms\Controller
     }
     if ($card->count() < 4) {
       // จำนวนสมาชิกทั้งหมด
-      self::renderCard($card, 'icon-users', '{LNG_Users}', \Index\Member\Model::getCount(), '{LNG_Member list}', 'index.php?module=member');
+      self::renderCard($card, 'icon-users', '{LNG_Users}', number_format(\Index\Member\Model::getCount()), '{LNG_Member list}', 'index.php?module=member');
     }
     // dashboard
     $dashboard = $section->add('div', array(
@@ -122,7 +122,7 @@ class Controller extends \Gcms\Controller
    * @param Collection $card
    * @param string $icon
    * @param string $title
-   * @param int $value
+   * @param string $value
    * @param string $link
    * @param string $url
    */
@@ -132,7 +132,7 @@ class Controller extends \Gcms\Controller
     $content .= '<span class="td '.$icon.' notext"></span>';
     $content .= '<span class="td right">';
     $content .= '<span class="cuttext">'.$title.'</span>';
-    $content .= '<b>'.number_format($value).'</b>';
+    $content .= '<b class="cuttext">'.$value.'</b>';
     $content .= '<span class="cuttext">'.$link.'</span>';
     $content .= '</span>';
     $content .= '</a>';
