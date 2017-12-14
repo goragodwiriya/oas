@@ -59,7 +59,7 @@ class Logger extends AbstractLogger implements LoggerInterface
    */
   private function __construct($options)
   {
-    $this->options['logFilePath'] = ROOT_PATH.DATA_FOLDER.'logs/';
+    $this->options['logFilePath'] = ROOT_PATH.'datas/logs/';
     foreach ($options as $key => $value) {
       $this->options[$key] = $value;
     }

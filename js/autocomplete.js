@@ -215,7 +215,7 @@
     },
   };
 }());
-function initAutoComplete(id, model, displayFields, icon, options) {
+function initAutoComplete(id, link, displayFields, icon, options) {
   var obj,
     df = displayFields.split(',');
   function doGetQuery() {
@@ -228,23 +228,31 @@ function initAutoComplete(id, model, displayFields, icon, options) {
   }
   function doCallBack() {
     for (var prop in this) {
-      $G(prop).setValue(this[prop]);
+      $G(prop).setValue(this[prop] == 'null' ? '' : this[prop]);
     }
     obj.valid();
   }
   function doPopulate() {
-    var datas = new Array();
+    var val, datas = new Array();
     for (var i in df) {
-      datas.push(this[df[i]]);
+      if (this[df[i]] != 'null' && this[df[i]] != '') {
+        datas.push(this[df[i]]);
+      }
     }
-    var patt = new RegExp('(' + $E(id).value.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&') + ')', 'gi');
-    return '<p><span class="icon-' + (icon || 'search') + '">' + datas.join(' ').unentityify().replace(patt, '<em>$1</em>') + '</span></p>';
+    var row = datas.join(' ').unentityify();
+    forEach($E(id).value.replace(/[\s]+/, ' ').split(' '), function () {
+      if (this.length > 0) {
+        var patt = new RegExp('(' + this.preg_quote() + ')', 'gi');
+        row = row.replace(patt, '<em>$1</em>');
+      }
+    });
+    return '<p><span class="icon-' + (icon || 'search') + '">' + row + '</span></p>';
   }
   var o = {
     get: doGetQuery,
     populate: doPopulate,
     callBack: doCallBack,
-    url: 'index.php/' + model
+    url: link
   };
   for (var prop in options) {
     o[prop] = options[prop];

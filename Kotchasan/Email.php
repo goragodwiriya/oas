@@ -17,7 +17,7 @@ use \Kotchasan\Language;
  *
  * @since 1.0
  */
-class Email extends \Kotchasan\Model
+class Email extends \Kotchasan\KBase
 {
   protected $error;
 

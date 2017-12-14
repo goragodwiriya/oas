@@ -97,9 +97,6 @@ class Login extends \Kotchasan\KBase implements LoginInterface
     } elseif (self::$request->post('action')->toString() === 'forgot') {
       // ขอรหัสผ่านใหม่
       return $login->forgot(self::$request);
-    } elseif (!self::$from_submit && isset($_SESSION['login']) && is_array($_SESSION['login'])) {
-      // login อยู่แล้ว
-      return $login;
     } else {
       // ตรวจสอบค่าที่ส่งมา
       if (self::$login_params['username'] == '') {

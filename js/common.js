@@ -82,7 +82,9 @@ function defaultSubmit(ds) {
       initWriteTab("accordient_menu", val);
     } else if (remove.test(prop)) {
       if ($E(val)) {
-        $G(val).remove();
+        $G(val).fadeOut(function () {
+          $G(val).remove();
+        });
       }
     } else if (prop == 'input') {
       el = $G(val);
@@ -143,10 +145,18 @@ function defaultSubmit(ds) {
   }
   if (_location) {
     if (_location == 'reload') {
-      loader.reload();
+      if (loader) {
+        loader.reload();
+      } else {
+        window.location.reload();
+      }
     } else if (_location == 'back') {
-      loader.back();
-    } else if (_location != _url) {
+      if (loader) {
+        loader.back();
+      } else {
+        window.history.go(-1);
+      }
+    } else if (loader && _location != _url) {
       loader.location(_location);
     } else {
       window.location = _location.replace(/&amp;/g, '&');
@@ -278,7 +288,9 @@ function checkIdcard() {
   var ids = this.id.split('_');
   var id = '&id=' + floatval($E(ids[0] + '_id').value);
   var i, sum;
-  if (value.length != 13) {
+  if (value.length == 0) {
+    this.reset();
+  } else if (value.length != 13) {
     this.invalid(this.title);
   } else {
     for (i = 0, sum = 0; i < 12; i++) {
@@ -333,38 +345,6 @@ function initSystem() {
   new Clock('local_time');
   new Clock('server_time');
 }
-var initWeb = function () {
-  loader = new GLoader(WEB_URL + 'loader.php/index/controller/loader/index', function (xhr) {
-    var scroll_to = 'scroll-to';
-    var content = $G('content');
-    var datas = xhr.responseText.toJSON();
-    if (datas) {
-      for (var prop in datas) {
-        var value = datas[prop];
-        if (prop == 'detail') {
-          content.setHTML(value);
-          loader.init(content);
-          value.evalScript();
-        } else if (prop == 'topic') {
-          document.title = value.unentityify();
-        } else if (prop == 'menu') {
-          selectMenu(value);
-        } else if (prop == 'to') {
-          scroll_to = value;
-        } else if ($E(prop)) {
-          $E(prop).innerHTML = value;
-        }
-      }
-      if ($E(scroll_to)) {
-        window.scrollTo(0, $G(scroll_to).getTop() - 10);
-      }
-    } else {
-      content.setHTML(xhr.responseText);
-    }
-  });
-  loader.initLoading('wait', false);
-  loader.init(document);
-};
 function _doCheckKey(input, e, patt) {
   var val = input.value;
   var key = GEvent.keyCode(e);
@@ -423,6 +403,16 @@ function selectMenu(module) {
       $G(tmp).addClass('default');
     }
   }
+}
+function loadJavascript(id, src) {
+  var js, fjs = document.getElementsByTagName('script')[0];
+  if (document.getElementById(id)) {
+    return;
+  }
+  js = document.createElement('script');
+  js.id = id;
+  js.src = src;
+  fjs.parentNode.insertBefore(js, fjs);
 }
 function initEditInplace(id, model, addbtn) {
   var patt = /list_([a-z]+)_([0-9]+)(_([0-9]+))?/;
@@ -587,7 +577,9 @@ function initCompany() {
   $G('company_type').addEvent('change', doChanged);
   doChanged();
 }
-$G(window).Ready(function () {
+var createLikeButton;
+function initWeb(module) {
+  module = module ? module + '/' : '';
   if (navigator.userAgent.indexOf("MSIE") > -1) {
     document.body.addClass("ie");
   }
@@ -628,14 +620,75 @@ $G(window).Ready(function () {
       }
     }
   });
-  var patt = /^lang_([a-z]{2,2})$/;
-  forEach(document.body.getElementsByTagName("a"), function () {
-    if (patt.test(this.id)) {
-      callClick(this, function () {
-        var hs = patt.exec(this.id);
+  var fontSize = floatval(Cookie.get(module + 'fontSize'));
+  document.body.set('data-fontSize', floatval(document.body.getStyle('fontSize')));
+  if (fontSize > 5) {
+    document.body.setStyle('fontSize', fontSize + 'px');
+  }
+  forEach(document.body.elems("a"), function () {
+    if (/^lang_([a-z]{2,2})$/.test(this.id)) {
+      callClick(this, function (e) {
+        var hs = /^lang_([a-z]{2,2})$/.exec(this.id);
         window.location = replaceURL('lang', hs[1]);
-        return false;
+        GEvent.stop(e);
+      });
+    } else if (/font_size\s(small|normal|large)/.test(this.className)) {
+      callClick(this, function (e) {
+        fontSize = floatval(document.body.getStyle('fontSize'));
+        var hs = /font_size\s(small|normal|large)/.exec(this.className);
+        if (hs[1] == 'small') {
+          fontSize = Math.max(6, fontSize - 2);
+        } else if (hs[1] == 'large') {
+          fontSize = Math.min(24, fontSize + 2);
+        } else {
+          fontSize = document.body.get('data-fontSize');
+        }
+        document.body.setStyle('fontSize', fontSize + 'px');
+        Cookie.set(module + 'fontSize', fontSize);
+        GEvent.stop(e);
       });
     }
   });
-});
+  loader = new GLoader(WEB_URL + module + 'loader.php/index/controller/loader/index', function (xhr) {
+    var scroll_to = 'scroll-to';
+    var content = $G('content');
+    var datas = xhr.responseText.toJSON();
+    if (datas) {
+      for (var prop in datas) {
+        var value = datas[prop];
+        if (prop == 'detail') {
+          content.setHTML(value);
+          loader.init(content);
+          content.replaceClass('loading', 'animation');
+          content.Ready(function () {
+            value.evalScript();
+          });
+        } else if (prop == 'topic') {
+          document.title = value.unentityify();
+        } else if (prop == 'menu') {
+          selectMenu(value);
+        } else if (prop == 'to') {
+          scroll_to = value;
+        } else if ($E(prop)) {
+          $E(prop).innerHTML = value;
+        }
+      }
+      if (Object.isFunction(createLikeButton)) {
+        createLikeButton();
+      }
+      if ($E(scroll_to)) {
+        window.scrollTo(0, $G(scroll_to).getTop() - 10);
+      }
+    } else {
+      content.setHTML(xhr.responseText);
+    }
+  }, null, function () {
+    $G('content').replaceClass('animation', 'loading');
+    return true;
+  });
+  loader.initLoading('wait', false);
+  loader.init(document);
+}
+if (navigator.userAgent.match(/(iPhone|iPod|iPad)/i)) {
+  document.addEventListener("touchstart", function () {}, false);
+}

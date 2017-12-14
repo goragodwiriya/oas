@@ -41,7 +41,9 @@ class Controller extends \Gcms\Controller
       $user = \Index\Editprofile\Model::get($request->request('id', $login['id'])->toInt());
       if ($user && $user['id'] > 0 && ($login['id'] == $user['id'] || Login::isAdmin())) {
         // แสดงผล
-        $section = Html::create('section');
+        $section = Html::create('section', array(
+            'class' => 'content_bg'
+        ));
         // breadcrumbs
         $breadcrumbs = $section->add('div', array(
           'class' => 'breadcrumbs'

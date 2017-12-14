@@ -34,7 +34,7 @@ if (DEBUG > 0) {
  *
  * @var string
  */
-define('VERSION', '1.2.0');
+define('VERSION', '1.3.0');
 /**
  * กำหนดการบันทึกการ query ฐานข้อมูล
  * ควรกำหนดเป็น false ขณะใช้งานจริง
@@ -139,18 +139,6 @@ if (!defined('BASE_PATH')) {
  */
 if (!defined('WEB_URL')) {
   define('WEB_URL', $scheme.$host.$contextPrefix.str_replace($docRoot, '', ROOT_PATH));
-}
-/**
- * โฟลเดอร์เก็บข้อมูล
- */
-if (!defined('DATA_FOLDER')) {
-  define('DATA_FOLDER', 'datas/');
-}
-/**
- * โฟลเดอร์เก็บ Template
- */
-if (!defined('TEMPLATE_ROOT')) {
-  define('TEMPLATE_ROOT', APP_PATH);
 }
 /**
  * กำหนดจำนวนครั้งในการตรวจสอบ token

@@ -11,10 +11,9 @@
   'use strict';
   window.GLoader = GClass.create();
   GLoader.prototype = {
-    initialize: function (reader, callback, geturl) {
+    initialize: function (reader, callback, geturl, onbeforeload) {
       this.myhistory = new Array();
       this.geturl = geturl || this.parseURL;
-      this.callback = callback;
       this.req = new GAjax();
       var my_location = location.toString();
       var a = my_location.indexOf('?');
@@ -37,7 +36,16 @@
             if (temp.myhistory.length > 2) {
               temp.myhistory.shift();
             }
-            temp.req.send(reader, locs[1], callback);
+            var ret = locs[1];
+            if (Object.isFunction(onbeforeload)) {
+              ret = onbeforeload.call(ret);
+              if (ret === true || Object.isNull(ret)) {
+                ret = locs[1];
+              }
+            }
+            if (ret !== false) {
+              temp.req.send(reader, ret, callback);
+            }
           }
         } else {
           locs = locs[0].split('?');

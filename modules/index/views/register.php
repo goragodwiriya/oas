@@ -8,8 +8,8 @@
 
 namespace Index\Register;
 
+use \Kotchasan\Http\Request;
 use \Kotchasan\Html;
-use \Gcms\Login;
 
 /**
  * ลงทะเบียนสมาชิกใหม่
@@ -24,9 +24,10 @@ class View extends \Gcms\View
   /**
    * module=register
    *
+   * @param Request $request
    * @return string
    */
-  public function render()
+  public function render(Request $request)
   {
     // register form
     $form = Html::create('form', array(
@@ -103,8 +104,8 @@ class View extends \Gcms\View
     ));
     // submit
     $fieldset->add('submit', array(
-      'class' => 'button save large',
-      'value' => '{LNG_Save}'
+      'class' => 'button save large icon-register',
+      'value' => '{LNG_Register}'
     ));
     $fieldset->add('hidden', array(
       'id' => 'register_id',

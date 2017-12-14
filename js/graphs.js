@@ -122,17 +122,23 @@
           if (self.hoverItem) {
             self.canvas.style.cursor = 'default';
             self.tooltip.hide();
-            self.tooltip.setStyle('opacity', 0);
             self.hoverItem = null;
           }
         } else if (self.hoverItem !== currItem) {
           self.canvas.style.cursor = 'pointer';
           self.hoverItem = currItem;
           self.tooltip.innerHTML = tootip.join('<br>');
-          var rc = self.tooltip.getDimensions();
-          self.tooltip.style.left = (pos.x - (rc.width / 2)) + 'px';
-          self.tooltip.style.top = (pos.y - 10 - rc.height) + 'px';
-          self.tooltip.fadeTo(90);
+          var rc = self.tooltip.getDimensions(),
+            l = pos.x - 20;
+          if (l > document.viewport.getWidth() / 2) {
+            l = pos.x - rc.width + 20;
+            self.tooltip.className = 'tooltip-bottom-right';
+          } else {
+            self.tooltip.className = 'tooltip-bottom-left';
+          }
+          self.tooltip.style.left = l + 'px';
+          self.tooltip.style.top = (pos.y - 16 - rc.height) + 'px';
+          self.tooltip.fadeIn();
           self.tooltip.show();
         }
       };
@@ -169,16 +175,19 @@
           changed = true;
         }
         if (changed) {
-          if (options.type == 'line') {
-            self.drawLine();
-          } else if (options.type == 'pie') {
-            self.drawPie();
-          } else if (options.type == 'donut') {
-            self.drawDonut();
-          } else if (options.type == 'hchart') {
-            self.drawHChart();
-          } else {
-            self.drawVChart();
+          try {
+            if (options.type == 'line') {
+              self.drawLine();
+            } else if (options.type == 'pie') {
+              self.drawPie();
+            } else if (options.type == 'donut') {
+              self.drawDonut();
+            } else if (options.type == 'hchart') {
+              self.drawHChart();
+            } else {
+              self.drawVChart();
+            }
+          } catch (err) {
           }
         }
         if (self.loading) {
@@ -196,7 +205,6 @@
         document.body.appendChild(this.tooltip);
         this.tooltip.className = 'tooltip-bottom';
         this.tooltip.id = 'ggraph_tooltip';
-        this.tooltip.setStyle('opacity', 0);
         this.tooltip.hide();
         $G(document.body).addEvent('click', function () {
           self.tooltip.hide();
@@ -444,9 +452,16 @@
               } else {
                 self.tooltip.innerHTML = self.subtitle + self.datas.labels[index] + '<br>' + self.datas.rows[0].title + ' ' + item.title;
               }
-              var rc = self.tooltip.getDimensions();
-              self.tooltip.style.left = (pos.x - (rc.width / 2)) + 'px';
-              self.tooltip.style.top = (pos.y - 10 - rc.height) + 'px';
+              var rc = self.tooltip.getDimensions(),
+                l = pos.x - 20;
+              if (l > document.viewport.getWidth() / 2) {
+                l = pos.x - rc.width + 20;
+                self.tooltip.className = 'tooltip-bottom-right';
+              } else {
+                self.tooltip.className = 'tooltip-bottom-left';
+              }
+              self.tooltip.style.left = l + 'px';
+              self.tooltip.style.top = (pos.y - 16 - rc.height) + 'px';
               return true;
             }
           });
@@ -455,13 +470,12 @@
           if (self.hoverItem) {
             self.canvas.style.cursor = 'default';
             self.tooltip.hide();
-            self.tooltip.setStyle('opacity', 0);
             self.hoverItem = null;
           }
         } else if (self.hoverItem !== currItem) {
           self.canvas.style.cursor = 'pointer';
           self.hoverItem = currItem;
-          self.tooltip.fadeTo(90);
+          self.tooltip.fadeIn();
           self.tooltip.show();
         }
       };
@@ -585,9 +599,16 @@
               } else {
                 self.tooltip.innerHTML = self.subtitle + self.datas.labels[index] + '<br>' + self.datas.rows[0].title + ' ' + item.title;
               }
-              var rc = self.tooltip.getDimensions();
-              self.tooltip.style.left = (pos.x - (rc.width / 2)) + 'px';
-              self.tooltip.style.top = (pos.y - 10 - rc.height) + 'px';
+              var rc = self.tooltip.getDimensions(),
+                l = pos.x - 20;
+              if (l > document.viewport.getWidth() / 2) {
+                l = pos.x - rc.width + 20;
+                self.tooltip.className = 'tooltip-bottom-right';
+              } else {
+                self.tooltip.className = 'tooltip-bottom-left';
+              }
+              self.tooltip.style.left = l + 'px';
+              self.tooltip.style.top = (pos.y - 16 - rc.height) + 'px';
               return true;
             }
           });
@@ -596,13 +617,12 @@
           if (self.hoverItem) {
             self.canvas.style.cursor = 'default';
             self.tooltip.hide();
-            self.tooltip.setStyle('opacity', 0);
             self.hoverItem = null;
           }
         } else if (self.hoverItem !== currItem) {
           self.canvas.style.cursor = 'pointer';
           self.hoverItem = currItem;
-          self.tooltip.fadeTo(90);
+          self.tooltip.fadeIn();
           self.tooltip.show();
         }
       };

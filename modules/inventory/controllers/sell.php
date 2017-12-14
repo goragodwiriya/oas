@@ -49,7 +49,9 @@ class Controller extends \Gcms\Controller
         $title = Language::get($id > 0 ? 'Edit' : 'Create');
         $this->title = $title.' '.$typies[$typ];
         // แสดงผล
-        $section = Html::create('section');
+        $section = Html::create('section', array(
+            'class' => 'content_bg'
+        ));
         // breadcrumbs
         $breadcrumbs = $section->add('div', array(
           'class' => 'breadcrumbs'

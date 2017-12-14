@@ -19,12 +19,14 @@
       var self = this;
       var _toggleMenu = function (val) {
         var chk = $E(menu_id);
-        chk.checked = val;
-        if ($E('slidemenu_content') && self.menu.hasClass('slidemenu')) {
-          if (val) {
-            $G('slidemenu_content').addClass('showmenu');
-          } else {
-            $G('slidemenu_content').removeClass('showmenu');
+        if (chk) {
+          chk.checked = val;
+          if ($E('slidemenu_content') && self.menu.hasClass('slidemenu')) {
+            if (val) {
+              $G('slidemenu_content').addClass('showmenu');
+            } else {
+              $G('slidemenu_content').removeClass('showmenu');
+            }
           }
         }
       };

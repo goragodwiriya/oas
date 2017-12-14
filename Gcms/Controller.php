@@ -40,7 +40,7 @@ class Controller extends \Kotchasan\Controller
    *
    * @var \Index\Menu\Controller
    */
-  public static $menus;
+  protected static $menus;
 
   /**
    * init Class

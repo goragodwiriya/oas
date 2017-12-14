@@ -10,6 +10,7 @@ namespace Index\Editprofile;
 
 use \Kotchasan\Html;
 use \Gcms\Login;
+use \Kotchasan\Language;
 
 /**
  * module=editprofile
@@ -41,58 +42,24 @@ class View extends \Gcms\View
         'ajax' => true,
         'token' => true
     ));
-    $fieldset = $form->add('fieldset', array(
-      'title' => '{LNG_Login information}'
-    ));
-    if (empty($user['fb'])) {
-      // username
-      $fieldset->add('text', array(
+    if ($user['active'] == 1) {
+      $fieldset = $form->add('fieldset', array(
+        'title' => '{LNG_Login information}'
+      ));
+      $groups = $fieldset->add('groups');
+      // username (แอดมิน และตัวเอง สามารถแก้ไขได้)
+      $groups->add('text', array(
         'id' => 'register_username',
-        'itemClass' => 'item',
+        'itemClass' => 'width50',
         'labelClass' => 'g-input icon-email',
         'label' => '{LNG_Email}',
         'comment' => '{LNG_Email address used for login or request a new password}',
+        'disabled' => $login_admin ? false : true,
         'maxlength' => 50,
         'value' => $user['username'],
-        'readonly' => $login_admin || empty($user['id']) ? false : true,
-        'validator' => array('keyup,change', 'checkEmail', 'index.php/index/model/checker/username')
+        'validator' => array('keyup,change', 'checkUsername', 'index.php/index/model/checker/username')
       ));
-    } else {
-      // username Facebook
-      $fieldset->add('text', array(
-        'id' => 'register_username',
-        'itemClass' => 'item',
-        'labelClass' => 'g-input icon-facebook',
-        'label' => '{LNG_Facebook ID}',
-        'readonly' => true,
-        'value' => $user['username'],
-      ));
-    }
-    if (empty($user['id'])) {
-      // ใหม่
-      $groups = $fieldset->add('groups');
-      // password
-      $groups->add('password', array(
-        'id' => 'register_password',
-        'itemClass' => 'width50',
-        'labelClass' => 'g-input icon-password',
-        'label' => '{LNG_Password}',
-        'comment' => '{LNG_Passwords must be at least four characters}',
-        'maxlength' => 20,
-        'validator' => array('keyup,change', 'checkPassword')
-      ));
-      // repassword
-      $groups->add('password', array(
-        'id' => 'register_repassword',
-        'itemClass' => 'width50',
-        'labelClass' => 'g-input icon-password',
-        'label' => '{LNG_Repassword}',
-        'comment' => '{LNG_Enter your password again}',
-        'maxlength' => 20,
-        'validator' => array('keyup,change', 'checkPassword')
-      ));
-    } elseif (empty($user['fb'])) {
-      // แก้ไข และ ไม่ใช่ fb
+      // password, repassword
       $groups = $fieldset->add('groups', array(
         'comment' => '{LNG_To change your password, enter your password to match the two inputs}',
       ));
@@ -120,23 +87,74 @@ class View extends \Gcms\View
     $fieldset = $form->add('fieldset', array(
       'title' => '{LNG_Details of} {LNG_User}'
     ));
+    $groups = $fieldset->add('groups');
     // name
-    $fieldset->add('text', array(
+    $groups->add('text', array(
       'id' => 'register_name',
-      'itemClass' => 'item',
       'labelClass' => 'g-input icon-customer',
-      'label' => '{LNG_Name}',
-      'maxlength' => 150,
+      'itemClass' => 'width50',
+      'label' => '{LNG_Name} {LNG_Surname}',
+      'maxlength' => 100,
       'value' => $user['name']
     ));
+    // sex
+    $groups->add('select', array(
+      'id' => 'register_sex',
+      'labelClass' => 'g-input icon-sex',
+      'itemClass' => 'width50',
+      'label' => '{LNG_Sex}',
+      'options' => Language::get('SEXES'),
+      'value' => $user['sex']
+    ));
+    $groups = $fieldset->add('groups');
     // phone
-    $fieldset->add('text', array(
+    $groups->add('text', array(
       'id' => 'register_phone',
-      'itemClass' => 'item',
       'labelClass' => 'g-input icon-phone',
+      'itemClass' => 'width50',
       'label' => '{LNG_Phone}',
-      'maxlength' => 20,
+      'maxlength' => 32,
       'value' => $user['phone']
+    ));
+    // id_card
+    $groups->add('text', array(
+      'id' => 'register_id_card',
+      'labelClass' => 'g-input icon-profile',
+      'itemClass' => 'width50',
+      'label' => '{LNG_Identification number}',
+      'pattern' => '[0-9]+',
+      'maxlength' => 13,
+      'value' => $user['id_card'],
+      'validator' => array('keyup,change', 'checkIdcard')
+    ));
+    // address
+    $fieldset->add('text', array(
+      'id' => 'register_address',
+      'labelClass' => 'g-input icon-address',
+      'itemClass' => 'item',
+      'label' => '{LNG_Address}',
+      'maxlength' => 64,
+      'value' => $user['address']
+    ));
+    $groups = $fieldset->add('groups');
+    // provinceID
+    $groups->add('select', array(
+      'id' => 'register_provinceID',
+      'labelClass' => 'g-input icon-location',
+      'itemClass' => 'width50',
+      'label' => '{LNG_Province}',
+      'options' => \Kotchasan\Province::all(),
+      'value' => $user['provinceID']
+    ));
+    // zipcode
+    $groups->add('text', array(
+      'id' => 'register_zipcode',
+      'labelClass' => 'g-input icon-location',
+      'itemClass' => 'width50',
+      'label' => '{LNG_Zipcode}',
+      'pattern' => '[0-9]+',
+      'maxlength' => 10,
+      'value' => $user['zipcode']
     ));
     if ($login_admin) {
       $fieldset = $form->add('fieldset', array(
@@ -166,7 +184,7 @@ class View extends \Gcms\View
     ));
     // submit
     $fieldset->add('submit', array(
-      'class' => 'button save large',
+      'class' => 'button save large icon-save',
       'value' => '{LNG_Save}'
     ));
     $fieldset->add('hidden', array(

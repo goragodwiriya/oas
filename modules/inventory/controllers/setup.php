@@ -38,7 +38,9 @@ class Controller extends \Gcms\Controller
     // สามารถบริหารจัดการคลังสินค้าได้
     if ($login = Login::checkPermission(Login::isMember(), 'can_manage_inventory')) {
       // แสดงผล
-      $section = Html::create('section');
+      $section = Html::create('section', array(
+          'class' => 'content_bg'
+      ));
       // breadcrumbs
       $breadcrumbs = $section->add('div', array(
         'class' => 'breadcrumbs'

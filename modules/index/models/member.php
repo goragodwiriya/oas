@@ -29,9 +29,8 @@ class Model extends \Kotchasan\Model
    */
   public static function toDataTable()
   {
-    $model = new static;
-    return $model->db()->createQuery()
-        ->select('id', 'name', 'active', 'fb', 'phone', 'status', 'create_date', 'lastvisited', 'visited', 'website')
+    return static::create()->db()->createQuery()
+        ->select('id', 'username', 'name', 'active', 'fb', 'phone', 'status', 'create_date', 'lastvisited', 'visited', 'website')
         ->from('user');
   }
 

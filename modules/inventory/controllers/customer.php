@@ -46,7 +46,9 @@ class Controller extends \Gcms\Controller
         $title = Language::get($customer['id'] == 0 ? 'Add New' : 'Details of');
         $this->title = $title.' '.$this->title;
         // แสดงผล
-        $section = Html::create('section');
+        $section = Html::create('section', array(
+            'class' => 'content_bg'
+        ));
         // breadcrumbs
         $breadcrumbs = $section->add('div', array(
           'class' => 'breadcrumbs'

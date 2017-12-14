@@ -39,6 +39,20 @@ class Text
   }
 
   /**
+   * ลบตัวอักษรที่ไม่สามารถพิมพ์ได้ออก
+   * ตั้งแต่ chr(128)-chr(255) หรือ \x80-\xFF ขึ้นไปจะถูกลบออก
+   *
+   * @param string $text
+   * @return string
+   *
+   * @assert (chr(0).chr(127).chr(128).chr(255)) [==] chr(0).chr(127)
+   */
+  public static function removeNonCharacters($text)
+  {
+    return preg_replace('/((?:[\x00-\x7F]|[\xC0-\xDF][\x80-\xBF]|[\xE0-\xEF][\x80-\xBF]{2}|[\xF0-\xF7][\x80-\xBF]{3}){1,100})|./x', '\\1', $text);
+  }
+
+  /**
    * แปลง tag และ ลบช่องว่างไม่เกิน 1 ช่อง ไม่ขึ้นบรรทัดใหม่
    * เช่นหัวข้อของบทความ
    *
@@ -200,22 +214,27 @@ class Text
    */
   public static function highlighter($detail)
   {
-    $patt[] = '/\[(\/)?(i|dfn|b|strong|u|em|ins|del|sub|sup|small|big|ul|ol|li)\]/isu';
-    $replace[] = '<\\1\\2>';
-    $patt[] = '/\[color=([#a-z0-9]+)\]/isu';
+    $detail = preg_replace_callback('/\[([uo]l)\](.*)\[\/\\1\]/is', function($match) {
+      return '<'.$match[1].'><li>'.preg_replace('/<br(\s\/)?>/is', '</li><li>', $match[2]).'</li></'.$match[1].'>';
+    }, $detail);
+    $patt[] = '/\[(i|dfn|b|strong|u|em|ins|del|sub|sup|small|big)\](.*)\[\/\\1\]/is';
+    $replace[] = '<\\1>\\2</\\1>';
+    $patt[] = '/\[color=([#a-z0-9]+)\]/i';
     $replace[] = '<span style="color:\\1">';
-    $patt[] = '/\[size=([0-9]+)(px|pt|em|\%)\]/isu';
+    $patt[] = '/\[size=([0-9]+)(px|pt|em|\%)\]/i';
     $replace[] = '<span style="font-size:\\1\\2">';
-    $patt[] = '/\[\/(color|size)\]/isu';
+    $patt[] = '/\[\/(color|size)\]/i';
     $replace[] = '</span>';
-    $patt[] = '/\[url\](.*)\[\/url\]/U';
+    $patt[] = '/\[url\](.*)\[\/url\]/i';
     $replace[] = '<a href="\\1" target="_blank" rel="nofollow">\\1</a>';
-    $patt[] = '/\[url=(ftp|http)(s)?:\/\/(.*)\](.*)\[\/url\]/U';
-    $replace[] = '<a href="\\1\\2://\\3" target="_blank" rel="nofollow">\\4</a>';
-    $patt[] = '/\[url=(\/)?(.*)\](.*)\[\/url\]/U';
-    $replace[] = '<a href="'.\WEB_URL.'\\2" target="_blank" rel="nofollow">\\3</a>';
-    $patt[] = '/([^["]]|\r|\n|\s|\t|^)(https?:\/\/([^\s<>\"\']+))/';
+    $patt[] = '/\[url=(ftp|https?):\/\/(.*)\](.*)\[\/url\]/i';
+    $replace[] = '<a href="\\1://\\2" target="_blank" rel="nofollow">\\3</a>';
+    $patt[] = '/\[url=(\/)?(.*)\](.*)\[\/url\]/i';
+    $replace[] = '<a href="'.WEB_URL.'\\2" target="_blank" rel="nofollow">\\3</a>';
+    $patt[] = '/([^["]]|\r|\n|\s|\t|^)((ftp|https?):\/\/([^\s<>\"\']+))/i';
     $replace[] = '\\1<a href="\\2" target="_blank" rel="nofollow">\\2</a>';
+    $patt[] = '/(<a[^>]+>)(https?:\/\/[^\%<]+)([\%][^\.\&<]+)([^<]{5,})(<\/a>)/i';
+    $replace[] = '\\1\\2...\\4\\5';
     $patt[] = '/\[youtube\]([a-z0-9-_]+)\[\/youtube\]/i';
     $replace[] = '<div class="youtube"><iframe src="//www.youtube.com/embed/\\1?wmode=transparent"></iframe></div>';
     return preg_replace($patt, $replace, $detail);
@@ -253,5 +272,16 @@ class Text
       $str = preg_replace('/&(amp;([#a-z0-9]+));/i', '&\\2;', $str);
     }
     return $str;
+  }
+
+  /**
+   * แปลง htmlspecialchars กลับเป็นอักขระปกติ
+   *
+   * @param string $text
+   * @return string
+   */
+  public static function unhtmlspecialchars($text)
+  {
+    return str_replace(array('&amp;', '&quot;', '&#039;', '&lt;', '&gt;', '&#92;', '&#x007B;', '&#x007D;'), array('&', '"', "'", '<', '>', '\\', '{', '}'), $text);
   }
 }

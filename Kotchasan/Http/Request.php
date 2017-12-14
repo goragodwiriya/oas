@@ -493,6 +493,8 @@ class Request extends AbstractRequest implements RequestInterface
   {
     if (isset($source[$name])) {
       return is_array($source[$name]) ? new Inputs($source[$name], $type) : new InputItem($source[$name], $type);
+    } elseif (preg_match('/(.*)\[(.*)\]/', $name, $match) && isset($source[$match[1]][$match[2]])) {
+      return new InputItem($source[$match[1]][$match[2]], $type);
     } else {
       return is_array($default) ? new Inputs($default) : new InputItem($default);
     }

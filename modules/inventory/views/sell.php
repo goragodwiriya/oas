@@ -131,7 +131,7 @@ class View extends \Gcms\View
       $table .= '<td><label class="g-input"><input type=text name=quantity[] size=2 value="'.$item['quantity'].'" class=num></label></td>';
       $table .= '<td><label class="g-input"><input type=text name=topic[] value="'.$item['topic'].'"></label></td>';
       $table .= '<td><label class="g-input"><input type=text name=price[] size=5 value="'.$item['price'].'" class=price></label></td>';
-      $table .= '<td class=center><label class="g-input">{LNG_VAT} <input type=checkbox name=vat[]'.($item['vat'] > 0 ? ' checked ' : ' ').'value="'.$item['vat'].'" class=vat></label></td>';
+      $table .= '<td class=center><label>{LNG_VAT} <input type=checkbox name=vat[]'.($item['vat'] > 0 ? ' checked ' : ' ').'value="'.$item['vat'].'" class=vat></label></td>';
       $table .= '<td class=wlabel><label class="g-input"><input type=text name=discount[] value="'.$item['discount'].'" size=5 class=price></label><span class=label>%</span></td>';
       $table .= '<td><label class="g-input"><input type=text name=total[] size=5 readonly></label></td>';
       $table .= '<td><a class="button wide delete notext"><span class=icon-delete></span></a><input type=hidden name=id[] value="'.$item['product_id'].'"></td>';

@@ -56,11 +56,13 @@ class Config extends \Kotchasan\Config
    */
   public $cache_expire = 5;
   /**
-   * admin template
+   * ไดเร็คทอรี่ template ที่ใช้งานอยู่ ตั้งแต่ DOCUMENT_ROOT
+   * ไม่ต้องมี / ทั้งเริ่มต้นและปิดท้าย
+   * เช่น skin/default
    *
    * @var string
    */
-  public $skin = 'default';
+  public $skin = 'skin/default';
   /*
    * คีย์สำหรับการเข้ารหัส ควรแก้ไขให้เป็นรหัสของตัวเอง
    * ตัวเลขหรือภาษาอังกฤษเท่านั้น ไม่น้อยกว่า 10 ตัว

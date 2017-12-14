@@ -38,7 +38,9 @@ class Controller extends \Gcms\Controller
     // แอดมิน, ไม่ใช่สมาชิกตัวอย่าง
     if ($login = Login::notDemoMode(Login::isAdmin())) {
       // แสดงผล
-      $section = Html::create('section');
+      $section = Html::create('section', array(
+          'class' => 'content_bg'
+      ));
       // breadcrumbs
       $breadcrumbs = $section->add('div', array(
         'class' => 'breadcrumbs'
@@ -51,7 +53,7 @@ class Controller extends \Gcms\Controller
         'innerHTML' => '<h2 class="icon-register">'.$this->title.'</h2>'
       ));
       // แสดงฟอร์ม
-      $section->appendChild(createClass('Index\Register\View')->render());
+      $section->appendChild(createClass('Index\Register\View')->render($request));
       return $section->render();
     }
     // 404.html

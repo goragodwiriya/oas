@@ -32,19 +32,19 @@
       if (this.options.onAddRow) {
         this.options.onAddRow = window[this.options.onAddRow];
         if (!Object.isFunction(this.options.onAddRow)) {
-          this.options.onAddRow = null
+          this.options.onAddRow = null;
         }
       }
       if (this.options.onBeforeDelete) {
         this.options.onBeforeDelete = window[this.options.onBeforeDelete];
         if (!Object.isFunction(this.options.onBeforeDelete)) {
-          this.options.onBeforeDelete = null
+          this.options.onBeforeDelete = null;
         }
       }
       if (this.options.onInitRow) {
         this.options.onInitRow = window[this.options.onInitRow];
         if (!Object.isFunction(this.options.onInitRow)) {
-          this.options.onInitRow = null
+          this.options.onInitRow = null;
         }
       }
       var hs,
@@ -117,48 +117,6 @@
             callClick(this, doAction);
           }
         });
-        var doButton = function () {
-          var action = '',
-            patt = /^([a-z_\-]+)_([0-9]+)(_([0-9]+))?$/;
-          if (temp.options.actionConfirm) {
-            var fn = window[temp.options.actionConfirm];
-            hs = patt.exec(this.id);
-            if (hs && Object.isFunction(fn)) {
-              var t = this.getText();
-              t = t ? t.strip_tags() : null;
-              action = fn(t, hs[1], hs[2], hs[4]);
-            } else {
-              action = 'action=' + this.id;
-            }
-          } else {
-            hs = patt.exec(this.id);
-            if (hs) {
-              if (hs[1] == 'delete') {
-                if (confirm(trans('You want to XXX ?').replace(/XXX/, trans('delete')))) {
-                  action = 'action=delete&id=' + hs[2];
-                }
-              } else if (hs[4]) {
-                action = 'action=' + hs[1] + '_' + hs[2] + '&id=' + hs[4];
-              } else {
-                action = 'action=' + hs[1] + '&id=' + hs[2];
-              }
-            } else {
-              action = 'action=' + this.id;
-            }
-          }
-          if (action != '') {
-            temp.callAction(this, action);
-          }
-        };
-        if (this.options.action) {
-          var move = /(check|move)_([0-9]+)/;
-          forEach(this.table.elems('a'), function () {
-            var id = this.id;
-            if (id && !move.test(id)) {
-              callClick(this, doButton);
-            }
-          });
-        }
         if (this.options.dragColumn > -1) {
           new GSortTable(this.table, {
             'endDrag': function () {
@@ -181,6 +139,10 @@
           temp.input_search = this.parentNode.firstChild.firstChild;
           callClick(this, function () {
             temp.input_search.value = "";
+          });
+        } else if (/^([a-z_\-]+)_([0-9]+)(_([0-9]+))?$/.test(this.id)) {
+          callClick(this, function () {
+            temp._doButton(this);
           });
         }
       });
@@ -227,6 +189,40 @@
         }
       });
     },
+    _doButton: function (input) {
+      var action = '',
+        patt = /^([a-z_\-]+)_([0-9]+)(_([0-9]+))?$/,
+        q = input.get('data-confirm');
+      if (this.options.actionConfirm) {
+        var fn = window[this.options.actionConfirm],
+          hs = patt.exec(input.id);
+        if (hs && Object.isFunction(fn)) {
+          var t = input.getText();
+          t = t ? t.strip_tags() : null;
+          action = fn(t, hs[1], hs[2], hs[4]);
+        } else {
+          action = 'action=' + input.id;
+        }
+      } else if (!q || confirm(q)) {
+        hs = patt.exec(input.id);
+        if (hs) {
+          if (hs[1] == 'delete') {
+            if (confirm(trans('You want to XXX ?').replace(/XXX/, trans('delete')))) {
+              action = 'action=delete&id=' + hs[2];
+            }
+          } else if (hs[4]) {
+            action = 'action=' + hs[1] + '_' + hs[2] + '&id=' + hs[4];
+          } else {
+            action = 'action=' + hs[1] + '&id=' + hs[2];
+          }
+        } else {
+          action = 'action=' + input.id;
+        }
+      }
+      if (action != '') {
+        this.callAction(input, action);
+      }
+    },
     initTBODY: function (tbody, tr) {
       var row = 0,
         temp = this;
@@ -237,8 +233,21 @@
             this.id = this.name.replace(/([\[\]_]+)/g, '_') + row;
           });
         }
-        if ((tr === null || tr === this) && temp.options.onInitRow) {
-          temp.options.onInitRow.call(temp, this, row);
+        if (tr === null || tr === this) {
+          if (temp.options.onInitRow) {
+            temp.options.onInitRow.call(temp, this, row);
+          }
+          if (temp.options.action) {
+            var move = /(check|move)_([0-9]+)/;
+            forEach($G(this).elems('a'), function () {
+              var id = this.id;
+              if (id && !move.test(id)) {
+                callClick(this, function () {
+                  temp._doButton(this);
+                });
+              }
+            });
+          }
         }
         row++;
       });
@@ -365,33 +374,31 @@
     },
     redirect: function () {
       var hs,
+        url = '',
         patt = /^(.*)=(.*)$/,
         urls = new Object(),
         u = window.location.href,
         us2 = u.split('#'),
         us1 = us2[0].split('?');
-      if (us1.length == 2) {
-        forEach(us1[1].split('&'), function () {
+      if (us2.length == 2) {
+        url = us2[1];
+      } else if (us1.length == 2) {
+        url = us1[1];
+      }
+      if (url != '') {
+        forEach(url.split('&'), function () {
           if (hs = patt.exec(this)) {
-            urls[hs[1].toLowerCase()] = this;
+            hs[1] = hs[1].toLowerCase();
+            hs[2] = hs[2].toLowerCase();
+            if (hs[1] != 'page' && hs[1] != 'sort' && hs[1] != 'search' && !(hs[1] == 'action' && (hs[2] == 'login' || hs[2] == 'logout'))) {
+              urls[hs[1]] = this;
+            }
           } else {
             urls[this] = this;
           }
         });
       }
-      if (us2.length == 2) {
-        forEach(us2[1].split('&'), function () {
-          if (hs = patt.exec(this)) {
-            urls[hs[1].toLowerCase()] = this;
-          }
-        });
-      }
-      var us = new Array();
-      for (var p in urls) {
-        if (p != 'sort' && p != 'page' && p != 'search') {
-          us.push(urls[p]);
-        }
-      }
+      var us = Object.toArray(urls);
       us.push('page=' + this.page);
       if (this.sort) {
         us.push('sort=' + this.sort);
@@ -399,9 +406,16 @@
       if (this.search) {
         us.push('search=' + encodeURIComponent(this.search));
       }
-      u = us1[0];
-      if (us.length > 0) {
-        u += '?' + us.join('&');
+      if (us2.length == 2) {
+        u = us2[0];
+        if (us.length > 0) {
+          u += '#' + us.join('&');
+        }
+      } else {
+        u = us1[0];
+        if (us.length > 0) {
+          u += '?' + us.join('&');
+        }
       }
       return u;
     }

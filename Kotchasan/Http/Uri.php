@@ -570,7 +570,7 @@ class Uri extends \Kotchasan\KBase implements UriInterface
     $url = '<a href="'.$this->withParams(array('page' => ':page'), true).'" title="{LNG_go to page} :page">:page</a>';
     $splitpage = ($start > 2) ? str_replace(':page', 1, $url) : '';
     for ($i = $start; $i <= $totalpage && $maxlink > 0; $i++) {
-      $splitpage .= ($i == $page) ? '<strong title="{LNG_showing page '.$i.'}">'.$i.'</strong>' : str_replace(':page', $i, $url);
+      $splitpage .= ($i == $page) ? '<strong title="{LNG_Showing page} '.$i.'">'.$i.'</strong>' : str_replace(':page', $i, $url);
       $maxlink--;
     }
     $splitpage .= ($i < $totalpage) ? str_replace(':page', $totalpage, $url) : '';

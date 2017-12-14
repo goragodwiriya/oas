@@ -19,7 +19,6 @@
         delayout: 500,
         autohide: true,
         autohidedelay: 5000,
-        opacity: 100,
         cache: false
       };
       for (var property in o) {
@@ -47,7 +46,6 @@
       } else {
         this.tooltip = $G(document.body).create('div');
       }
-      this.tooltip.setStyle('opacity', 0);
       this.tooltip.setStyle('position', 'absolute');
       this.tooltip.setStyle('display', 'none');
       this.tooltip.setStyle('zIndex', 1002);
@@ -173,7 +171,7 @@
           GTooltips[i].hide();
         }
       }
-      this.tooltip.fadeTo(this.options.opacity, function () {
+      this.tooltip.fadeIn(function () {
         temp.timeautohidedelay = window.setTimeout(temp.hide.bind(temp), temp.options.autohidedelay);
       });
     },
