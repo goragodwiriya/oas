@@ -1009,18 +1009,23 @@ class Mime
    *
    * @param string|array $exts
    * @assert (array('jpg','gif','png')) [==]  array('jpg' => 'image/jpeg', 'gif' => 'image/gif', 'png' => 'image/png')
-   * @return array
+   * @assert ('jpg') [==] 'image/jpeg'
+   * @return string|array
    */
   public static function get($exts)
   {
     $mime_types = self::typies();
-    $result = array();
-    foreach ((array)$exts as $ext) {
-      if (!empty($mime_types[$ext])) {
-        $result[$ext] = $mime_types[$ext];
+    if (is_array($exts)) {
+      $result = array();
+      foreach ($exts as $ext) {
+        if (!empty($mime_types[$ext])) {
+          $result[$ext] = $mime_types[$ext];
+        }
       }
+      return $result;
+    } else {
+      return $mime_types[$exts];
     }
-    return $result;
   }
 
   /**

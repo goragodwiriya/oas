@@ -61,7 +61,12 @@ class Model extends \Kotchasan\Model
         // รับค่าจากการ POST
         $save = array(
           'name' => $request->post('register_name')->topic(),
+          'sex' => $request->post('register_sex')->topic(),
           'phone' => $request->post('register_phone')->topic(),
+          'id_card' => $request->post('register_id_card')->number(),
+          'address' => $request->post('register_address')->topic(),
+          'provinceID' => $request->post('register_provinceID')->number(),
+          'zipcode' => $request->post('register_zipcode')->number(),
           'status' => $request->post('register_status')->toInt()
         );
         $permission = $request->post('register_permission', array())->topic();
@@ -132,7 +137,8 @@ class Model extends \Kotchasan\Model
             if (empty($ret)) {
               // แก้ไข
               if (!empty($password)) {
-                $save['password'] = sha1($password.$save['username']);
+                $save['salt'] = uniqid();
+                $save['password'] = sha1($password.$save['salt']);
               }
               // แก้ไข
               $db->update($table_user, $index['id'], $save);

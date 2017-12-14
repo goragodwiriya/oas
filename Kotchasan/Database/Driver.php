@@ -331,7 +331,8 @@ abstract class Driver extends Query
    */
   public function tableExists($table_name)
   {
-    return $this->doQuery("SELECT 1 FROM $table_name LIMIT 1") === false ? false : true;
+    $result = $this->doCustomQuery("SHOW TABLES LIKE '$table_name'");
+    return empty($result) ? false : true;
   }
 
   /**
@@ -344,6 +345,20 @@ abstract class Driver extends Query
   public function fieldExists($table_name, $column_name)
   {
     $result = $this->customQuery("SHOW COLUMNS FROM `$table_name` LIKE '$column_name'");
+    return empty($result) ? false : true;
+  }
+
+  /**
+   * ตรวจสอบว่ามี $index ในตารางหรือไม่
+   *
+   * @param string $database_name
+   * @param string $table_name
+   * @param string $index
+   * @return boolean คืนค่า true ถ้ามี คืนค่า false ถ้าไม่มี
+   */
+  public function indexExists($database_name, $table_name, $index)
+  {
+    $result = $this->customQuery("SELECT * FROM information_schema.statistics WHERE table_schema='$database_name' AND table_name = '$table_name' AND column_name = '$index'");
     return empty($result) ? false : true;
   }
 

@@ -44,7 +44,7 @@ class Login extends \Kotchasan\Login implements \Kotchasan\LoginInterface
       ->toArray();
     $login_result = null;
     foreach ($query->execute() as $item) {
-      if ($item['password'] == sha1($params['password'].$item[reset(self::$cfg->login_fields)])) {
+      if ($item['password'] == sha1($params['password'].$item['salt'])) {
         if ($item['status'] == 1 || $item['active'] == 1) {
           $item['permission'] = empty($item['permission']) ? array() : explode(',', $item['permission']);
           $login_result = $item;
@@ -113,11 +113,16 @@ class Login extends \Kotchasan\Login implements \Kotchasan\LoginInterface
         // แอดมิน
         return $login;
       } elseif (!empty($permission)) {
-        foreach ((array)$permission as $item) {
-          if (in_array($item, $login['permission'])) {
-            // มีสิทธิ์
-            return $login;
+        if (is_array($permission)) {
+          foreach ($permission as $item) {
+            if (in_array($item, $login['permission'])) {
+              // มีสิทธิ์
+              return $login;
+            }
           }
+        } elseif (in_array($permission, $login['permission'])) {
+          // มีสิทธิ์
+          return $login;
         }
       }
     }
@@ -133,7 +138,7 @@ class Login extends \Kotchasan\Login implements \Kotchasan\LoginInterface
    */
   public static function notDemoMode($login)
   {
-    return $login && (empty($login['fb']) || !self::$cfg->demo_mode) ? $login : null;
+    return $login && !empty($login['fb']) && self::$cfg->demo_mode ? null : $login;
   }
 
   /**

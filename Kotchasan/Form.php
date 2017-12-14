@@ -91,10 +91,8 @@ class Form extends \Kotchasan\KBase
         case 'text':
         case 'validator':
         case 'result':
+        case 'checked':
           $$k = $v;
-          break;
-        case 'result':
-          $prop[$k] = 'data-'.$k.'="'.$v.'"';
           break;
         case 'title':
           $prop['title'] = 'title="'.strip_tags($v).'"';
@@ -203,6 +201,9 @@ class Form extends \Kotchasan\KBase
     if (isset($multiple)) {
       $prop['multiple'] = 'multiple';
     }
+    if (isset($checked) && isset($value) && $checked == $value) {
+      $prop['checked'] = 'checked';
+    }
     $prop = implode(' ', $prop);
     if ($this->tag == 'input') {
       $element = '<'.$this->tag.' '.$prop.'>';
@@ -300,6 +301,15 @@ class Form extends \Kotchasan\KBase
     $obj = new static;
     $obj->tag = 'input';
     $attributes['type'] = 'email';
+    $obj->attributes = $attributes;
+    return $obj;
+  }
+
+  public static function tel($attributes = array())
+  {
+    $obj = new static;
+    $obj->tag = 'input';
+    $attributes['type'] = 'tel';
     $obj->attributes = $attributes;
     return $obj;
   }

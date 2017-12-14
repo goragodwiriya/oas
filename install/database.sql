@@ -207,14 +207,21 @@ INSERT INTO `{prefix}_stock` (`id`, `order_id`, `member_id`, `product_id`, `stat
 --
 
 CREATE TABLE `{prefix}_user` (
-  `id` int(11) UNSIGNED,
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `username` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `salt` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
   `status` tinyint(1) NOT NULL,
   `permission` text COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `sex` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `id_card` varchar(13) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `expire_date` date NOT NULL,
+  `address` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
   `phone` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
   `fax` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `provinceID` varchar(3) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `zipcode` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `visited` int(11) UNSIGNED DEFAULT '0',
   `lastvisited` int(11) DEFAULT NULL,
   `session_id` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -224,16 +231,18 @@ CREATE TABLE `{prefix}_user` (
   `fb` tinyint(1) NOT NULL DEFAULT '0',
   `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `website` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `type` tinyint(1) NOT NULL
+  `type` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `username` (`username`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `{prefix}_user`
 --
 
-INSERT INTO `{prefix}_user` (`id`, `username`, `password`, `fb`, `active`, `name`, `phone`, `fax`, `create_date`, `visited`, `lastvisited`, `status`, `ip`, `session_id`, `permission`, `website`, `email`, `type`) VALUES
-(2, 'demo@localhost', 'db75cdf3d5e77181ec3ed6072b56a8870eb6822d', 0, 1, 'พนักงาน', '', NULL, '2017-09-16 10:38:02', 91, 1505659350, 0, '223.24.90.121', '16m0q0bd2tae0dg5bkd0692sb7', 'can_customer,can_stock,can_sell,can_buy,can_manage_inventory', '', '', 0),
-(1, 'admin@localhost', 'b620e8b83d7fcf7278148d21b088511917762014', 0, 1, 'แอดมิน', '', NULL, '2017-09-17 21:07:06', 1, 1505660615, 1, '119.76.143.13', '9n4572970bq87ee1gin5ip2bh5', 'can_config,can_customer,can_stock,can_sell,can_buy,can_manage_inventory', '', '', 0);
+INSERT INTO `{prefix}_user` (`id`, `username`, `salt`, `password`, `fb`, `active`, `name`, `phone`, `fax`, `create_date`, `visited`, `lastvisited`, `status`, `ip`, `session_id`, `permission`, `website`, `email`, `type`) VALUES
+(2, 'demo@localhost', 'demo@localhost', 'db75cdf3d5e77181ec3ed6072b56a8870eb6822d', 0, 1, 'พนักงาน', '', NULL, '2017-09-16 10:38:02', 91, 1505659350, 0, '223.24.90.121', '16m0q0bd2tae0dg5bkd0692sb7', 'can_customer,can_stock,can_sell,can_buy,can_manage_inventory', '', '', 0),
+(1, 'admin@localhost', 'admin@localhost', 'b620e8b83d7fcf7278148d21b088511917762014', 0, 1, 'แอดมิน', '', NULL, '2017-09-17 21:07:06', 1, 1505660615, 1, '119.76.143.13', '9n4572970bq87ee1gin5ip2bh5', 'can_config,can_customer,can_stock,can_sell,can_buy,can_manage_inventory', '', '', 0);
 --
 -- Indexes for dumped tables
 --

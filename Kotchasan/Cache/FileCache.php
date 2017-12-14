@@ -45,19 +45,18 @@ class FileCache extends Cache
   {
     $this->cache_expire = self::$cfg->get('cache_expire', 0);
     if (!empty($this->cache_expire)) {
-      //  folder cache
-      $dir = ROOT_PATH.DATA_FOLDER.'cache/';
-      if (!File::makeDirectory($dir)) {
-        throw new Exception('Folder '.DATA_FOLDER.'cache/ cannot be created.');
+      //  cache directory
+      $this->cache_dir = ROOT_PATH.'datas/cache/';
+      if (!File::makeDirectory($this->cache_dir)) {
+        throw new Exception('Folder '.str_replace(ROOT_PATH, '', $this->cache_dir).' cannot be created.');
       }
-      $this->cache_dir = $dir;
       // clear old cache every day
-      $d = is_file($dir.'index.php') ? file_get_contents($dir.'index.php') : 0;
+      $d = is_file($this->cache_dir.'index.php') ? file_get_contents($this->cache_dir.'index.php') : 0;
       if ($d != date('d')) {
         $this->clear();
-        $f = @fopen($dir.'index.php', 'wb');
+        $f = @fopen($this->cache_dir.'index.php', 'wb');
         if ($f === false) {
-          throw new Exception('File '.DATA_FOLDER.'cache/index.php cannot be written.');
+          throw new Exception('File '.str_replace(ROOT_PATH, '', $this->cache_dir).'index.php cannot be written.');
         } else {
           fwrite($f, date('d'));
           fclose($f);

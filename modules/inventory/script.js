@@ -1,5 +1,5 @@
 function initInventoryWrite() {
-  initAutoComplete('write_unit', 'index/model/autocomplete/findCategory', 'name', 'expand', {
+  initAutoComplete('write_unit', WEB_URL + 'index.php/index/model/autocomplete/findCategory', 'name', 'expand', {
     get: function () {
       return 'typ=3&name=' + encodeURIComponent($E('write_unit').value);
     },
@@ -7,7 +7,7 @@ function initInventoryWrite() {
       $G('write_unit').setValue(this.name).reset();
     }
   });
-  initAutoComplete('write_category', 'index/model/autocomplete/findCategory', 'name', 'category', {
+  initAutoComplete('write_category', WEB_URL + 'index.php/index/model/autocomplete/findCategory', 'name', 'category', {
     get: function () {
       return 'typ=0&name=' + encodeURIComponent($E('write_category').value);
     },
@@ -52,7 +52,7 @@ function initInventoryInOut(vat_percent, typ) {
   };
   callClick('add_customer', addCustomer);
   callClick('add_product', addProduct);
-  initAutoComplete('customer', 'index/model/autocomplete/findUser', 'company,name,email,phone', 'user', {
+  initAutoComplete('customer', WEB_URL + 'index.php/index/model/autocomplete/findUser', 'company,name,email,phone', 'user', {
     get: function () {
       return 'name=' + encodeURIComponent($E('customer').value) +
         '&from=company,name,email,phone';
@@ -66,7 +66,7 @@ function initInventoryInOut(vat_percent, typ) {
       $G('customer').reset();
     }
   });
-  initAutoComplete('product_no', 'inventory/model/autocomplete/findProduct', 'product_no,topic', 'addtocart', {
+  initAutoComplete('product_no', WEB_URL + 'index.php/inventory/model/autocomplete/findProduct', 'product_no,topic', 'addtocart', {
     get: function () {
       return 'name=' + encodeURIComponent($E('product_no').value) +
         '&from=product_no,topic';

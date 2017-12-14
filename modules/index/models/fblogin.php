@@ -21,6 +21,11 @@ use \Kotchasan\Language;
 class Model extends \Kotchasan\Model
 {
 
+  /**
+   * รับข้อมูลที่ส่งมาจากการเข้าระบบด้วยบัญชี FB
+   *
+   * @param Request $request
+   */
   public function chklogin(Request $request)
   {
     // session, token
@@ -71,7 +76,8 @@ class Model extends \Kotchasan\Model
         $save['visited'] ++;
         $save['lastvisited'] = time();
         $save['ip'] = $request->getClientIp();
-        $save['password'] = sha1($password.$search['username']);
+        $save['salt'] = uniqid();
+        $save['password'] = sha1($password.$save['salt']);
         // อัปเดท
         $db->update($user_table, $search['id'], $save);
         $save['permission'] = explode(',', $save['permission']);

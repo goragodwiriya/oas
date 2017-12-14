@@ -158,7 +158,6 @@ class Html extends \Kotchasan\KBase
         'innerHTML' => $attributes['label'],
         'for' => $attributes['id']
       ));
-      $c[] = 'border';
     }
     $div = $obj->add('div', array(
       'class' => implode(' ', $c)
@@ -189,6 +188,9 @@ class Html extends \Kotchasan\KBase
         }
         if (isset($attributes['comment'])) {
           $item['title'] = strip_tags($attributes['comment']);
+        }
+        if (isset($attributes['disabled'])) {
+          $item['disabled'] = true;
         }
         $div->add($tag == 'radiogroups' ? 'radio' : 'checkbox', $item);
       }
@@ -324,7 +326,7 @@ class Html extends \Kotchasan\KBase
         if ($ajax) {
           $script .= ', "'.$action.'"';
           if (isset($onbeforesubmit)) {
-            $script .= ',null ,false , function(){return '.$onbeforesubmit.'(this)}';
+            $script .= ',null ,false , function(){return '.$onbeforesubmit.'}';
           }
         } else {
           $prop['action'] = $action;

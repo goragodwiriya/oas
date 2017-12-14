@@ -42,7 +42,11 @@ class Model extends \Kotchasan\KBase
     } else {
       // อัปเดทรหัสผ่านใหม่
       $model = new \Kotchasan\Model;
-      $model->db()->update($model->getTableName('user'), (int)$id, array('password' => sha1($password.$username)));
+      $salt = uniqid();
+      $model->db()->update($model->getTableName('user'), (int)$id, array(
+        'salt' => $salt,
+        'password' => sha1($password.$salt)
+      ));
       // สำเร็จ คืนค่าข้อความว่าง
       return '';
     }

@@ -27,9 +27,9 @@ class View extends \Kotchasan\KBase
     $data = preg_replace('/url\(([\'"])?fonts\//isu', "url(\\1".WEB_URL.'skin/fonts/', file_get_contents(ROOT_PATH.'skin/fonts.css'));
     $data .= file_get_contents(ROOT_PATH.'skin/gcss.css');
     // css ของ template
-    $data2 = file_get_contents(TEMPLATE_ROOT.'skin/'.self::$cfg->skin.'/style.css');
-    $data2 = preg_replace('/url\(([\'"])?(img|fonts)\//isu', "url(\\1".WEB_URL.'skin/\\2/', $data2);
-    // css ของโมดูล
+    $data2 = file_get_contents(ROOT_PATH.self::$cfg->skin.'/style.css');
+    $data2 = preg_replace('/url\(([\'"])?(img|fonts)\//isu', "url(\\1".WEB_URL.self::$cfg->skin.'/\\2/', $data2);
+    // โหลด css ของ module
     $dir = ROOT_PATH.'modules/';
     $f = @opendir($dir);
     if ($f) {

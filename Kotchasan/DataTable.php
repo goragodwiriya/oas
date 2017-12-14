@@ -485,8 +485,6 @@ class DataTable extends \Kotchasan\KBase
     if (isset($this->model)) {
       // field select
       $this->model->select($this->fields);
-      // debug Query
-      //echo $this->model->text();
       // จำนวนข้อมูลทั้งหมด (Query Builder)
       $model = new \Kotchasan\Model;
       $query = $model->db()->createQuery()
@@ -566,6 +564,8 @@ class DataTable extends \Kotchasan\KBase
       }
     }
     if (isset($this->model)) {
+      // debug Query
+      //echo $this->model->toArray()->limit($this->perPage, $start)->text();
       // query ข้อมูล
       $this->datas = $this->model->toArray()->limit($this->perPage, $start)->execute();
       // รายการสุดท้าย
@@ -622,11 +622,11 @@ class DataTable extends \Kotchasan\KBase
             $colspan = $attributes['colspan'] - 1;
           }
           $row[] = $this->th($i, $key, $attributes);
-          $colCount++;
           $i++;
         } else {
           $colspan--;
         }
+        $colCount++;
       }
       if ($colspan === 0) {
         if (!empty($this->buttons)) {
@@ -789,6 +789,8 @@ class DataTable extends \Kotchasan\KBase
               $prop = array('class' => $this->cols['buttons']['class'].' buttons');
             }
             $row[] = str_replace($patt, $replace, $this->td($id, $i, $prop, implode('', $buttons), ''));
+          } else {
+            $row[] = $this->td($id, $i, array(), '', '');
           }
         }
         if ($this->pmButton) {
@@ -873,8 +875,14 @@ class DataTable extends \Kotchasan\KBase
           $class[] = $match[$i];
         }
       }
-      $prop['class'] = 'class="'.implode(' ', $class).'"';
-      return '<a '.implode(' ', $prop).'><span class="'.$match[2].'">'.(isset($properties['text']) ? $properties['text'] : '').'</span></a>';
+      if (empty($properties['text'])) {
+        $class[] = 'notext';
+        $prop['class'] = 'class="'.implode(' ', $class).'"';
+        return '<a '.implode(' ', $prop).'><span class="'.$match[2].'"></span></a>';
+      } else {
+        $prop['class'] = 'class="'.implode(' ', $class).'"';
+        return '<a '.implode(' ', $prop).'><span class="'.$match[2].' button_w_text"><span class=mobile>'.$properties['text'].'</span></span></a>';
+      }
     } else {
       return '<a'.(empty($prop) ? '' : ' '.implode(' ', $prop)).'></a>';
     }
@@ -899,7 +907,7 @@ class DataTable extends \Kotchasan\KBase
       }
       return '<fieldset><select id="'.$item['id'].'">'.implode('', $rows).'</select><label for="'.$item['id'].'" class="button '.$item['class'].' action"><span>'.$item['text'].'</span></label></fieldset>';
     } else {
-      // links, button
+      // link, button
       $prop = array();
       if (empty($match[3])) {
         $text = $item['text'];
@@ -913,7 +921,13 @@ class DataTable extends \Kotchasan\KBase
           $prop[] = $k.'="'.$v.'"';
         }
       }
-      return '<a '.implode(' ', $prop).'>'.$text.'</a>';
+      if (isset($item['href'])) {
+        // link
+        return '<a '.implode(' ', $prop).'>'.$text.'</a>';
+      } else {
+        // button
+        return '<button '.implode(' ', $prop).' type="button">'.$text.'</button>';
+      }
     }
   }
 
@@ -926,9 +940,11 @@ class DataTable extends \Kotchasan\KBase
   private function addFilter($item)
   {
     $row = '<fieldset><label>'.$item['text'].' <select name="'.$item['name'].'">';
-    foreach ($item['options'] as $key => $text) {
-      $sel = (string)$key == $item['value'] ? ' selected' : '';
-      $row .= '<option value="'.$key.'"'.$sel.'>'.$text.'</option>';
+    if (!empty($item['options'])) {
+      foreach ($item['options'] as $key => $text) {
+        $sel = (string)$key == $item['value'] ? ' selected' : '';
+        $row .= '<option value="'.$key.'"'.$sel.'>'.$text.'</option>';
+      }
     }
     $row .= '</select></label></fieldset>';
     return $row;

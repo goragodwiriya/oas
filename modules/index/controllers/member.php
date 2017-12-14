@@ -38,7 +38,9 @@ class Controller extends \Gcms\Controller
     // แอดมิน, ไม่ใช่สมาชิกตัวอย่าง
     if ($login = Login::notDemoMode(Login::isAdmin())) {
       // แสดงผล
-      $section = Html::create('section');
+      $section = Html::create('section', array(
+          'class' => 'content_bg'
+      ));
       // breadcrumbs
       $breadcrumbs = $section->add('div', array(
         'class' => 'breadcrumbs'

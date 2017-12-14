@@ -11,6 +11,10 @@
  * Site root
  */
 define('ROOT_PATH', str_replace('\\', '/', dirname(__FILE__)).'/');
+/**
+ * โฟลเดอร์เก็บข้อมูล
+ */
+define('DATA_FOLDER', 'datas/');
 /*
  * 0 (default) บันทึกเฉพาะข้อผิดพลาดร้ายแรงลง error_log .php
  * 1 บันทึกข้อผิดพลาดและคำเตือนลง error_log .php
@@ -22,5 +26,7 @@ define('DEBUG', 0);
  * true บันทึกการ query ฐานข้อมูลลง log (ใช้เฉพาะตอนออกแบบเท่านั้น)
  */
 define('DB_LOG', false);
-// load Kotchasan
+/**
+ * load Kotchasan
+ */
 include 'Kotchasan/load.php';

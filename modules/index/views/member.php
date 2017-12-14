@@ -50,7 +50,7 @@ class View extends \Gcms\View
       /* ฟังก์ชั่นจัดรูปแบบการแสดงผลแถวของตาราง */
       'onRow' => array($this, 'onRow'),
       /* คอลัมน์ที่ไม่ต้องแสดงผล */
-      'hideColumns' => array('id', 'visited', 'website'),
+      'hideColumns' => array('id', 'visited', 'website', 'username'),
       /* คอลัมน์ที่สามารถค้นหาได้ */
       'searchColumns' => array('name', 'username', 'phone'),
       /* ตั้งค่าการกระทำของของตัวเลือกต่างๆ ด้านล่างตาราง ซึ่งจะใช้ร่วมกับการขีดถูกเลือกแถว */

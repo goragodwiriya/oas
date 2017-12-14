@@ -49,7 +49,9 @@ class Controller extends \Gcms\Controller
           $this->title = Language::get('Details of').' '.$product['topic'];
         }
         // แสดงผล
-        $section = Html::create('section');
+        $section = Html::create('section', array(
+            'class' => 'content_bg'
+        ));
         // breadcrumbs
         $breadcrumbs = $section->add('div', array(
           'class' => 'breadcrumbs'

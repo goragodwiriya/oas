@@ -85,14 +85,17 @@ class File
   public static function makeDirectory($dir, $mode = 0755)
   {
     if (!is_dir($dir)) {
-      $old = umask(0);
-      @mkdir($dir, $mode, true);
-      umask($old);
+      $oldumask = umask(0);
+      mkdir($dir, $mode);
+      umask($oldumask);
     }
-    $old = umask(0);
-    $f = @chmod($dir, $mode);
-    umask($old);
-    return $f;
+    if (!is_writable($dir)) {
+      $oldumask = umask(0);
+      $f = @chmod($dir, $mode);
+      umask($oldumask);
+      return $f;
+    }
+    return true;
   }
 
   /**

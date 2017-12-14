@@ -129,13 +129,16 @@ class Date
   /**
    * ฟังก์ชั่นแปลงเวลาเป็นวันที่ตามรูปแบบที่กำหนด สามารถคืนค่าวันเดือนปี พศ. ได้ ขึ้นกับไฟล์ภาษา
    *
-   * @param int|string $time int เวลารูปแบบ Unix timestamp, string เวลารูปแบบ Y-m-d หรือ Y-m-d H:i:s ถ้าไม่ระบุหมายถึงวันนี้
+   * @param int|string $time int เวลารูปแบบ Unix timestamp, string เวลารูปแบบ Y-m-d หรือ Y-m-d H:i:s ถ้าไม่ระบุหรือระบุ 0 หมายถึงวันนี้
    * @param string $format รูปแบบของวันที่ที่ต้องการ (ถ้าไม่ระบุจะใช้รูปแบบที่มาจากระบบภาษา DATE_FORMAT)
    * @return string วันที่และเวลาตามรูปแบบที่กำหนดโดย $format
+   * @assert (0) [!=]  ''
+   * @assert (null) [==]  ''
+   * @assert (1454259600, 'Y-m-d H:i:s') [==] '2559-02-01 00:00:00'
    */
   public static function format($time = 0, $format = '')
   {
-    if (empty($time)) {
+    if ($time === 0) {
       $time = time();
     } elseif (is_string($time)) {
       if (preg_match('/([0-9]+){1,4}-([0-9]+){1,2}-([0-9]+){1,2}(\s([0-9]+){1,2}:([0-9]+){1,2}:([0-9]+){1,2})?/', $time, $match)) {
@@ -143,6 +146,8 @@ class Date
       } elseif (preg_match('/([0-9]+){1,2}:([0-9]+){1,2}:([0-9]+){1,2}/', $time, $match)) {
         $time = mktime((int)$match[1], (int)$match[2], (int)$match[3]);
       }
+    } elseif (!is_int($time)) {
+      return '';
     }
     // create class
     if (!isset(self::$lang)) {

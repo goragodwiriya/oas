@@ -65,6 +65,17 @@ class Controller
   }
 
   /**
+   * เมนูรายการแรก (หน้าหลัก)
+   *
+   * @return string
+   */
+  public function home()
+  {
+    $keys = array_keys($this->menus);
+    return reset($keys);
+  }
+
+  /**
    * เพิ่มเมนูระดับบนสุด
    *
    * @param string $toplvl ชื่อเมนูระดับบนสุด

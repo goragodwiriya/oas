@@ -74,10 +74,11 @@ class View extends \Gcms\View
           'href' => $uri->createBackUri(array('module' => 'languageedit', 'id' => null, 'js' => $js)),
           'text' => '{LNG_Add New}'
         ),
-        array(
+        'import' => array(
           'class' => 'button add icon-import',
-          'id' => 'import',
-          'text' => '{LNG_Import} {LNG_Language}'
+          'id' => 'import_0',
+          'text' => '{LNG_Import} {LNG_Language}',
+          'data-confirm' => Language::trans('{LNG_You want to} {LNG_Import} {LNG_Language}?')
         ),
       ),
       /* ตัวเลือกด้านบนของตาราง ใช้จำกัดผลลัพท์การ query */

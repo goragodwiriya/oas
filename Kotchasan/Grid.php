@@ -18,6 +18,9 @@ namespace Kotchasan;
 class Grid extends \Kotchasan\Template
 {
 
+  /**
+   * Construct
+   */
   public function __construct()
   {
     $this->cols = 1;

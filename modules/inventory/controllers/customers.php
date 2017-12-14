@@ -38,7 +38,9 @@ class Controller extends \Gcms\Controller
     // สามารถดูรายชื่อลูกค้าได้
     if ($login = Login::checkPermission(Login::isMember(), array('can_buy', 'can_sell', 'can_manage_inventory'))) {
       // แสดงผล
-      $section = Html::create('section');
+      $section = Html::create('section', array(
+          'class' => 'content_bg'
+      ));
       // breadcrumbs
       $breadcrumbs = $section->add('div', array(
         'class' => 'breadcrumbs'
