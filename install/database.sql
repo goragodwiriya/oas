@@ -149,10 +149,10 @@ CREATE TABLE `{prefix}_product` (
   `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `last_update` int(11) UNSIGNED NOT NULL,
   `price` decimal(10,2) NOT NULL,
-  `vat` tinyint(1) NOT NULL,
+  `vat` decimal(10,2) NOT NULL,
   `unit` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `category_id` int(11) UNSIGNED NOT NULL,
-  `count_stock` tinyint(4) NOT NULL DEFAULT '1'
+  `count_stock` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -207,21 +207,15 @@ INSERT INTO `{prefix}_stock` (`id`, `order_id`, `member_id`, `product_id`, `stat
 --
 
 CREATE TABLE `{prefix}_user` (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `username` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `salt` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
   `status` tinyint(1) NOT NULL,
   `permission` text COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
-  `sex` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `id_card` varchar(13) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `expire_date` date NOT NULL,
-  `address` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
   `phone` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
   `fax` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `provinceID` varchar(3) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `zipcode` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `visited` int(11) UNSIGNED DEFAULT '0',
   `lastvisited` int(11) DEFAULT NULL,
   `session_id` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -232,8 +226,11 @@ CREATE TABLE `{prefix}_user` (
   `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `website` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `type` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `username` (`username`)
+  `sex` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `id_card` varchar(13) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `address` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `provinceID` varchar(3) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `zipcode` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -322,7 +319,7 @@ ALTER TABLE `{prefix}_product`
 ALTER TABLE `{prefix}_stock`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
--- AUTO_INCREMENT for table `{prefix}_user`
+-- AUTO_INCREMENT for table `oas_user`
 --
 ALTER TABLE `{prefix}_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
