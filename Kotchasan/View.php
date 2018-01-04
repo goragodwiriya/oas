@@ -124,7 +124,6 @@ class View extends \Kotchasan\KBase
     $this->contents['/{WEBDESCRIPTION}/'] = self::$cfg->web_description;
     $this->contents['/{WEBURL}/'] = WEB_URL;
     $this->contents['/{SKIN}/'] = Template::get();
-    $this->contents['/^[\s\t]+/m'] = '';
     foreach ($this->after_contents as $key => $value) {
       $this->contents[$key] = $value;
     }

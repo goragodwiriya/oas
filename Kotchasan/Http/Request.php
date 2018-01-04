@@ -360,7 +360,7 @@ class Request extends AbstractRequest implements RequestInterface
    */
   public function initSession()
   {
-    $sessid = $this->get('sessid')->toString();
+    $sessid = $this->get('sess')->toString();
     if (!empty($sessid) && preg_match('/[a-zA-Z0-9]{20,}/', $sessid)) {
       session_id($sessid);
     }

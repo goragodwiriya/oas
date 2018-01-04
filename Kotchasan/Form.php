@@ -221,7 +221,7 @@ class Form extends \Kotchasan\KBase
       if (empty($labelClass) && empty($label)) {
         $input .= $element;
       } elseif (isset($type) && ($type === 'checkbox' || $type === 'radio')) {
-        $input .= '<label'.(empty($labelClass) ? '' : ' class="'.$labelClass.'"').'>'.$element.'&nbsp;'.$label.'</label>';
+        $input .= '<label'.(empty($labelClass) ? '' : ' class="'.$labelClass.'"').'>'.$element.$label.'</label>';
       } else {
         $input .= '<label'.(empty($labelClass) ? '' : ' class="'.$labelClass.'"').'>'.(empty($label) ? '' : $label.'&nbsp;').$element.'</label>';
       }
@@ -337,6 +337,15 @@ class Form extends \Kotchasan\KBase
     $obj->tag = 'input';
     $attributes['type'] = 'text';
     $attributes['class'] = 'color';
+    $obj->attributes = $attributes;
+    return $obj;
+  }
+
+  public static function range($attributes = array())
+  {
+    $obj = new static;
+    $obj->tag = 'input';
+    $attributes['type'] = 'range';
     $obj->attributes = $attributes;
     return $obj;
   }

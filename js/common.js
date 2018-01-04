@@ -382,27 +382,20 @@ function countryChanged(prefix) {
   }
 }
 function selectMenu(module) {
-  if ($E('topmenu')) {
-    var tmp = false;
-    forEach($E('topmenu').getElementsByTagName('li'), function (item, index) {
-      var cs = new Array();
-      if (index == 0) {
-        tmp = item;
-      }
-      forEach(this.className.split(' '), function (c) {
-        if (c == module) {
-          tmp = false;
-          cs.push(c + ' select');
-        } else if (c !== '' && c != 'select' && c != 'default') {
-          cs.push(c);
-        }
-      });
-      this.className = cs.join(' ');
-    });
-    if (tmp) {
-      $G(tmp).addClass('default');
+  forEach(document.querySelectorAll('#topmenu > ul > li'), function () {
+    if ($G(this).hasClass(module)) {
+      this.addClass('select');
+    } else {
+      this.removeClass('select');
     }
-  }
+  });
+  forEach(document.querySelectorAll('.sidemenu > ul > li'), function () {
+    if ($G(this).hasClass(module)) {
+      this.addClass('select');
+    } else {
+      this.removeClass('select');
+    }
+  });
 }
 function loadJavascript(id, src) {
   var js, fjs = document.getElementsByTagName('script')[0];

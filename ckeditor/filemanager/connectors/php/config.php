@@ -30,7 +30,7 @@ session_start();
 // load Kotchasan
 include '../../../../load.php';
 // Initial Kotchasan Framework
-Kotchasan::createWebApplication();
+Kotchasan::createWebApplication('Gcms\Config');
 // ตรวจสอบการ login สำหรับสมาชิกเท่านั้น
 $config['Enabled'] = Kotchasan\CKEditor::enabledUpload();
 // กำหนดการอัปโหลดไฟล์โดยใช้ชื่อเดิม หรือเป็นตัวเลข (เวลา)
