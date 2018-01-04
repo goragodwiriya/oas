@@ -65,7 +65,8 @@ class Controller extends \Kotchasan\Controller
             } elseif ($col == 'topic') {
               $detail .= '<td>'.nl2br($item['topic']).'</td>';
             } elseif ($col == 'amount') {
-              $detail .= '<td class=right>'.Currency::format($item['price'] * $item['quantity']).'</td>';
+              $discount = ($item['discount'] * $item['price']) / 100;
+              $detail .= '<td class=right>'.Currency::format(($item['price'] - $discount) * $item['quantity']).'</td>';
               $subtotal += ($item['price'] * $item['quantity']);
             } else {
               $detail .= '<td class=right>'.Currency::format($item[$col]).'</td>';

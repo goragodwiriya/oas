@@ -29,7 +29,7 @@ class AbstractRequest extends AbstractMessage implements RequestInterface
   /**
    * @var string
    */
-  protected $method = 'GET';
+  protected $method = null;
   /**
    * @var string
    */
@@ -68,6 +68,12 @@ class AbstractRequest extends AbstractMessage implements RequestInterface
    */
   public function getMethod()
   {
+    if ($this->method === null) {
+      $this->method = isset($_SERVER['REQUEST_METHOD']) ? strtoupper($_SERVER['REQUEST_METHOD']) : 'GET';
+      if ($this->method === 'POST' && isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'])) {
+        $this->method = strtoupper($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']);
+      }
+    }
     return $this->method;
   }
 
