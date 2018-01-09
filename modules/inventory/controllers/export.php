@@ -78,6 +78,8 @@ class Controller extends \Kotchasan\Controller
         }
         // ภาษาที่ใช้งานอยู่
         $lng = Language::name();
+        // จำนวนเงินสุทธิ
+        $net_amount = $index->total + $index->vat - $index->tax;
         // ใส่ลงใน template
         $content = array(
           '/{LANGUAGE}/' => $lng,
@@ -112,8 +114,8 @@ class Controller extends \Kotchasan\Controller
           '/%DISCOUNT%/' => Currency::format($index->discount),
           '/%TAX%/' => Currency::format($index->tax),
           '/%VAT%/' => Currency::format($index->vat),
-          '/%NETAMOUNT%/' => Currency::format($index->total + $index->vat),
-          '/%THAIBAHT%/' => $lng == 'th' ? Currency::bahtThai($index->total + $index->vat) : Currency::bahtEng($index->total + $index->vat),
+          '/%NETAMOUNT%/' => Currency::format($net_amount),
+          '/%THAIBAHT%/' => $lng == 'th' ? Currency::bahtThai($net_amount) : Currency::bahtEng($net_amount),
           '/<tr>[\r\n\s\t]{0,}<td>[\r\n\s\t]{0,}%DETAIL%[\r\n\s\t]{0,}<\/td>[\r\n\s\t]{0,}<\/tr>/' => $detail,
           '/%LOGO%/' => is_file(ROOT_PATH.DATA_FOLDER.'logo.jpg') ? '<img class="logo" src="'.WEB_URL.DATA_FOLDER.'logo.jpg">' : '',
         );
