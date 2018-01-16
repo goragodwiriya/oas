@@ -111,10 +111,7 @@ class Html extends \Kotchasan\KBase
       $comment['id'] = 'result_'.$attributes['id'];
     }
     foreach ($attributes as $key => $value) {
-      if ($key == 'comment') {
-        $comment['class'] = 'comment';
-        $comment['innerHTML'] = $value;
-      } elseif ($key == 'checkbox' || $key == 'radio') {
+      if ($key == 'checkbox' || $key == 'radio') {
         foreach ($value as $v => $text) {
           $chk = isset($attributes['value']) && in_array($v, $attributes['value']) ? ' checked' : '';
           $rows[] = '<label>'.$text.'&nbsp;<input type='.$key.$id.$name.$chk.' value="'.$v.'"></label>';
@@ -126,6 +123,11 @@ class Html extends \Kotchasan\KBase
       $obj->appendChild(implode('&nbsp; ', $rows));
     }
     if (isset($attributes['comment'])) {
+      if (isset($attributes['commentId'])) {
+        $comment['id'] = $attributes['commentId'];
+      }
+      $comment['class'] = 'comment';
+      $comment['innerHTML'] = $value;
       $item->add('div', $comment);
     }
     return $obj;

@@ -284,7 +284,6 @@ body.responsive .gcss-wrapper {
 }
 .leftsidebar > .content {
   float: right;
-  padding-left: 10px;
 }
 .leftsidebar > .sidebar {
   float: left;
@@ -295,18 +294,18 @@ body.responsive .gcss-wrapper {
   margin-left: -300px;
 }
 .rightsidebar {
-  padding-right: 240px;
+  padding-right: 230px;
+}
+.rightsidebar > .sidebar {
+  float: right;
+  margin-left: 0px;
+  margin-right: -230px;
 }
 .rightsidebar.wide {
   padding-left: 300px;
 }
 .rightsidebar > .content {
   float: left;
-}
-.rightsidebar > .sidebar {
-  float: right;
-  margin-left: 0px;
-  margin-right: -240px;
 }
 .rightsidebar.wide > .sidebar {
   margin-right: -300px;
@@ -2652,6 +2651,7 @@ input[type="text"].gddcolor {
   margin: 0 0 1% 1%;
   border-width: 2px;
   border-bottom-style: dotted;
+  border-color: rgba(0,0,0,0.2);
   padding: 0 5px 5px;
 }
 .document-list .col,
@@ -3772,6 +3772,7 @@ td.buttons .button:last-child {
     border-right-color: transparent;
   }
 }
+/* tablet only */
 @media only screen and (min-width: 769px) and (max-width: 900px) {
   body.responsive .rightsidebar .leftsidebar,
   body.responsive .rightsidebar .leftsidebar > .sidebar,

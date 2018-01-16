@@ -42,26 +42,28 @@ final class Database extends KBase
         'tables' => (object)array(
         )
     );
-    // database config จาก config.php
-    if (isset(self::$cfg->database[$name]) && is_array(self::$cfg->database[$name])) {
-      foreach (self::$cfg->database[$name] as $key => $value) {
-        $param->settings->$key = $value;
+    if (is_string($name)) {
+      // database config จาก config.php
+      if (isset(self::$cfg->database[$name]) && is_array(self::$cfg->database[$name])) {
+        foreach (self::$cfg->database[$name] as $key => $value) {
+          $param->settings->$key = $value;
+        }
       }
-    }
-    if (is_string($name) && empty(self::$instances[$name])) {
-      if (is_file(APP_PATH.'settings/database.php')) {
-        $config = include APP_PATH.'settings/database.php';
-      } elseif (is_file(ROOT_PATH.'settings/database.php')) {
-        $config = include ROOT_PATH.'settings/database.php';
-      }
-      foreach ($config as $key => $values) {
-        if ($key == $name) {
-          foreach ($values as $k => $v) {
-            $param->settings->$k = $v;
-          }
-        } elseif ($key == 'tables') {
-          foreach ($values as $k => $v) {
-            $param->tables->$k = $v;
+      if (empty(self::$instances[$name])) {
+        if (is_file(APP_PATH.'settings/database.php')) {
+          $config = include APP_PATH.'settings/database.php';
+        } elseif (is_file(ROOT_PATH.'settings/database.php')) {
+          $config = include ROOT_PATH.'settings/database.php';
+        }
+        foreach ($config as $key => $values) {
+          if ($key == $name) {
+            foreach ($values as $k => $v) {
+              $param->settings->$k = $v;
+            }
+          } elseif ($key == 'tables') {
+            foreach ($values as $k => $v) {
+              $param->tables->$k = $v;
+            }
           }
         }
       }

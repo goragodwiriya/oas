@@ -109,13 +109,23 @@ function defaultSubmit(ds) {
       if (val == '') {
         el.valid();
       } else {
-        if (val == 'this' || val == 'Please fill in' || val == 'Please browse file') {
+        if (val == 'Please fill in' || val == 'Please browse file') {
+          val = trans(val);
+          var label = el.findLabel();
+          if (label) {
+            t = label.innerHTML.strip_tags();
+            if (t != '') {
+              val += ' ' + t;
+            }
+          }
+        } else if (val == 'this') {
           if (el.placeholder) {
             t = el.placeholder.strip_tags();
-          } else {
+          }
+          if (t == '') {
             t = el.title.strip_tags();
           }
-          val = val == 'this' ? t : trans(val) + ' ' + t;
+          val = t;
         }
         if (_input != el) {
           el.invalid(val);

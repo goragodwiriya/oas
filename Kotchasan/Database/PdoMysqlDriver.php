@@ -42,6 +42,7 @@ class PdoMysqlDriver extends Driver
     }
     if ($this->settings->dbdriver == 'mysql') {
       $this->options[\PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES '.$this->settings->char_set;
+      $this->options[\PDO::MYSQL_ATTR_USE_BUFFERED_QUERY] = 1;
     }
     $sql = $this->settings->dbdriver.':host='.$this->settings->hostname;
     $sql .= empty($this->settings->port) ? '' : ';port='.$this->settings->port;

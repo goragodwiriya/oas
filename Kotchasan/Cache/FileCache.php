@@ -51,14 +51,14 @@ class FileCache extends Cache
         throw new Exception('Folder '.str_replace(ROOT_PATH, '', $this->cache_dir).' cannot be created.');
       }
       // clear old cache every day
-      $d = is_file($this->cache_dir.'index.php') ? file_get_contents($this->cache_dir.'index.php') : 0;
-      if ($d != date('d')) {
+      $d = is_file($this->cache_dir.'index.php') ? (int)file_get_contents($this->cache_dir.'index.php') : 0;
+      if ($d != (int)date('d')) {
         $this->clear();
         $f = @fopen($this->cache_dir.'index.php', 'wb');
         if ($f === false) {
           throw new Exception('File '.str_replace(ROOT_PATH, '', $this->cache_dir).'index.php cannot be written.');
         } else {
-          fwrite($f, date('d'));
+          fwrite($f, date('d-m-Y H:i:s'));
           fclose($f);
         }
       }

@@ -79,6 +79,7 @@ class Template
    * โหลด template จากไฟล์
    *
    * @param string $filename
+   * @return \static
    * @throws \InvalidArgumentException ถ้าไม่พบไฟล์
    *
    * @assert ('FileNotFound') [throws] InvalidArgumentException

@@ -140,7 +140,7 @@
           callClick(this, function () {
             temp.input_search.value = "";
           });
-        } else if (/^([a-z_\-]+)_([0-9]+)(_([0-9]+))?$/.test(this.id)) {
+        } else if (this.id != '') {
           callClick(this, function () {
             temp._doButton(this);
           });

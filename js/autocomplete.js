@@ -233,7 +233,7 @@ function initAutoComplete(id, link, displayFields, icon, options) {
     obj.valid();
   }
   function doPopulate() {
-    var val, datas = new Array();
+    var datas = new Array();
     for (var i in df) {
       if (this[df[i]] != 'null' && this[df[i]] != '') {
         datas.push(this[df[i]]);

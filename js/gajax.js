@@ -482,14 +482,22 @@ window.$K = (function () {
       return window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft;
     }
   };
-  document.css = function (css) {
+  document.css = function (css, id) {
     var style = document.createElement('style');
-    if (style.styleSheet) {
-      style.styleSheet.cssText = css;
-    } else {
-      style.appendChild(document.createTextNode(css));
+    if (id) {
+      style.id = 'css_' + id;
+      if ($E('css_' + id)) {
+        $E('css_' + id).parentNode.removeChild($E('css_' + id));
+      }
     }
-    document.getElementsByTagName('head')[0].appendChild(style);
+    if (css !== null) {
+      if (style.styleSheet) {
+        style.styleSheet.cssText = css;
+      } else {
+        style.appendChild(document.createTextNode(css));
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
   };
   Object.extend = function (d, s) {
     for (var property in s) {
@@ -1034,6 +1042,17 @@ window.$K = (function () {
         }
       }
       return this;
+    },
+    findLabel: function () {
+      var result = null,
+        id = this.id;
+      forEach(document.getElementsByTagName('label'), function () {
+        if (this.htmlFor != '' && this.htmlFor == id) {
+          result = this;
+          return true;
+        }
+      });
+      return result;
     },
     element: function () {
       return Object.isString(this.elem) ? document.getElementById(this.elem) : this.elem;
