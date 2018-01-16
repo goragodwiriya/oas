@@ -40,6 +40,7 @@ class Model extends \Kotchasan\Model
           array('S.order_id', $order_id),
           array('S.status', $typ),
         ))
+        ->order('S.id')
         ->toArray()
         ->execute();
     }
