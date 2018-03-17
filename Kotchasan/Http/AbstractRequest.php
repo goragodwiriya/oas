@@ -127,16 +127,40 @@ class AbstractRequest extends AbstractMessage implements RequestInterface
   }
 
   /**
-   * สร้างคลาสจากลิงค์ และ รวมค่าที่มาจาก $_GET และ $_POST ด้วย
+   * สร้างคลาสจากลิงค์ และ รวมค่าที่มาจาก $_GET ด้วย
    *
-   * @param string $uri
+   * @param string $uri ค่าเริ่มต้นคือ index.php
+   * @param array $exclude รายการแอเรย์ของ $_GET ที่ไม่ต้องการให้รวมอยู่ใน URL
    * @return \static
    */
-  public static function createUriWithGet($uri)
+  public static function createUriWithGet($uri = 'index.php', $exclude = array())
   {
     $query = array();
     foreach ($_GET as $key => $value) {
-      $query[$key] = $key.'='.$value;
+      if ($value != '' && !in_array($key, $exclude)) {
+        $query[$key] = $key.'='.$value;
+      }
+    }
+    if (!empty($query)) {
+      $uri .= (strpos($uri, '?') === false ? '?' : '&').implode('&', $query);
+    }
+    return Uri::createFromUri($uri);
+  }
+
+  /**
+   * สร้างคลาสจากลิงค์ และ รวมค่าที่มาจาก $_POST ด้วย
+   *
+   * @param string $uri ค่าเริ่มต้นคือ index.php
+   * @param array $exclude รายการแอเรย์ของ $_POST ที่ไม่ต้องการให้รวมอยู่ใน URL
+   * @return \static
+   */
+  public static function createUriWithPost($uri = 'index.php', $exclude = array())
+  {
+    $query = array();
+    foreach ($_POST as $key => $value) {
+      if ($value != '' && !in_array($key, $exclude)) {
+        $query[$key] = $key.'='.$value;
+      }
     }
     if (!empty($query)) {
       $uri .= (strpos($uri, '?') === false ? '?' : '&').implode('&', $query);
@@ -147,35 +171,22 @@ class AbstractRequest extends AbstractMessage implements RequestInterface
   /**
    * สร้างคลาสจากลิงค์ และ รวมค่าที่มาจาก $_GET และ $_POST ด้วย
    *
-   * @param string $uri
-   * @return Uri
+   * @param string $uri ค่าเริ่มต้นคือ index.php
+   * @param array $exclude รายการแอเรย์ของ $_GET และ $_POST ที่ไม่ต้องการให้รวมอยู่ใน URL
+   * @return \static
    */
-  public static function createUriWithPost($uri)
-  {
-    $query = array();
-    foreach ($_POST as $key => $value) {
-      $query[$key] = $key.'='.$value;
-    }
-    if (!empty($query)) {
-      $uri .= (strpos($uri, '?') === false ? '?' : '&').implode('&', $query);
-    }
-    return Uri::createFromUri($uri);
-  }
-
-  /**
-   * สร้างคลาสจากลิงค์ และ รวมค่าที่มาจาก $_GET และ $_POST ด้วย
-   *
-   * @param string $uri
-   * @return Uri
-   */
-  public function createUriWithGlobals($uri)
+  public function createUriWithGlobals($uri = 'index.php', $exclude = array())
   {
     $query = array();
     foreach ($_GET as $key => $value) {
-      $query[$key] = $value === null ? $key : $key.'='.$value;
+      if ($value != '' && !in_array($key, $exclude)) {
+        $query[$key] = $key.'='.$value;
+      }
     }
     foreach ($_POST as $key => $value) {
-      $query[$key] = $value === null ? $key : $key.'='.$value;
+      if ($value != '' && !in_array($key, $exclude)) {
+        $query[$key] = $key.'='.$value;
+      }
     }
     if (!empty($query)) {
       $uri .= (strpos($uri, '?') === false ? '?' : '&').implode('&', $query);

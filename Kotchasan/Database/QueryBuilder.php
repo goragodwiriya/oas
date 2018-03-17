@@ -118,7 +118,7 @@ class QueryBuilder extends \Kotchasan\Database\Query
   public function delete($table, $condition)
   {
     $this->sqls['function'] = 'query';
-    $this->sqls['delete'] = $this->getFullTableName($table);
+    $this->sqls['delete'] = $this->quoteTableName($table);
     $this->where($condition);
     return $this;
   }
@@ -270,7 +270,7 @@ class QueryBuilder extends \Kotchasan\Database\Query
     } else {
       $this->sqls['where'] = ' AND';
     }
-    $this->sqls['where'] .= ' EXISTS (SELECT * FROM '.$this->getFullTableName($table).' WHERE '.$ret.')';
+    $this->sqls['where'] .= ' EXISTS (SELECT * FROM '.$this->quoteTableName($table).' WHERE '.$ret.')';
     return $this;
   }
 
@@ -288,7 +288,7 @@ class QueryBuilder extends \Kotchasan\Database\Query
       $this->values = ArrayTool::replace($this->values, $ret[1]);
       $ret = $ret[0];
     }
-    $this->sqls['where'] .= (empty($this->sqls['where']) ? ' ' : ' AND ').'NOT EXISTS (SELECT * FROM '.$this->getFullTableName($table).' WHERE '.$ret.')';
+    $this->sqls['where'] .= (empty($this->sqls['where']) ? ' ' : ' AND ').'NOT EXISTS (SELECT * FROM '.$this->quoteTableName($table).' WHERE '.$ret.')';
     return $this;
   }
 
@@ -444,37 +444,6 @@ class QueryBuilder extends \Kotchasan\Database\Query
       $this->sqls['select'] = implode(',', $qs);
     }
     return $this;
-  }
-
-  /**
-   * ฟังก์ชั่นสร้างคำสั่ง IFNULL
-   *
-   * @param string|array|QueryBuilder $q1
-   * @param string|array|QueryBuilder $q2
-   * @param string|null $alias ถ้าระบุจะมีการเติม alias ให้กับคำสั่ง
-   * @return string
-   *
-   * @assert ('(SELECT x FROM a)', 0) [==] "IFNULL((SELECT x FROM a), 0)"
-   * @assert ('0', '(SELECT x FROM a)', 'test') [==] "IFNULL('0', (SELECT x FROM a)) AS `test`"
-   * @assert ($this->object->select('x')->from('a'), 0) [==] "IFNULL((SELECT `x` FROM `a`), 0)"
-   */
-  public function ifNull($q1, $q2, $alias = null)
-  {
-    if (is_string($q1)) {
-      if (strpos($q1, '(') === false) {
-        $q1 = "'".$q1."'";
-      }
-    } elseif (!is_int($q1)) {
-      $q1 = $this->buildSelect($q1);
-    }
-    if (is_string($q2)) {
-      if (strpos($q2, '(') === false) {
-        $q2 = "'".$q2."'";
-      }
-    } elseif (!is_int($q2)) {
-      $q2 = $this->buildSelect($q2);
-    }
-    return 'IFNULL('.$q1.', '.$q2.')'.($alias ? ' AS `'.$alias.'`' : '');
   }
 
   /**

@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?k9c2vx');
-  src:  url('fonts/icomoon.eot?k9c2vx#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?k9c2vx') format('truetype'),
-    url('fonts/icomoon.woff?k9c2vx') format('woff'),
-    url('fonts/icomoon.svg?k9c2vx#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?d3jzqu');
+  src:  url('fonts/icomoon.eot?d3jzqu#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?d3jzqu') format('truetype'),
+    url('fonts/icomoon.woff?d3jzqu') format('woff'),
+    url('fonts/icomoon.svg?d3jzqu#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -37,6 +37,36 @@ li[class^="icon-"], li[class*=" icon-"] {
 }
 a.icon-delete:before, a.icon-edit:before, a.icon-check:before, a.icon-uncheck:before {
   margin: 0;
+}
+.icon-fire:before {
+  content: "\e9a9";
+}
+.icon-food:before {
+  content: "\e906";
+}
+.icon-barcode:before {
+  content: "\e937";
+}
+.icon-qrcode:before {
+  content: "\e938";
+}
+.icon-fullscreen:before {
+  content: "\e674";
+}
+.icon-contract:before {
+  content: "\e675";
+}
+.icon-config:before {
+  content: "\e681";
+}
+.icon-heart:before {
+  content: "\e9da";
+}
+.icon-check:before {
+  content: "\e68a";
+}
+.icon-wallet:before {
+  content: "\e900";
 }
 .icon-cols:before {
   content: "\e5d2";
@@ -435,9 +465,6 @@ a.icon-delete:before, a.icon-edit:before, a.icon-check:before, a.icon-uncheck:be
 .icon-map:before {
   content: "\e689";
 }
-.icon-check:before {
-  content: "\e68a";
-}
 .icon-uncheck:before {
   content: "\e68b";
 }
@@ -726,30 +753,6 @@ a.icon-delete:before, a.icon-edit:before, a.icon-check:before, a.icon-uncheck:be
 }
 .icon-compare:before {
   content: "\e917";
-}
-.icon-food:before {
-  content: "\e906";
-}
-.icon-barcode:before {
-  content: "\e937";
-}
-.icon-qrcode:before {
-  content: "\e938";
-}
-.icon-fullscreen:before {
-  content: "\e674";
-}
-.icon-contract:before {
-  content: "\e675";
-}
-.icon-config:before {
-  content: "\e681";
-}
-.icon-heart:before {
-  content: "\e9da";
-}
-.icon-wallet:before {
-  content: "\e900";
 }
 .icon-child:before {
   content: "\e90f";

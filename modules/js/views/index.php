@@ -27,8 +27,6 @@ class View extends \Kotchasan\KBase
   {
     // default js
     $js = array();
-    $js[] = 'var WEB_URL = "'.WEB_URL.'",';
-    $js[] = 'FIRST_MODULE = "home";';
     $js[] = file_get_contents(ROOT_PATH.'js/gajax.js');
     $js[] = file_get_contents(ROOT_PATH.'js/autocomplete.js');
     $js[] = file_get_contents(ROOT_PATH.'js/clock.js');
@@ -41,6 +39,7 @@ class View extends \Kotchasan\KBase
     $js[] = file_get_contents(ROOT_PATH.'js/table.js');
     $js[] = file_get_contents(ROOT_PATH.'js/tooltip.js');
     $js[] = file_get_contents(ROOT_PATH.'js/common.js');
+    $js[] = file_get_contents(ROOT_PATH.'js/facebook.js');
     // js ของโมดูล
     $dir = ROOT_PATH.'modules/';
     $f = @opendir($dir);
@@ -74,7 +73,6 @@ class View extends \Kotchasan\KBase
     $js[] = 'Date.dayNames = ["'.implode('", "', $languages['DATE_SHORT']).'"];';
     $js[] = 'Date.yearOffset = '.(int)$languages['YEAR_OFFSET'].';';
     if (!empty(self::$cfg->facebook_appId)) {
-      $js[] = file_get_contents(ROOT_PATH.'js/facebook.js');
       $js[] = 'initFacebook("'.self::$cfg->facebook_appId.'", "'.Language::name().'");';
     }
     // compress javascript

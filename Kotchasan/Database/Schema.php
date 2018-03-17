@@ -9,7 +9,6 @@
 namespace Kotchasan\Database;
 
 use \Kotchasan\Database\Driver;
-use \Kotchasan\Database\Exception;
 
 /**
  * Database schema
@@ -58,7 +57,7 @@ class Schema
       $sql = "SHOW FULL COLUMNS FROM $table";
       $columns = $this->db->cacheOn()->customQuery($sql, true);
       if (empty($columns)) {
-        throw new \Exception($this->db->getError());
+        throw new \InvalidArgumentException($this->db->getError());
       } else {
         $datas = array();
         foreach ($columns as $column) {

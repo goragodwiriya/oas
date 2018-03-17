@@ -38,13 +38,17 @@ class Controller extends \Gcms\Controller
     $request->initSession();
     // ตรวจสอบการ login
     Login::create();
-    // กำหนด skin ให้กับ template
+    // template ที่กำลังใช้งานอยู่
     Template::init(self::$cfg->skin);
     // View
     self::$view = new \Gcms\View;
+    // Javascript
+    self::$view->addScript('var WEB_URL="'.WEB_URL.'";');
     if ($login = Login::isMember()) {
       // โหลดเมนู
       self::$menus = \Index\Menu\Controller::init($login);
+      // Javascript
+      self::$view->addScript('var FIRST_MODULE="'.self::$menus->home().'";');
       // โหลดค่าติดตั้งโมดูล
       $dir = ROOT_PATH.'modules/';
       $f = @opendir($dir);
@@ -84,7 +88,7 @@ class Controller extends \Gcms\Controller
       // title
       '/{TITLE}/' => $main->title(),
       // class สำหรับ body
-      '/{BODYCLASS}/' => $bodyclass
+      '/{BODYCLASS}/' => $bodyclass,
     ));
     if ($login) {
       self::$view->setContents(array(

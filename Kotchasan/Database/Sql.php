@@ -101,11 +101,13 @@ class Sql
    *
    * @assert ('U.id') [==] 'U.`id`'
    * @assert ('U1.id') [==] 'U1.`id`'
+   * @assert ('U1.id DESC') [==] 'U1.`id` DESC'
    * @assert ('field_name') [==] '`field_name`'
    * @assert ('table_name.field_name') [==] '`table_name`.`field_name`'
    * @assert ('`table_name`.`field_name`') [==] '`table_name`.`field_name`'
    * @assert ('table_name.`field_name`') [==] '`table_name`.`field_name`'
    * @assert ('`table_name`.field_name') [==] '`table_name`.`field_name`'
+   * @assert ('`table_name`.field_name ASC') [==] '`table_name`.`field_name` ASC'
    * @assert ('0x64656') [==] "`0x64656`"
    * @assert (0x64656) [==] 411222
    * @assert ('DATE(day)') [==] "'DATE(day)'"
@@ -124,12 +126,12 @@ class Sql
       // QueryBuilder
       return '('.$column_name->text().')';
     } elseif (is_string($column_name)) {
-      if (preg_match('/^(([A-Z0-9]{1,2})\.)?`?([a-zA-Z0-9_]+)`?$/', $column_name, $match)) {
+      if (preg_match('/^(([A-Z0-9]{1,2})\.)?`?([a-zA-Z0-9_]+)`?(\s(ASC|DESC|asc|desc))?$/', $column_name, $match)) {
         // U.id, U.`id`, U1.id, U1.`id`, field_name, `field_name`
-        return $match[2] == '' ? "`$match[3]`" : "$match[2].`$match[3]`";
-      } elseif (preg_match('/^`?([a-zA-Z0-9_]+)`?\.`?([a-zA-Z0-9_]+)`?$/', $column_name, $match)) {
+        return ($match[2] == '' ? "`$match[3]`" : "$match[2].`$match[3]`").(empty($match[5]) ? '' : $match[4]);
+      } elseif (preg_match('/^`?([a-zA-Z0-9_]+)`?\.`?([a-zA-Z0-9_]+)`?(\s(ASC|DESC|asc|desc))?$/', $column_name, $match)) {
         // table_name.field_name, table_name.`field_name`, `table_name`.field_name, `table_name`.`field_name`
-        return "`$match[1]`.`$match[2]`";
+        return ("`$match[1]`.`$match[2]`").(empty($match[4]) ? '' : $match[3]);
       } else {
         // อื่นๆ คืนค่าเป็นข้อความภายใต้เครื่องหมาย ' (อัญประกาศเดี่ยว)
         return "'$column_name'";
@@ -399,7 +401,7 @@ class Sql
   }
 
   /**
-   * หาค่าต่ำสุด
+   * หาค่าสูงสุด
    *
    * @param string $column_name
    * @param string|null $alias ชื่อรองที่ต้องการ ถ้าไม่ระบุไม่มีชื่อรอง
@@ -505,6 +507,22 @@ class Sql
   }
 
   /**
+   * หาความแตกต่างระหว่างเวลา (คืนค่าเป็น H:m:i ที่แตกต่างกัน)
+   *
+   * @param string $column_name1
+   * @param string $column_name2
+   * @param string $alias
+   * @return \static
+   *
+   * @assert ('create_date', Sql::NOW())->text() [==] "TIMEDIFF(`create_date`, NOW())"
+   * @assert ('2017-04-04', 'create_date')->text() [==] "TIMEDIFF('2017-04-04', `create_date`)"
+   */
+  public static function TIMEDIFF($column_name1, $column_name2, $alias = null)
+  {
+    return self::create("TIMEDIFF(".self::fieldName($column_name1).", ".self::fieldName($column_name2).")".($alias ? " AS `$alias`" : ''));
+  }
+
+  /**
    * จัดรูปแบบของคอลัมน์ตอนแสดงผล
    *
    * @param string $column_name
@@ -576,13 +594,25 @@ class Sql
    * @param string|null $alias ชื่อรองที่ต้องการ ถ้าไม่ระบุไม่มีชื่อรอง
    * @param string $separator ข้อความเชื่อมฟิลด์เข้าด้วยกัน ค่าเริมต้นคือ ,
    * @param boolean $distinct false (default) คืนค่ารายการที่ไม่ซ้ำ
+   * @param string|array $order เรียงลำดับ
    * @return \self
    *
    * @assert ('C.topic', 'topic', ', ')->text() [==] "GROUP_CONCAT(C.`topic` SEPARATOR ', ') AS `topic`"
    */
   public static function GROUP_CONCAT($column_name, $alias = null, $separator = ',', $distinct = false, $order = null)
   {
-    return self::create('GROUP_CONCAT('.($distinct ? 'DISTINCT ' : '').self::fieldName($column_name)." SEPARATOR '$separator')".($alias ? " AS `$alias`" : ''));
+    if (!empty($order)) {
+      $orders = array();
+      if (is_array($order)) {
+        foreach ($order as $item) {
+          $orders[] = self::fieldName($item);
+        }
+      } else {
+        $orders[] = self::fieldName($order);
+      }
+      $order = empty($orders) ? '' : ' ORDER BY '.implode(',', $orders);
+    }
+    return self::create('GROUP_CONCAT('.($distinct ? 'DISTINCT ' : '').self::fieldName($column_name).$order." SEPARATOR '$separator')".($alias ? " AS `$alias`" : ''));
   }
 
   /**
@@ -608,7 +638,7 @@ class Sql
    *
    * @param string $column_name1
    * @param string $column_name2
-   * @return \static
+   * @return \self
    *
    * @assert ('create_date', 'U.create_date')->text() [==] "BETWEEN `create_date` AND U.`create_date`"
    * @assert ('table_name.field_name', 'U.`create_date`')->text() [==] "BETWEEN `table_name`.`field_name` AND U.`create_date`"
@@ -617,6 +647,22 @@ class Sql
   public static function BETWEEN($column_name1, $column_name2)
   {
     return self::create('BETWEEN '.self::fieldName($column_name1).' AND '.self::fieldName($column_name2));
+  }
+
+  /**
+   * ฟังก์ชั่นสร้างคำสั่ง IFNULL
+   *
+   * @param string $column_name1
+   * @param string $column_name2
+   * @param string|null $alias ถ้าระบุจะมีการเติม alias ให้กับคำสั่ง
+   * @return \self
+   *
+   * @assert ('create_date', 'U.create_date')->text() [==] "IFNULL(`create_date`, U.`create_date`)"
+   * @assert ('create_date', 'U.create_date', 'test')->text() [==] "IFNULL(`create_date`, U.`create_date`) AS `test`"
+   */
+  public static function IFNULL($column_name1, $column_name2, $alias = null)
+  {
+    return self::create('IFNULL('.self::fieldName($column_name1).', '.self::fieldName($column_name2).')'.($alias ? ' AS `'.$alias.'`' : ''));
   }
 
   /**

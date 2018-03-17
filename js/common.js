@@ -109,7 +109,7 @@ function defaultSubmit(ds) {
       if (val == '') {
         el.valid();
       } else {
-        if (val == 'Please fill in' || val == 'Please browse file') {
+        if (val == 'Please fill in' || val == 'Please select' || val == 'Please browse file') {
           val = trans(val);
           var label = el.findLabel();
           if (label) {
@@ -119,7 +119,7 @@ function defaultSubmit(ds) {
             }
           }
         } else if (val == 'this') {
-          if (el.placeholder) {
+          if (typeof el.placeholder != 'undefined') {
             t = el.placeholder.strip_tags();
           }
           if (t == '') {
@@ -609,20 +609,20 @@ function initWeb(module) {
       });
     }
     toTop = $E('toTop').getTop();
-  }
-  document.addEvent('scroll', function () {
-    var c = this.viewport.getscrollTop() > toTop;
-    if (_scrolltop != c) {
-      _scrolltop = c;
-      if (c) {
-        document.body.addClass('toTop');
-        document.callEvent('toTopChange');
-      } else {
-        document.body.removeClass('toTop');
-        document.callEvent('toTopChange');
+    document.addEvent('scroll', function () {
+      var c = this.viewport.getscrollTop() > toTop;
+      if (_scrolltop != c) {
+        _scrolltop = c;
+        if (c) {
+          document.body.addClass('toTop');
+          document.callEvent('toTopChange');
+        } else {
+          document.body.removeClass('toTop');
+          document.callEvent('toTopChange');
+        }
       }
-    }
-  });
+    });
+  }
   var fontSize = floatval(Cookie.get(module + 'fontSize'));
   document.body.set('data-fontSize', floatval(document.body.getStyle('fontSize')));
   if (fontSize > 5) {

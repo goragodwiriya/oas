@@ -565,7 +565,7 @@ class DataTable extends \Kotchasan\KBase
     }
     if (isset($this->model)) {
       // debug Query
-      //echo $this->model->toArray()->limit($this->perPage, $start)->text();
+      //\Kotchasan::debug($this->model->toArray()->limit($this->perPage, $start)->text());
       // query ข้อมูล
       $this->datas = $this->model->toArray()->limit($this->perPage, $start)->execute();
       // รายการสุดท้าย
@@ -628,6 +628,10 @@ class DataTable extends \Kotchasan\KBase
         }
         $colCount++;
       }
+      if (!$this->hideCheckbox && $colCount == $this->checkCol) {
+        $row[] = '<th class="check-column"><a class="checkall icon-uncheck"></a></th>';
+        $colCount++;
+      }
       if ($colspan === 0) {
         if (!empty($this->buttons)) {
           $row[] = $this->th($i, '', array('text' => ''));
@@ -667,10 +671,12 @@ class DataTable extends \Kotchasan\KBase
       }
       $content[] = '</table></div>';
       $table_nav = array();
-      foreach ($this->actions as $item) {
-        $table_nav[] = $this->addAction($item);
+      if (!empty($this->actions) && is_array($this->actions)) {
+        foreach ($this->actions as $item) {
+          $table_nav[] = $this->addAction($item);
+        }
       }
-      if (!empty($this->addNew)) {
+      if (!empty($this->addNew) && is_array($this->addNew)) {
         $prop = array();
         foreach ($this->addNew as $k => $v) {
           if ($k != 'text') {
@@ -761,6 +767,10 @@ class DataTable extends \Kotchasan\KBase
             $row[] = $this->td($id, $i, $properties, $text, $th);
             $i++;
           }
+        }
+        if (!$this->hideCheckbox && $i == $this->checkCol) {
+          $row[] = '<td headers="r'.$id.'" class="check-column"><a id="check_'.$id.'" class="icon-uncheck"></a></td>';
+          $i++;
         }
         if (!empty($this->buttons)) {
           $buttons = array();
@@ -896,7 +906,7 @@ class DataTable extends \Kotchasan\KBase
    */
   private function addAction($item)
   {
-    if (preg_match('/^((.*)\s+)?(icon-[a-z0-9\-_]+)(\s+(.*))?$/', $item['class'], $match)) {
+    if (isset($item['class']) && preg_match('/^((.*)\s+)?(icon-[a-z0-9\-_]+)(\s+(.*))?$/', $item['class'], $match)) {
       $match[2] = trim($match[2].' '.(isset($match[5]) ? $match[5] : ''));
     }
     if (isset($item['options'])) {
@@ -939,14 +949,24 @@ class DataTable extends \Kotchasan\KBase
    */
   private function addFilter($item)
   {
-    $row = '<fieldset><label>'.$item['text'].' <select name="'.$item['name'].'">';
-    if (!empty($item['options'])) {
-      foreach ($item['options'] as $key => $text) {
-        $sel = (string)$key == $item['value'] ? ' selected' : '';
-        $row .= '<option value="'.$key.'"'.$sel.'>'.$text.'</option>';
+    if (isset($item['type'])) {
+      $prop = array();
+      foreach ($item as $key => $value) {
+        if ($key != 'text' && $key != 'default') {
+          $prop[$key] = $key.'="'.$value.'"';
+        }
       }
+      $row = '<fieldset><label>'.$item['text'].' <input '.implode(' ', $prop).'></label></fieldset>';
+    } else {
+      $row = '<fieldset><label>'.$item['text'].' <select name="'.$item['name'].'">';
+      if (!empty($item['options'])) {
+        foreach ($item['options'] as $key => $text) {
+          $sel = (string)$key == $item['value'] ? ' selected' : '';
+          $row .= '<option value="'.$key.'"'.$sel.'>'.$text.'</option>';
+        }
+      }
+      $row .= '</select></label></fieldset>';
     }
-    $row .= '</select></label></fieldset>';
     return $row;
   }
 }

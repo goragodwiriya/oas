@@ -36,7 +36,7 @@ class Controller extends \Gcms\Controller
       define('MAIN_INIT', 'indexhtml');
       // ตรวจสอบการ login
       Login::create();
-      // กำหนด skin ให้กับ template
+      // template ที่กำลังใช้งานอยู่
       Template::init(self::$cfg->skin);
       // View
       self::$view = new \Gcms\View;

@@ -315,4 +315,22 @@ class Date
     }
     return 0;
   }
+
+  /**
+   * แยกวันที่ออกเป็น array
+   *
+   * @param string $date
+   * @return array|bool array(y, m, d, h, i, s) หรือ array(y, m, d) หากเป้นวันที่อย่างเดียว หรือ false หากไม่ใช่วันที่
+   */
+  public static function parse($date)
+  {
+    if (preg_match('/([0-9]{1,4})-([0-9]{1,2})-([0-9]{1,2})(\s([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2}))?/', $date, $match)) {
+      if (isset($match[4])) {
+        return array('y' => $match[1], 'm' => $match[2], 'd' => $match[3], 'h' => $match[5], 'i' => $match[6], 's' => $match[7]);
+      } else {
+        return array('y' => $match[1], 'm' => $match[2], 'd' => $match[3]);
+      }
+    }
+    return false;
+  }
 }

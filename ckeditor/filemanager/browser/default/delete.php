@@ -6,7 +6,7 @@ header("content-type: text/html; charset=UTF-8");
 // load Kotchasan
 include '../../../../load.php';
 // Initial Kotchasan Framework
-Kotchasan::createWebApplication();
+Kotchasan::createWebApplication('Gcms\Config');
 $request = new \Kotchasan\Http\Request;
 if ($request->isReferer() && Kotchasan\Login::isAdmin()) {
   $did = $request->post('did')->toString();

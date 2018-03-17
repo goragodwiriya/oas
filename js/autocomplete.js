@@ -126,12 +126,17 @@
                   }
                   var vp = self.input.viewportOffset(),
                     dm = self.input.getDimensions(),
+                    dd = display.getDimensions(),
                     cw = document.viewport.getWidth();
-                  display.style.width = dm.width + 'px';
-                  display.style.left = Math.max(0, (vp.left + dm.width > cw ? cw - dm.width : vp.left)) + 'px';
-                  var h = display.getDimensions().height;
-                  if ((vp.top + dm.height + 5 + h) >= (document.viewport.getHeight() + document.viewport.getscrollTop())) {
-                    display.style.top = (vp.top - h - 5) + 'px';
+                  if (vp.left + dd.width > cw) {
+                    vp.left = Math.max(5, (vp.left + dm.width - dd.width));
+                  }
+                  display.style.left = vp.left + 'px';
+                  if (vp.left + dd.width > cw) {
+                    display.style.width = (cw - vp.left - 5) + 'px';
+                  }
+                  if ((vp.top + dm.height + 5 + dd.height) >= (document.viewport.getHeight() + document.viewport.getscrollTop())) {
+                    display.style.top = (vp.top - dd.height - 5) + 'px';
                   } else {
                     display.style.top = (vp.top + dm.height + 5) + 'px';
                   }
@@ -228,14 +233,14 @@ function initAutoComplete(id, link, displayFields, icon, options) {
   }
   function doCallBack() {
     for (var prop in this) {
-      $G(prop).setValue(this[prop] == 'null' ? '' : this[prop]);
+      $G(prop).setValue(this[prop] === null ? '' : this[prop]);
     }
     obj.valid();
   }
   function doPopulate() {
     var datas = new Array();
     for (var i in df) {
-      if (this[df[i]] != 'null' && this[df[i]] != '') {
+      if (this[df[i]] !== null && this[df[i]] != '') {
         datas.push(this[df[i]]);
       }
     }

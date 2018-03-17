@@ -43,6 +43,12 @@ class View extends \Kotchasan\KBase
    * @var array
    */
   protected $after_contents = array();
+  /**
+   * คำสั่ง Javascript ที่จะแทรกไว้ใน head
+   *
+   * @var array
+   */
+  protected $script = array();
 
   /**
    * ใส่เนื้อหาลงใน $contens
@@ -101,6 +107,16 @@ class View extends \Kotchasan\KBase
   }
 
   /**
+   * เพิ่มคำสั่ง Javascript ใส่ลงใน head ก่อนปิด head
+   *
+   * @param string $script
+   */
+  public function addScript($script)
+  {
+    $this->script[] = $script;
+  }
+
+  /**
    * กำหนด header ให้กับเอกสาร
    *
    * @param array $array
@@ -127,8 +143,15 @@ class View extends \Kotchasan\KBase
     foreach ($this->after_contents as $key => $value) {
       $this->contents[$key] = $value;
     }
+    $head = '';
     if (!empty($this->metas)) {
-      $this->contents['/(<head.*)(<\/head>)/isu'] = '$1'.implode("\n", $this->metas).'$2';
+      $head .= implode("\n", $this->metas);
+    }
+    if (!empty($this->script)) {
+      $head .= "<script>\n".implode("\n", $this->script)."\n</script>";
+    }
+    if ($head != '') {
+      $this->contents['/(<head.*)(<\/head>)/isu'] = '$1'.$head.'$2';
     }
     // แทนที่ลงใน Template
     if ($template === null) {

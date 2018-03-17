@@ -95,14 +95,16 @@ class Curl
    * DELETE
    *
    * @param string $url
-   * @param array $params
+   * @param mix $params
    * @return string
    */
   public function delete($url, $params)
   {
+    $this->options[CURLOPT_CUSTOMREQUEST] = 'DELETE';
     if (is_array($params)) {
-      $this->options[CURLOPT_CUSTOMREQUEST] = 'DELETE';
       $this->options[CURLOPT_POSTFIELDS] = http_build_query($params, NULL, '&');
+    } else {
+      $this->options[CURLOPT_POSTFIELDS] = $params;
     }
     return $this->execute($url);
   }
@@ -111,7 +113,7 @@ class Curl
    * GET
    *
    * @param string $url
-   * @param array $params
+   * @param mix $params
    * @return string
    */
   public function get($url, $params = array())
@@ -120,6 +122,8 @@ class Curl
     $this->options[CURLOPT_HTTPGET] = true;
     if (is_array($params)) {
       $url .= (strpos($url, '?') === false ? '?' : '&').http_build_query($params, NULL, '&');
+    } else {
+      $this->options[CURLOPT_POSTFIELDS] = $params;
     }
     return $this->execute($url);
   }
@@ -128,7 +132,7 @@ class Curl
    * HEAD
    *
    * @param string $url
-   * @param array $params
+   * @param mix $params
    * @return string
    */
   public function head($url, $params = array())
@@ -137,6 +141,8 @@ class Curl
     $this->options[CURLOPT_NOBODY] = true;
     if (is_array($params)) {
       $this->options[CURLOPT_POSTFIELDS] = http_build_query($params, NULL, '&');
+    } else {
+      $this->options[CURLOPT_POSTFIELDS] = $params;
     }
     return $this->execute($url);
   }
@@ -145,7 +151,7 @@ class Curl
    * POST
    *
    * @param string $url
-   * @param array $params
+   * @param mix $params
    * @return string
    */
   public function post($url, $params = array())
@@ -154,6 +160,8 @@ class Curl
     $this->options[CURLOPT_POST] = true;
     if (is_array($params)) {
       $this->options[CURLOPT_POSTFIELDS] = http_build_query($params, NULL, '&');
+    } else {
+      $this->options[CURLOPT_POSTFIELDS] = $params;
     }
     return $this->execute($url);
   }
@@ -162,7 +170,7 @@ class Curl
    * PUT
    *
    * @param string $url
-   * @param array $params
+   * @param mix $params
    * @return string
    */
   public function put($url, $params = array())
@@ -170,6 +178,8 @@ class Curl
     $this->options[CURLOPT_CUSTOMREQUEST] = 'PUT';
     if (is_array($params)) {
       $this->options[CURLOPT_POSTFIELDS] = http_build_query($params, NULL, '&');
+    } else {
+      $this->options[CURLOPT_POSTFIELDS] = $params;
     }
     return $this->execute($url);
   }

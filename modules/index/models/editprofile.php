@@ -115,8 +115,8 @@ class Model extends \Kotchasan\Model
                 $requirePassword = $index['username'] !== $save['username'];
               }
               // password
-              $password = $request->post('register_password')->topic();
-              $repassword = $request->post('register_repassword')->topic();
+              $password = $request->post('register_password')->password();
+              $repassword = $request->post('register_repassword')->password();
             }
             if (!empty($password) || !empty($repassword)) {
               if (mb_strlen($password) < 4) {

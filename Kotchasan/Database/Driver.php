@@ -374,6 +374,28 @@ abstract class Driver extends Query
   }
 
   /**
+   * ซ่อมแซมตาราง
+   *
+   * @param  string $table_name table name
+   * @return boolean คืนค่า true ถ้าสำเร็จ
+   */
+  public function repairTable($table_name)
+  {
+    return $this->query("REPAIR TABLE $table_name") === false ? false : true;
+  }
+
+  /**
+   * ปรับปรุงตาราง
+   *
+   * @param  string $table_name table name
+   * @return boolean คืนค่า true ถ้าสำเร็จ
+   */
+  public function optimizeTable($table_name)
+  {
+    return $this->query("OPTIMIZE TABLE $table_name") === false ? false : true;
+  }
+
+  /**
    * อัปเดทข้อมูลทุก record
    *
    * @param  string $table_name table name

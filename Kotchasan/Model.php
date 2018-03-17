@@ -43,4 +43,26 @@ class Model extends Query
   {
     return new static;
   }
+
+  /**
+   * create Database connection
+   *
+   * @return \Kotchasan\Database\Driver
+   */
+  public static function createDb()
+  {
+    $model = new static;
+    return $model->db();
+  }
+
+  /**
+   * create QueryBuilder
+   *
+   * @return \Kotchasan\Database\QueryBuilder
+   */
+  public static function createQuery()
+  {
+    $model = new static;
+    return $model->db()->createQuery();
+  }
 }

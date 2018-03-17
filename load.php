@@ -11,8 +11,8 @@
  * Site root
  */
 define('ROOT_PATH', str_replace('\\', '/', dirname(__FILE__)).'/');
-/**
- * โฟลเดอร์เก็บข้อมูล
+/*
+ * ไดเร็คทอรี่เก็บไฟล์ของ user
  */
 define('DATA_FOLDER', 'datas/');
 /*

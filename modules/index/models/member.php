@@ -41,8 +41,7 @@ class Model extends \Kotchasan\Model
    */
   public static function getCount()
   {
-    $model = new \Kotchasan\Model;
-    $query = $model->db()->createQuery()
+    $query = static::create()->db()->createQuery()
       ->selectCount()
       ->from('user')
       ->toArray()
@@ -65,13 +64,11 @@ class Model extends \Kotchasan\Model
         $action = $request->post('action')->toString();
         // id ที่ส่งมา
         if (preg_match_all('/,?([0-9]+),?/', $request->post('id')->toString(), $match)) {
-          // Model
-          $model = new \Kotchasan\Model;
           // ตาราง user
-          $user_table = $model->getTableName('user');
+          $user_table = $this->getTableName('user');
           if ($action === 'delete') {
             // ลบสมาชิก
-            $model->db()->delete($user_table, array(
+            $this->db()->delete($user_table, array(
               array('id', $match[1]),
               array('id', '!=', 1)
               ), 0);
@@ -79,7 +76,7 @@ class Model extends \Kotchasan\Model
             $ret['location'] = 'reload';
           } elseif ($action === 'sendpassword') {
             // ขอรหัสผ่านใหม่
-            $query = $model->db()->createQuery()
+            $query = $this->db()->createQuery()
               ->select('id', 'username')
               ->from('user')
               ->where(array(
@@ -91,7 +88,7 @@ class Model extends \Kotchasan\Model
               ->toArray();
             $msgs = array();
             foreach ($query->execute() as $item) {
-              // รหัสผ่านใหม่
+              // สุ่มรหัสผ่านใหม่
               $password = \Kotchasan\Text::rndname(6);
               // ส่งอีเมล์ขอรหัสผ่านใหม่
               $err = \Index\Forgot\Model::execute($item['id'], $password, $item['username']);

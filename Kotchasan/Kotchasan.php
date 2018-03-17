@@ -93,4 +93,16 @@ class Kotchasan extends Kotchasan\KBase
     $router = new $this->defaultRouter;
     $router->init($this->defaultController);
   }
+
+  /**
+   * แสดงข้อมูลตัวแปรออกทางหน้าจอ (debug)
+   *
+   * @param mix $expression
+   */
+  public static function debug($expression)
+  {
+    echo '<pre>';
+    var_export($expression);
+    echo '</pre>';
+  }
 }

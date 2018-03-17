@@ -46,6 +46,26 @@ class Model extends \Kotchasan\Model
   }
 
   /**
+   * อ่านชื่อหมวดหมู่ที่ต้องการ
+   *
+   * @param int $id
+   * @return string
+   */
+  private static function category($id)
+  {
+    $search = static::create()->db()->createQuery()
+      ->from('category')
+      ->where(array(
+        array('category_id', $id),
+        array('type', 0)
+      ))
+      ->toArray()
+      ->cacheOn()
+      ->first('topic');
+    return $search ? $search['topic'] : '';
+  }
+
+  /**
    * คืนค่ารายการสินค้า ถ้ามีการระบุ id มา หมายถึงสินค้าในหมวดที่เลือก
    *
    * @param Request $request
@@ -63,9 +83,11 @@ class Model extends \Kotchasan\Model
     // Model
     $model = new static;
     $query = $model->db()->createQuery()->from('product');
+    // หมวดหมู่
     if ($category_id > 0) {
       $query->where(array('category_id', $category_id));
       $result['category_id'] = $category_id;
+      $result['category'] = self::category($category_id);
     }
     $where = array();
     if ($q != '') {

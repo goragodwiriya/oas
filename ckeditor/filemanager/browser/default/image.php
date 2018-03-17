@@ -4,7 +4,7 @@ if (isset($_REQUEST['fid']) && isset($_GET['w']) && isset($_GET['h'])) {
   // load Kotchasan
   include '../../../../load.php';
   // Initial Kotchasan Framework
-  Kotchasan::createWebApplication();
+  Kotchasan::createWebApplication('Gcms\Config');
   // ค่าที่ส่งมา
   $id = ROOT_PATH.$_REQUEST['fid'];
   $idW = $_GET['w'];

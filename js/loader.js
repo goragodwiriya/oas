@@ -114,7 +114,7 @@
       if (ret.length == 0) {
         window.location.reload();
       } else {
-        ret.push(new Date().getTime());
+        ret.push('time=' + new Date().getTime());
         window.location = locs[0] + '#' + decodeURIComponent(ret.join('&'));
       }
     },

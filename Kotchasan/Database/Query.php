@@ -26,6 +26,12 @@ abstract class Query extends \Kotchasan\Database\Db
    * @var array
    */
   protected $sqls;
+  /**
+   * true แสดง Query ออกทางหน่าจอก่อนการ execute
+   *
+   * @var boolean
+   */
+  protected $debugger = false;
 
   /**
    * ฟังก์ชั่นสำหรับจัดกลุ่มคำสั่ง และ เชื่อมแต่ละกลุ่มด้วย AND
@@ -78,6 +84,16 @@ abstract class Query extends \Kotchasan\Database\Db
       return $sql;
     }
     return '';
+  }
+
+  /**
+   * คำสั่งสำหรับแสดง Query ออกทางหน้าจอ
+   * ใช้ในการ debug Query
+   */
+  public function debug()
+  {
+    echo '<pre>'.$this->text().'</pre>';
+    return $this;
   }
 
   /**
@@ -518,8 +534,15 @@ abstract class Query extends \Kotchasan\Database\Db
         foreach ($value as $i => $item) {
           if (empty($item)) {
             $qs[] = is_string($item) ? "'$item'" : $item;
-          } elseif (is_string($item) && preg_match('/^([a-zA-Z0-9]{1,2})\.`?([a-zA-Z0-9_\-]+)`?$/', $item, $match)) {
-            $qs[] = "$match[1].`$match[2]`";
+          } elseif (is_string($item)) {
+            if (preg_match('/^([a-zA-Z0-9]{1,2})\.`?([a-zA-Z0-9_\-]+)`?$/', $item, $match)) {
+              $qs[] = "$match[1].`$match[2]`";
+            } elseif (preg_match('/^`([a-zA-Z0-9_\-]+)`$/', $item, $match)) {
+              $qs[] = "`$match[1]`";
+            } else {
+              $qs[] = $q.$i;
+              $vs[$q.$i] = $item;
+            }
           } else {
             $qs[] = $q.$i;
             $vs[$q.$i] = $item;
@@ -536,12 +559,19 @@ abstract class Query extends \Kotchasan\Database\Db
       } elseif (preg_match('/^[0-9\s\-:]+$/', $value)) {
         // วันที่
         $result = "$key $operator '$value'";
-      } elseif (preg_match('/^([A-Z0-9]{1,2})\.([a-zA-Z0-9_]+)$/', $value, $match)) {
+      } elseif (preg_match('/^([A-Z0-9]{1,2})\.([a-zA-Z0-9_\-]+)$/', $value, $match)) {
         // U.id
         if ($operator == 'IN' || $operator == 'NOT IN') {
           $result = "$key $operator ($match[1].`$match[2]`)";
         } else {
           $result = "$key $operator $match[1].`$match[2]`";
+        }
+      } elseif (preg_match('/^`([a-zA-Z0-9_\-]+)`$/', $value, $match)) {
+        // `id`
+        if ($operator == 'IN' || $operator == 'NOT IN') {
+          $result = "$key $operator (`$match[1]`)";
+        } else {
+          $result = "$key $operator `$match[1]`";
         }
       } else {
         // value เป็น string
