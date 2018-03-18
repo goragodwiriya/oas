@@ -1,13 +1,13 @@
 <?php
 // ckeditor/filemanager/browser/default/image.php
 
-if ( isset($_REQUEST['fid']) && isset($_GET['w']) && isset($_GET['h'])) {
+if (isset($_REQUEST['fid']) && isset($_GET['w']) && isset($_GET['h'])) {
   // load Kotchasan
   include '../../../../load.php';
   // Initial Kotchasan Framework
   Kotchasan::createWebApplication('Gcms\Config');
   // hotfix: these checks need to be changed later
-  if(!Kotchasan\Login::isMember() || strpos($_REQUEST['fid'], '..') !== false || strpos($_REQUEST['fid'], '.php') !== false) exit();
+  if(!Kotchasan\Login::isMember() || strpos($_REQUEST['fid'], '..') === false || strpos($_REQUEST['fid'], '.php') === false) exit();
   // ค่าที่ส่งมา
   $id = ROOT_PATH.$_REQUEST['fid'];
   $idW = $_GET['w'];
