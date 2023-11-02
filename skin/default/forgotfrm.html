@@ -1,0 +1,31 @@
+<article id=login_div>
+  <header id="logo" class="header_color">
+    <h1><a href="{WEBURL}index.php" title="{WEBTITLE}" class="{LOGO_CLASS}">{LOGO}</a></h1>
+    <h3>{WEBDESCRIPTION}</h3>
+  </header>
+  <form id=forgot_frm method=post autocomplete=off action="index.php?module=welcome&amp;action=forgot">
+    <h2 class="table fullwidth">
+      <span class="td icon-password">{LNG_Forgot}</span>
+      <span class="td language-menu" data-text="{LANGUAGE}">
+        <ul>{LANGUAGES}</ul>
+      </span>
+    </h2>
+    <aside class="{CLASS} center">{MESSAGE}</aside>
+    <fieldset>
+      <label class="g-input icon-email">
+        <input type=text name=login_username id=login_username value="{EMAIL}" maxlength=255 placeholder="{LNG_Email}">
+      </label>
+      <p class="comment" id="result_login_username">{LNG_Enter the email address registered. A new password will be sent to this email address.}</p>
+    </fieldset>
+    <fieldset>
+      <button type=submit class="button login wide">{LNG_Get new password}</button>
+      <input type="hidden" name="token" id="token" value="{TOKEN}">
+      <input type="hidden" name="action" value="forgot">
+    </fieldset>
+    <fieldset class="center">
+      {LOGINMENU}
+    </fieldset>
+  </form>
+  {LOGIN_MESSAGE}
+  <script>new GForm('forgot_frm');</script>
+</article>

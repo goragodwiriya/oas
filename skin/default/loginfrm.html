@@ -1,0 +1,44 @@
+<article id=login_div>
+  <header id="logo" class="header_color">
+    <h1><a href="{WEBURL}index.php" title="{WEBTITLE}" class="{LOGO_CLASS}">{LOGO}</a></h1>
+    <h3>{WEBDESCRIPTION}</h3>
+  </header>
+  <form id=login_frm method=post autocomplete=off>
+    <h2 class="table fullwidth">
+      <span class="td icon-signin">{LNG_Login}</span>
+      <span class="td language-menu" data-text="{LANGUAGE}">
+        <ul>{LANGUAGES}</ul>
+      </span>
+    </h2>
+    <aside class="{CLASS} center">{MESSAGE}</aside>
+    <fieldset>
+      <label class="g-input icon-user">
+        <input type=text name=login_username id=login_username value="{EMAIL}" maxlength=255 placeholder="{PLACEHOLDER}" title="{PLACEHOLDER}">
+      </label>
+      <label class="g-input icon-password">
+        <input class=showpassword type=password name=login_password id=login_password value="{PASSWORD}" maxlength=50 placeholder="{LNG_Password}" title="{LNG_Password}">
+      </label>
+    </fieldset>
+    <fieldset class="accept_term">
+      <label><input type=checkbox name=login_remember id=login_remember value="1" {REMEMBER}>{LNG_Remember me}</label>
+      <button type=submit class="button login wide">{LNG_Login}</button>
+      <FACEBOOK>
+        <button type=button class="button facebook wide margin-top" id=facebook_login>
+          <span class="icon-facebook">Login with Facebook</span>
+        </button>
+        <script>initFacebookButton('facebook_login')</script>
+      </FACEBOOK>
+      {LINELOGIN}
+      <div id=google_login></div>
+    </fieldset>
+    <fieldset class="center">
+      {LOGINMENU}
+      <input type="hidden" name="token" id="token" value="{TOKEN}">
+      <input type="hidden" name="login_action" id="login_action" value="{URL}">
+    </fieldset>
+  </form>
+  {LOGIN_MESSAGE}
+  <script>
+    new GForm('login_frm', 'index.php/index/model/login/chklogin').onsubmit(doFormSubmit);
+  </script>
+</article>

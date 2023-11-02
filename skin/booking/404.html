@@ -1,0 +1,39 @@
+<div class="error_message">
+  <h1>{CODE}</h1>
+  <p>{DETAIL}</p>
+</div>
+<style>
+  @import url('https://fonts.googleapis.com/css?family=Catamaran:400,800');
+
+  .error_message {
+    color: #501616;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 20px solid rgba(255, 255, 255, 0.5);
+    padding: 10px;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+
+  .error_message h1 {
+    line-height: 1;
+    font-size: 8rem;
+    font-family: 'Catamaran', sans-serif;
+    text-shadow: 10px 10px 5px rgba(0, 0, 0, 0.5);
+    -moz-animation: highlight 3s infinite alternate linear;
+    -ms-animation: highlight 3s infinite alternate linear;
+    -o-animation: highlight 3s infinite alternate linear;
+    -webkit-animation: highlight 3s infinite alternate linear;
+    animation: highlight 3s infinite alternate linear;
+  }
+
+  .error_message p {
+    padding: 0 1em;
+    margin: 0;
+    text-shadow: 0 0 20px #fff;
+  }
+</style>
