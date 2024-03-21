@@ -1,0 +1,39 @@
+<article id=login_div>
+  <header id="logo" class="header_color">
+    <h1><a href="{WEBURL}index.php" title="{WEBTITLE}" class="{LOGO_CLASS}">{LOGO}</a></h1>
+    <h3>{WEBDESCRIPTION}</h3>
+  </header>
+  <form id=register_frm method=post autocomplete=off action="{WEBURL}index.php">
+    <h2 class="table fullwidth">
+      <span class="td icon-register">{LNG_Register}</span>
+      <span class="td language-menu" data-text="{LANGUAGE}">
+        <ul>{LANGUAGES}</ul>
+      </span>
+    </h2>
+    <fieldset>
+      <label class="g-input icon-email">
+        <input type=text name=register_username id=register_username title="{LNG_Please fill in} {PLACEHOLDER}" maxlength=255 placeholder="{PLACEHOLDER}">
+      </label>
+      <label class="g-input icon-password">
+        <input class=showpassword type=password name=register_password id=register_password maxlength=50 title="{LNG_Password} {LNG_English lowercase letters and numbers, not less than 6 digits}" placeholder="{LNG_Password}">
+      </label>
+      <label class="g-input icon-password">
+        <input class=showpassword type=password name=register_repassword id=register_repassword maxlength=50 title="{LNG_Enter your password again}" placeholder="{LNG_Confirm password}">
+      </label>
+      <label class="g-input icon-user">
+        <input type=text name=register_name id=register_name maxlength=150 title="{LNG_Please fill in} {LNG_Name}" placeholder="{LNG_Name}">
+      </label>
+      {CATEGORIES}
+    </fieldset>
+    <fieldset class="accept_term">
+      <label><input type="checkbox" id="accept_term">{LNG_Accept this agreement}<a href="{WEBURL}index.php?module=privacy" target="_blank">{LNG_Privacy Policy}</a></label>
+      <button type=submit class="button login wide" id="register_submit" disabled>{LNG_Register}</button>
+      <input type="hidden" name="token" id="token" value="{TOKEN}">
+    </fieldset>
+    <fieldset class="center">
+      {LOGINMENU}
+    </fieldset>
+  </form>
+  {LOGIN_MESSAGE}
+  <script>initRegisterFrm();</script>
+</article>

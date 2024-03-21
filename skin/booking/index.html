@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="{LANGUAGE}" dir="ltr" class="smooth">
+
+<head>
+  <meta charset=utf-8>
+  <meta name=viewport content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="{WEBURL}favicon.ico">
+  <title>{TITLE}</title>
+  <link rel=stylesheet href="{WEBURL}index.php/css/view/index?{REV}">
+  <script src="{WEBURL}index.php/js/view/index/{LANGUAGE}?{REV}"></script>
+</head>
+
+<body class="responsive {BODYCLASS}">
+  <div id=slidemenu_content>
+    <div class="wrapper bg_image bg_color">
+      <div id="toTop">
+        <header class="header" id="scroll-to">
+          <div class="menu_wrapper menu_bg">
+            <nav id=topmenu class="topmenu slidemenu">
+              <ul>{MENUS}{LOGIN}</ul>
+            </nav>
+          </div>
+          {LINE}
+          <a id=dark_mode class="header_btn icon-contrast" title="{LNG_Dark mode}"></a>
+          <div class="icon-language language-menu header_btn" title="{LNG_Change language}" data-text="{LANGUAGE}">
+            <ul>{LANGUAGES}</ul>
+          </div>
+        </header>
+        <div class="gcss-wrapper center">
+          <div id="logo" class="logo_color">
+            <h1><a href="{WEBURL}index.php" title="{WEBTITLE}" class="{LOGO_CLASS}">{LOGO}</a></h1>
+            <h4>{WEBDESCRIPTION}</h4>
+          </div>
+        </div>
+        <div id="skip" class="gcss-wrapper clear">
+          <main id="content" class="border-color">{MAIN}</main>
+        </div>
+      </div>
+      <footer class="footer">
+        <p class=copy>
+          Copyright 2023 ©, {LNG_Version} {VERSION} Created by <a href="https://www.kotchasan.com" target=_blank rel=noreferrer>Kotchasan</a>
+        </p>
+      </footer>
+    </div>
+  </div>
+  <a href=#scroll-to class=scroller title="{LNG_scroll to top}">^</a>
+  <script>
+    $G(window).Ready(function() {
+      initWeb();
+    });
+  </script>
+</body>
+
+</html>

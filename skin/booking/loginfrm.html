@@ -1,0 +1,35 @@
+<article id=login_div>
+  <form id=login_frm method=post autocomplete=off>
+    <h3><span class="icon-signin">{LNG_Login}</span></h3>
+    <aside class="{CLASS} center">{MESSAGE}</aside>
+    <fieldset>
+      <label class="g-input icon-user">
+        <input type=text name=login_username id=login_username value="{EMAIL}" maxlength=255 placeholder="{PLACEHOLDER}" title="{PLACEHOLDER}">
+      </label>
+      <label class="g-input icon-password">
+        <input class=showpassword type=password name=login_password id=login_password value="{PASSWORD}" maxlength=50 placeholder="{LNG_Password}" title="{LNG_Password}">
+      </label>
+    </fieldset>
+    <fieldset class="accept_term">
+      <label><input type=checkbox name=login_remember id=login_remember value="1" {REMEMBER}>{LNG_Remember me}</label>
+      <button type=submit class="button login wide">{LNG_Login}</button>
+      <FACEBOOK>
+        <button type=button class="button facebook wide margin-top" id=facebook_login>
+          <span class="icon-facebook">Login with Facebook</span>
+        </button>
+        <script>initFacebookButton('facebook_login')</script>
+      </FACEBOOK>
+      <div id=google_login></div>
+      {LINELOGIN}
+    </fieldset>
+    <fieldset class="center">
+      {LOGINMENU}
+      <input type="hidden" name="token" id="token" value="{TOKEN}">
+      <input type="hidden" name="login_action" id="login_action" value="{URL}">
+    </fieldset>
+  </form>
+  <script>
+    new GForm('login_frm', 'index.php/index/model/login/chklogin').onsubmit(doFormSubmit);
+  </script>
+  {LOGIN_MESSAGE}
+</article>

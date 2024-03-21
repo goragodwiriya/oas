@@ -1,0 +1,27 @@
+:root {
+  --wrapper-background-color: #191C20;
+  --background: #191C20;
+  --background-transparent: rgba(255, 255, 255, 0.4);
+  --color: #eeeeee;
+  --border: rgba(255, 255, 255, 0.1);
+  --border-highlight: rgba(0, 0, 0, 0.1);
+  --field: #191C20;
+  --fieldtext: #eeeeee;
+  --shadow: rgba(255, 255, 255, 0.1);
+  --label-bg: rgba(255, 255, 255, 0.05);
+  --label-shadow: rgba(255, 255, 255, 0.1);
+  --th-background-color: rgba(255, 255, 255, 0.1);
+  --th-color: #FFFFFF;
+  --th-shadow: #191C20;
+  --disabled-bg: #2D3035;
+  --content-bg: #2D3035;
+  --inputgroups-bg: rgba(255, 255, 255, 0.05);
+  --inputgroups-button: rgba(255, 255, 255, 0.1);
+  --inputgroups-button-highlight: rgba(255, 255, 255, 0.15);
+  --hover-bg: rgba(255, 255, 255, 0.2);
+  --darker-color: rgba(255, 255, 255, 0.05);
+  --faded-color: rgba(0, 0, 0, 0.05);
+  --select-bg: #cccccc;
+  --select-text: #333333;
+  --button: rgba(255, 255, 255, 0.1);
+}

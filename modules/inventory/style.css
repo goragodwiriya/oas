@@ -1,0 +1,12 @@
+#order_frm td {
+  padding: 5px 2px;
+}
+#order_frm tr.due td {
+  vertical-align: baseline;
+  line-height: 1.2;
+  background-color: antiquewhite;
+}
+#order_frm tr.due td.total {
+  font-size: 2em;
+  color: green;
+}

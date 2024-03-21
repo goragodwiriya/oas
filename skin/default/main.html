@@ -1,0 +1,28 @@
+<div class="bg_color">
+  <header class="header bg_header">
+    <div class="table fullwidth">
+      <h2 class="td logo_color"><a href="index.php" id=logo title="{WEBTITLE}" class="{LOGO_CLASS}">{LOGO}</a></h2>
+      <div class="td right">
+        <span>{LINE}</span>
+        <a id=dark_mode class="header_btn icon-contrast" title="{LNG_Dark mode}"></a>
+        <div class="header_btn language-menu" data-text="{LANGUAGE}">
+          <ul>{LANGUAGES}</ul>
+        </div>
+        <span>{LOGIN}</span>
+      </div>
+    </div>
+    <div class="menu_wrapper menu_bg">
+      <nav id=topmenu class="topmenu slidemenu">
+        <ul>{MENUS}</ul>
+      </nav>
+    </div>
+  </header>
+  <div id="skip" class="clear">
+    <main id="content">{CONTENT}</main>
+  </div>
+</div>
+<script>
+  $G(window).Ready(function() {
+    initWeb();
+  });
+</script>

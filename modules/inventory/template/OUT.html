@@ -1,0 +1,151 @@
+<title>ใบเสร็จรับเงิน</title>
+<detail>
+  <item>item</item>
+  <item>topic</item>
+  <item>quantity</item>
+  <item>price</item>
+  <item>discount</item>
+  <item>amount</item>
+</detail>
+
+<body>
+  <table>
+    <tbody>
+      <tr>
+        <td>
+          %LOGO%
+          <div>
+            <b>%AUTHORITYNAME% %AUTHORITYBRANCH%</b><br>
+            %AUTHORITYADDRESS% %AUTHORITYPROVINCE% %AUTHORITYZIPCODE%<br>
+            เลขประจำตัวผู้เสียภาษี/เลขประชาชน %AUTHORITYTAXID%
+          </div>
+        </td>
+        <th class="border-all" style="width:30%;">
+          <h1>ใบเสร็จรับเงิน / Receipt</h1>
+        </th>
+      </tr>
+    </tbody>
+  </table>
+  <table class="border-all" style="margin-top:1em;">
+    <tbody>
+      <tr>
+        <td style="width:21%;">ชื่อบริษัท/Company&nbsp;Name</td>
+        <td>:</td>
+        <td>%COMPANY%</td>
+        <td style="width:10%;border-left-style:solid;">
+          <b>เลขที่/NO.</b>
+        </td>
+        <td class="right" style="width:20%;">
+          <b>%ORDERNO%</b>
+        </td>
+      </tr>
+      <tr>
+        <td>ผู้ติดต่อ/Contactor</td>
+        <td>:</td>
+        <td>%CONTACTOR%</td>
+        <td class="align-top" rowspan="2" style="border-left-style:solid;">
+          <b>วันที่/Date</b>
+        </td>
+        <td class="right align-top" rowspan="2">
+          <b>%ORDERDATE%</b>
+        </td>
+      </tr>
+      <tr>
+        <td>ที่อยู่/Address</td>
+        <td>:</td>
+        <td>%ADDRESS% %PROVINCE% %ZIPCODE%</td>
+      </tr>
+      <tr>
+        <td>โทรศัพท์/Telephone</td>
+        <td>:</td>
+        <td>%PHONE%</td>
+        <td colspan="2" rowspan="3" style="vertical-align:bottom;border-left-style:solid;" class="center"></td>
+      </tr>
+      <tr>
+        <td>อีเมล/Email</td>
+        <td>:</td>
+        <td>%EMAIL%</td>
+      </tr>
+      <tr>
+        <td style="border-bottom-style: solid">เลขผู้เสียภาษี/Tax ID</td>
+        <td style="border-bottom-style: solid">:</td>
+        <td style="border-bottom-style: solid">%TAXID%</td>
+      </tr>
+    </tbody>
+  </table>
+  <table style="margin-top:1em;">
+    <thead>
+      <tr>
+        <th class="item">ลำดับ
+          <br> Item
+        </th>
+        <th class="description">รายการ
+          <br> Description
+        </th>
+        <th class="quantity">จำนวน
+          <br> Quantity
+        </th>
+        <th class="price">ราคา
+          <br> Unit price</th>
+        <th class="discount">ส่วนลด
+          <br> Discount
+        </th>
+        <th class="amount">จำนวนเงิน (บาท)
+          <br> Amount (Baht)</th>
+      </tr>
+    </thead>
+    <tbody class="detail">
+      <tr>
+        <td>%DETAIL%</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3" rowspan="3"></td>
+        <td colspan="2" class="border border-left">รวมเงิน/Total</td>
+        <td class="right border">%SUBTOTAL%</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="border border-left">ส่วนลด/Discount</td>
+        <td class="right border">%DISCOUNT%</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="border border-left">หัก ภาษี หัก ณ ที่จ่าย/Less W/H Tax</td>
+        <td class="right border">%TAX%</td>
+      </tr>
+      <tr>
+        <td colspan="3" rowspan="2" class="bottom">%THAIBAHT%</td>
+        <td colspan="2" class="border border-left">ภาษีมูลค่าเพิ่ม/VAT</td>
+        <td class="right border">%VAT%</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="label border border-left">
+          <b>จำนวนเงินทั้งสิ้น/Grand Total</b>
+        </td>
+        <td class="right border">
+          <b>%NETAMOUNT%</b>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+  <table style="margin-top:1em;">
+    <tbody>
+      <tr>
+        <td rowspan="2" class="border-all" style="width:70%">%COMMENT%</td>
+        <td class="stamp">
+          <br>
+          <br>
+          <br>
+          <br>
+        </td>
+      </tr>
+      <tr>
+        <td class="center" style="border-style:none solid solid none">
+          %AUTHORITY%
+          <br> ผู้รับเงิน
+          <br> %ORDERDATE%
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</body>

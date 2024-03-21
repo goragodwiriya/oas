@@ -1,0 +1,145 @@
+@font-face {
+  font-family: "THSarabunNew";
+  src: url("../../../skin/fonts/thsarabunnew-webfont.eot");
+  src: url("../../../skin/fonts/thsarabunnew-webfont.eot?#iefix") format("embedded-opentype"), 
+       url("../../../skin/fonts/thsarabunnew-webfont.woff") format("woff"), 
+       url("../../../skin/fonts/thsarabunnew-webfont.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@page {
+  size: A4;
+  width: 21cm;
+  display: block;
+  margin: 1cm;
+  padding: 0;
+}
+body {
+  font-size: 9pt;
+  line-height: 1.6;
+  background-color: #fff;
+  font-family: THSarabunNew, Tahoma, Loma, "Times New Roman", Times, serif;
+  color: #000;
+}
+@media screen {
+  html {
+    background-color: rgb(204, 204, 204);
+  }
+  body {
+    margin: 0.5cm auto;
+    padding: 1cm;
+    width: 21cm;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+  }
+}
+@media print {
+  body {
+    margin: 0;
+    padding: 0;
+  }
+}
+h1 {
+  font-size: 1.2em;
+  line-height: 1;
+}
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 1em;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th {
+  background-color: #EEE;
+  text-align: center;
+  font-weight: bold;
+  border-color: #000;
+}
+table,
+th,
+td,
+.border {
+  border-width: 1px;
+}
+td {
+  vertical-align: top;
+}
+td,
+th {
+  padding: 1px 5px;
+}
+th.description {
+  width: 40%;
+}
+table.collapse td {
+  padding: 0;
+}
+td.stamp {
+  border-style: solid solid dotted none;
+  height: 100px;
+  position: relative;
+  text-align: center;
+}
+img.logo {
+  width: auto;
+  max-height: 4.8em;
+}
+img.signature,
+img.stamp {
+  width: auto;
+  height: 100px;
+}
+img.signature {
+  position: relative;
+  margin-top: -100px;
+  margin-left: -100px;
+}
+.label {
+  background-color: #ddd;
+}
+.border,
+.border-all,
+th,
+.detail td {
+  border-right-style: solid;
+  border-bottom-style: solid;
+}
+th:nth-child(1),
+.detail td:nth-child(1),
+.border-all,
+.border-left {
+  border-left-style: solid;
+}
+tr:nth-child(1) th,
+.border-all,
+.border-top {
+  border-top-style: solid;
+}
+.center {
+  text-align: center;
+}
+.left {
+  text-align: left;
+}
+.right {
+  text-align: right;
+}
+.top {
+  vertical-align: top;
+}
+.bottom {
+  vertical-align: bottom;
+}
+.middle {
+  vertical-align: middle;
+}
+.line {
+  border-bottom: 1px dashed #000;
+  display: inline-block;
+  min-width: 10em;
+  vertical-align: middle;
+}
