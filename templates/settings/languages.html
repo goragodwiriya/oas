@@ -1,0 +1,50 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups">
+        <header>
+          <div>
+            <h1 class="icon-language" data-i18n>Manage languages</h1>
+            <p data-i18n>Manage the display language on your website</p>
+          </div>
+          <div>
+            <a href="/language" class="btn btn-primary icon-new" data-i18n>{LNG_Add} {LNG_Language}</a>
+          </div>
+        </header>
+        <div class="content-body">
+          <div class="tablebody">
+            <!-- External Filter Form -->
+            <form data-table-filter="languages" class="table_nav">
+              <div>
+                <label for="pageSize" data-i18n>Show</label>
+                <span class="form-control">
+                  <select name="pageSize">
+                    <option value="10" data-i18n>10 {LNG_entries}</option>
+                    <option value="25" data-i18n>25 {LNG_entries}</option>
+                    <option value="50" data-i18n>50 {LNG_entries}</option>
+                    <option value="100" data-i18n>100 {LNG_entries}</option>
+                  </select>
+                </span>
+              </div>
+              <input type="search" name="search" placeholder="{LNG_Search}...">
+            </form>
+            <!-- Language Table -->
+            <table class="table border fullwidth" data-table="languages" data-source="api/index/languages" data-default-sort="id desc" data-page-size="25" data-show-checkbox="true"
+                   data-actions='{"delete":"Delete"}' data-action-url="api/index/languages/action" data-action-button="Process|btn-success"
+                   data-row-actions='{"edit": {"label": "Edit","className": "btn btn-success icon-edit"}}'
+                   data-filter-actions='{"import": {"label": "Import from translations", "url": "api/index/languages/action", "type": "button", "className": "btn-warning icon-upload", "confirm": "Import all translations to database?"}}'
+                   data-dynamic-columns="true">
+              <!-- Headers will be generated from API response -->
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

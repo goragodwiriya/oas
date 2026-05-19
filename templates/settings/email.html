@@ -1,0 +1,104 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content" data-script="initEmailSettings">
+      <div class="card-groups">
+        <header>
+          <div>
+            <h1 class="icon-email" data-i18n>Email Settings</h1>
+            <p data-i18n>Configure email settings for sending emails</p>
+          </div>
+        </header>
+        <div class="content-body">
+          <!-- Settings Form -->
+          <form data-form="settings" action="api/index/settings/save" method="POST" data-ajax-submit="true" data-load-api="api/index/settings/email" data-confirm="Confirm save"
+                autocomplete="off">
+            <!-- Email Settings -->
+            <fieldset>
+              <legend class="icon-cog" data-i18n>General</legend>
+              <div>
+                <label for="noreply_email" data-i18n>No-Reply Email</label>
+                <span class="form-control icon-email">
+                  <input type="email" id="noreply_email" name="noreply_email" data-attr="value:noreply_email" placeholder="no-reply@domain.tld">
+                </span>
+                <div class="comment" id="result_noreply_email" data-i18n>Email addresses for sender and do not reply such as no-reply@domain.tld</div>
+              </div>
+              <div>
+                <label for="email_use_phpMailer" data-i18n>Mail program</label>
+                <span class="form-control icon-host">
+                  <select id="email_use_phpMailer" name="email_use_phpMailer" data-attr="value:email_use_phpMailer">
+                    <option value="0" data-i18n>Send with PHP</option>
+                    <option value="1" data-i18n>Send with PHPMailer+SMTP (recommended)</option>
+                    <option value="2" data-i18n>Send with PHPMailer+PHP Mail</option>
+                  </select>
+                </span>
+                <div class="comment" id="result_email_use_phpMailer" data-i18n>Set the application for send an email</div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="icon-host" data-i18n>Mail server settings</legend>
+              <div>
+                <label for="email_Host" data-i18n>SMTP Host</label>
+                <span class="form-control icon-world">
+                  <input type="text" id="email_Host" name="email_Host" data-attr="value:email_Host" placeholder="smtp.gmail.com">
+                </span>
+                <div class="comment" id="result_email_Host" data-i18n>The name of the mail server as localhost or smtp.gmail.com (To change the settings of your email is the
+                  default. To remove this box entirely.)</div>
+              </div>
+              <div>
+                <label for="email_Port" data-i18n>SMTP Port</label>
+                <span class="form-control icon-config">
+                  <input type="number" id="email_Port" name="email_Port" data-attr="value:email_Port" placeholder="587">
+                </span>
+                <div class="comment" id="result_email_Port" data-i18n>Mail server port number (default is 25, for GMail used 465, 587 for DirectAdmin).</div>
+              </div>
+              <div>
+                <label>
+                  <input type="checkbox" class="switch" id="email_SMTPAuth" name="email_SMTPAuth" data-attr="checked:email_SMTPAuth">
+                  <label for="email_SMTPAuth" data-i18n>SMTP Authentication</label>
+                </label>
+                <div class="comment" id="result_email_SMTPAuth" data-i18n>How to define user authentication for mail servers. If you enable it, you must configure below correctly.
+                </div>
+              </div>
+              <div>
+                <label for="email_SMTPSecure" data-i18n>Security</label>
+                <span class="form-control icon-lock">
+                  <select id="email_SMTPSecure" name="email_SMTPSecure" data-attr="value:email_SMTPSecure">
+                    <option value="tls" data-i18n>TLS</option>
+                    <option value="ssl" data-i18n>SSL</option>
+                    <option value="" data-i18n>None</option>
+                  </select>
+                </span>
+                <div class="comment" id="result_email_SMTPSecure" data-i18n>Mail server security (default is TLS, for GMail used SSL).</div>
+              </div>
+              <div>
+                <label for="email_Username" data-i18n>Username</label>
+                <span class="form-control icon-user">
+                  <input type="text" id="email_Username" name="email_Username" data-attr="value:email_Username" autocomplete="off">
+                </span>
+                <div class="comment" id="result_email_Username" data-i18n>Leave blank to keep existing</div>
+              </div>
+              <div>
+                <label for="email_Password" data-i18n>Password</label>
+                <span class="form-control icon-password">
+                  <input type="password" id="email_Password" name="email_Password" autocomplete="new-password">
+                </span>
+                <div class="comment" id="result_email_Password" data-i18n>Leave blank to keep existing</div>
+              </div>
+            </fieldset>
+            <!-- Submit Button -->
+            <fieldset class="submit">
+              <input type="hidden" name="module" value="email">
+              <button type="submit" class="btn btn-primary icon-save" data-i18n>Save</button>
+              <button type="button" class="btn icon-email-sent" id="test_email" data-i18n>Send Test</button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

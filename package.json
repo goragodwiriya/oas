@@ -1,0 +1,32 @@
+{
+  "name": "now-js-framework",
+  "version": "1.0.0",
+  "description": "Modern JavaScript Framework",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run build:core && npm run build:table && npm run build:graph && npm run build:serviceworker && npm run build:queue && npm run build:eventcalendar && npm run build:editor && npm run build:formbuilder && npm run build:syntaxhighlighter",
+    "build:core": "cross-env BUILD_TARGET=core vite build",
+    "build:table": "cross-env BUILD_TARGET=table vite build",
+    "build:graph": "cross-env BUILD_TARGET=graph vite build",
+    "build:serviceworker": "cross-env BUILD_TARGET=serviceworker vite build",
+    "build:queue": "cross-env BUILD_TARGET=queue vite build",
+    "build:eventcalendar": "cross-env BUILD_TARGET=eventcalendar vite build",
+    "build:editor": "cross-env BUILD_TARGET=editor vite build",
+    "build:formbuilder": "cross-env BUILD_TARGET=formbuilder vite build",
+    "build:syntaxhighlighter": "cross-env BUILD_TARGET=syntaxhighlighter vite build",
+    "build:all": "npm run build",
+    "watch:formbuilder": "cross-env BUILD_TARGET=formbuilder vite build --watch"
+  },
+  "devDependencies": {
+    "cross-env": "^10.1.0",
+    "terser": "^5.44.1",
+    "vite": "^8.0.0"
+  },
+  "keywords": [
+    "framework",
+    "javascript"
+  ],
+  "author": "",
+  "license": "MIT"
+}

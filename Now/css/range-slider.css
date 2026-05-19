@@ -1,0 +1,386 @@
+/**
+ * Custom Range Slider Styles
+ * Single and dual range slider components
+ */
+.custom-range-slider {
+  position: relative;
+  width: 100%;
+  padding: 10px 0;
+  font-family: inherit;
+}
+.form-control.form-control-range {
+  border-style: none;
+}
+/* Labels */
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -8px;
+}
+.range-label {
+  font-weight: 500;
+}
+/* Slider Container */
+.slider-container {
+  position: relative;
+  height: var(--input-height);
+}
+/* Track */
+.slider-track {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 3px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+/* Range (filled area) */
+.slider-range {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #007bff, #0056b3);
+  border-radius: 3px;
+  transition: all 0.2s ease;
+}
+/* Handles */
+.slider-handle {
+  position: absolute;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border: 2px solid #007bff;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  cursor: grab;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  outline: none;
+}
+.slider-handle:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+.slider-handle:focus {
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+.slider-handle:active,
+.custom-range-slider.dragging .slider-handle {
+  cursor: grabbing;
+  transform: translate(-50%, -50%) scale(1.2);
+}
+.slider-handle.left {
+  z-index: 2;
+}
+.slider-handle.right {
+  z-index: 1;
+}
+/* Tooltips */
+.slider-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  margin-bottom: 8px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+.slider-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: #333;
+}
+.slider-handle:hover .slider-tooltip,
+.slider-handle:focus .slider-tooltip,
+.custom-range-slider.dragging .slider-tooltip {
+  opacity: 1;
+}
+/* Value Display */
+.range-value-display {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -8px;
+  color: var(--color-primary);
+}
+/* States */
+.custom-range-slider.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+.custom-range-slider.disabled .slider-track {
+  background: #f5f5f5;
+  cursor: not-allowed;
+}
+.custom-range-slider.disabled .slider-range {
+  background: #ccc;
+}
+.custom-range-slider.disabled .slider-handle {
+  background: #f5f5f5;
+  border-color: #ccc;
+  cursor: not-allowed;
+}
+.custom-range-slider.readonly .slider-track {
+  cursor: default;
+}
+.custom-range-slider.readonly .slider-handle {
+  cursor: default;
+  pointer-events: none;
+}
+/* Form integration */
+.form-control .custom-range-slider {
+  padding: 0;
+}
+/* Size variations */
+.custom-range-slider.small {
+  padding: 5px 0;
+}
+.custom-range-slider.small .slider-container {
+  height: 16px;
+  margin: 5px 0;
+}
+.custom-range-slider.small .slider-track {
+  height: 4px;
+}
+.custom-range-slider.small .slider-handle {
+  width: 16px;
+  height: 16px;
+}
+.custom-range-slider.small .range-value-display {
+  font-size: 12px;
+}
+.custom-range-slider.large {
+  padding: 15px 0;
+}
+.custom-range-slider.large .slider-container {
+  height: 24px;
+  margin: 15px 0;
+}
+.custom-range-slider.large .slider-track {
+  height: 8px;
+}
+.custom-range-slider.large .slider-handle {
+  width: 24px;
+  height: 24px;
+}
+.custom-range-slider.large .range-value-display {
+  font-size: 16px;
+}
+/* Color themes */
+.custom-range-slider.primary .slider-range {
+  background: linear-gradient(90deg, #007bff, #0056b3);
+}
+.custom-range-slider.primary .slider-handle {
+  border-color: #007bff;
+}
+.custom-range-slider.success .slider-range {
+  background: linear-gradient(90deg, #28a745, #1e7e34);
+}
+.custom-range-slider.success .slider-handle {
+  border-color: #28a745;
+}
+.custom-range-slider.warning .slider-range {
+  background: linear-gradient(90deg, #ffc107, #e0a800);
+}
+.custom-range-slider.warning .slider-handle {
+  border-color: #ffc107;
+}
+.custom-range-slider.danger .slider-range {
+  background: linear-gradient(90deg, #dc3545, #c82333);
+}
+.custom-range-slider.danger .slider-handle {
+  border-color: #dc3545;
+}
+/* Dark theme support */
+[data-theme="dark"] .custom-range-slider {
+  color: #e2e8f0;
+}
+[data-theme="dark"] .slider-track {
+  background: #4a5568;
+}
+[data-theme="dark"] .slider-handle {
+  background: #2d3748;
+  border-color: #007bff;
+}
+[data-theme="dark"] .slider-tooltip {
+  background: #1a202c;
+}
+[data-theme="dark"] .slider-tooltip::after {
+  border-top-color: #1a202c;
+}
+/* Responsive design */
+@media (max-width: 768px) {
+  .slider-handle {
+    width: 24px;
+    height: 24px;
+  }
+  .slider-track {
+    height: 8px;
+  }
+  .range-value-display {
+    font-size: 16px;
+  }
+  .slider-tooltip {
+    font-size: 14px;
+    padding: 6px 10px;
+  }
+}
+/* Animation */
+.slider-handle {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.slider-range {
+  transition: all 0.2s ease;
+}
+.custom-range-slider.dragging .slider-handle {
+  transition: none;
+}
+.custom-range-slider.dragging .slider-range {
+  transition: none;
+}
+/* Focus indicators */
+.slider-handle:focus-visible {
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .slider-track {
+    border: 1px solid #000;
+  }
+  .slider-handle {
+    border-width: 3px;
+  }
+  .slider-handle:focus {
+    outline: 2px solid;
+    outline-offset: 2px;
+  }
+}
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .slider-handle,
+  .slider-range,
+  .slider-tooltip {
+    transition: none;
+  }
+  .slider-handle:hover {
+    transform: translate(-50%, -50%);
+  }
+  .slider-handle:active {
+    transform: translate(-50%, -50%);
+  }
+}
+/* RTL support */
+[dir="rtl"] .slider-tooltip {
+  left: auto;
+  right: 50%;
+  transform: translateX(50%);
+}
+[dir="rtl"] .slider-tooltip::after {
+  left: auto;
+  right: 50%;
+  transform: translateX(50%);
+}
+/* Validation states */
+.custom-range-slider.invalid .slider-handle {
+  border-color: #dc3545;
+}
+.custom-range-slider.invalid .slider-range {
+  background: linear-gradient(90deg, #dc3545, #c82333);
+}
+.custom-range-slider.valid .slider-handle {
+  border-color: #28a745;
+}
+.custom-range-slider.valid .slider-range {
+  background: linear-gradient(90deg, #28a745, #1e7e34);
+}
+/* Loading state */
+.custom-range-slider.loading {
+  pointer-events: none;
+}
+.custom-range-slider.loading .slider-handle {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+/* Stepped indicators */
+.custom-range-slider.show-steps .slider-track::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: repeating-linear-gradient(to right,
+      transparent,
+      transparent calc(10% - 1px),
+      #ccc calc(10% - 1px),
+      #ccc 10%);
+  pointer-events: none;
+}
+/* Vertical slider (optional) */
+.custom-range-slider.vertical {
+  width: 20px;
+  height: 200px;
+  padding: 0 10px;
+}
+.custom-range-slider.vertical .slider-container {
+  width: 20px;
+  height: 100%;
+  margin: 0 10px;
+}
+.custom-range-slider.vertical .slider-track {
+  top: 0;
+  left: 50%;
+  right: auto;
+  bottom: 0;
+  width: 6px;
+  height: 100%;
+  transform: translateX(-50%);
+}
+.custom-range-slider.vertical .slider-range {
+  bottom: 0;
+  width: 100%;
+  height: auto;
+}
+.custom-range-slider.vertical .slider-handle {
+  left: 50%;
+  top: auto;
+  transform: translate(-50%, 50%);
+}
+.custom-range-slider.vertical .slider-tooltip {
+  left: 100%;
+  top: 50%;
+  bottom: auto;
+  transform: translateY(-50%);
+  margin-left: 8px;
+  margin-bottom: 0;
+}
+.custom-range-slider.vertical .slider-tooltip::after {
+  top: 50%;
+  left: 0;
+  transform: translate(-100%, -50%);
+  border: 4px solid transparent;
+  border-right-color: #333;
+  border-top-color: transparent;
+}

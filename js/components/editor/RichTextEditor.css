@@ -1,0 +1,954 @@
+/**
+ * RichTextEditor Styles
+ * Modern, clean styling with CSS variables for theming
+ *
+ * @author Goragod Wiriya
+ * @version 1.0
+ */
+/* ========================================
+   CSS Variables — delegate to Now.js design system
+   ======================================== */
+:root {
+  /* Colors */
+  --rte-primary-color: var(--color-primary);
+  --rte-primary-hover: var(--color-primary-hover);
+  --rte-primary-light: var(--color-surface-dark);
+  --rte-border-color: var(--color-border);
+  --rte-border-radius: var(--card-border-radius);
+  --rte-bg-color: var(--color-background);
+  --rte-bg-secondary: var(--color-surface);
+  --rte-bg-hover: var(--color-surface-hover);
+  --rte-text-color: var(--color-text);
+  --rte-text-secondary: var(--color-text-muted);
+  --rte-text-muted: var(--color-text-muted);
+  --rte-shadow: var(--shadow-sm);
+  --rte-shadow-lg: var(--shadow-md);
+  /* Toolbar */
+  --rte-toolbar-bg: var(--color-surface);
+  --rte-toolbar-border: var(--color-border);
+  --rte-toolbar-btn-size: 32px;
+  --rte-toolbar-gap: 4px;
+  /* Button */
+  --rte-btn-hover-bg: var(--color-surface-hover);
+  --rte-btn-active-bg: var(--color-surface-dark);
+  --rte-btn-active-color: var(--color-primary);
+  /* Dialog */
+  --rte-dialog-overlay-bg: var(--dialog-overlay);
+  --rte-dialog-bg: var(--dialog-bg);
+  --rte-dialog-shadow: var(--dialog-shadow);
+  /* Content */
+  --rte-content-padding: 16px;
+  --rte-content-font-size: var(--font-size-base);
+  --rte-content-line-height: var(--line-height-base);
+  /* Notification */
+  --rte-notification-success: var(--color-success);
+  --rte-notification-error: var(--color-error);
+  --rte-notification-warning: var(--color-warning);
+  --rte-notification-info: var(--color-info);
+  /* Transition */
+  --rte-transition: var(--transition-duration, 150ms) var(--transition-timing, cubic-bezier(0.4, 0, 0.2, 1));
+  /* Source View */
+  --rte-source-bg: var(--color-surface);
+  --rte-source-color: var(--color-text);
+  --rte-source-border: var(--color-border);
+  --rte-source-selection-bg: var(--color-surface-darker);
+  --rte-source-caret: var(--color-text);
+}
+/* ========================================
+   Container
+   ======================================== */
+.rte-container {
+  display: flex;
+  flex-direction: column;
+  background: var(--rte-bg-color);
+  border: 1px solid var(--rte-border-color);
+  border-radius: var(--rte-border-radius);
+  font-family: var(--font-family-base);
+  color: var(--rte-text-color);
+}
+.rte-container.readonly {
+  opacity: 0.7;
+  pointer-events: none;
+}
+.rte-container.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: var(--z-index-modal);
+  border-radius: 0;
+  width: 100%;
+  height: 100%;
+}
+body.rte-fullscreen-active {
+  overflow: hidden;
+}
+/* ========================================
+   Toolbar
+   ======================================== */
+.rte-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 8px;
+  background: var(--rte-toolbar-bg);
+  border-bottom: 1px solid var(--rte-toolbar-border);
+  user-select: none;
+}
+.rte-toolbar.sticky {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.rte-toolbar-group {
+  display: flex;
+  gap: var(--rte-toolbar-gap);
+  align-items: center;
+  border-right: 1px solid var(--color-3d-dark, rgba(0, 0, 0, 0.05));
+  border-left: 1px solid var(--color-3d-light, rgba(255, 255, 255, 0.7));
+  padding: 0 var(--rte-toolbar-gap);
+}
+.rte-toolbar-separator {
+  width: 1px;
+  height: 24px;
+  background: var(--rte-border-color);
+  margin: 0 4px;
+}
+/* Toolbar Button */
+.rte-toolbar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--rte-toolbar-btn-size);
+  height: var(--rte-toolbar-btn-size);
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--rte-text-color);
+  cursor: pointer;
+  transition: all var(--rte-transition);
+}
+.rte-toolbar-btn:hover:not(:disabled) {
+  background: var(--rte-btn-hover-bg);
+}
+.rte-toolbar-btn.active {
+  background: var(--rte-btn-active-bg);
+  color: var(--rte-btn-active-color);
+}
+.rte-toolbar-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.rte-toolbar-btn .rte-icon {
+  font-size: 16px;
+}
+/* Dropdown */
+.rte-toolbar-dropdown {
+  position: relative;
+}
+.rte-dropdown-trigger {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px;
+  width: auto;
+  min-width: var(--rte-toolbar-btn-size);
+}
+.rte-dropdown-arrow {
+  font-size: 8px;
+  opacity: 0.6;
+}
+.rte-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  min-width: 9.9rem;
+  padding: 4px 0;
+  background: var(--rte-bg-color);
+  border: 1px solid var(--rte-border-color);
+  border-radius: 6px;
+  box-shadow: var(--rte-shadow-lg);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: all var(--rte-transition);
+}
+.rte-toolbar-dropdown.open .rte-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(4px);
+}
+.rte-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  color: var(--rte-text-color);
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--rte-transition);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rte-dropdown-item:hover {
+  background: var(--rte-bg-hover);
+}
+.rte-dropdown-item-label {
+  flex: 1;
+}
+/* Color Picker */
+.rte-color-picker {
+  padding: 8px;
+}
+.rte-color-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.rte-color-btn {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 1px solid var(--rte-border-color);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: transform var(--rte-transition);
+}
+.rte-color-btn:hover {
+  transform: scale(1.2);
+  z-index: 1;
+}
+.rte-color-custom {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--rte-border-color);
+}
+.rte-color-input {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid var(--rte-border-color);
+  border-radius: 4px;
+  cursor: pointer;
+}
+.rte-color-clear {
+  width: 100%;
+  padding: 8px;
+  margin-top: 8px;
+  border: 1px solid var(--rte-border-color);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--rte-text-secondary);
+  cursor: pointer;
+}
+.rte-color-clear:hover {
+  background: var(--rte-bg-hover);
+}
+/* ========================================
+   Content Area
+   ======================================== */
+.rte-content-wrapper {
+  position: relative;
+  flex: 1;
+  overflow: auto;
+}
+.rte-content-wrapper.focused {
+  outline: none;
+}
+.rte-content {
+  min-height: 200px;
+  padding: var(--rte-content-padding);
+  font-family: var(--font-family-base);
+  font-size: var(--rte-content-font-size);
+  line-height: var(--rte-content-line-height);
+  color: var(--rte-text-color);
+  outline: none;
+}
+.rte-content:empty::before {
+  content: attr(data-placeholder);
+  color: var(--rte-text-muted);
+  pointer-events: none;
+}
+.rte-placeholder {
+  position: absolute;
+  top: var(--rte-content-padding);
+  left: var(--rte-content-padding);
+  color: var(--rte-text-muted);
+  pointer-events: none;
+}
+/* ========================================
+   Footer
+   ======================================== */
+.rte-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 4px 12px;
+  background: var(--rte-bg-secondary);
+  border-top: 1px solid var(--rte-toolbar-border);
+  font-size: 12px;
+  color: var(--rte-text-muted);
+}
+.rte-footer-item {
+  margin-left: 16px;
+}
+.rte-embedded-assets {
+  margin-left: 0;
+  margin-right: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--rte-bg-tertiary, rgba(59, 130, 246, 0.08));
+  color: var(--rte-text-secondary);
+  font-weight: 500;
+}
+/* ========================================
+   Dialog
+   ======================================== */
+.rte-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--rte-dialog-overlay-bg);
+  z-index: calc(var(--z-index-modal) + 1);
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--rte-transition);
+}
+.rte-dialog-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+.rte-dialog {
+  background: var(--rte-dialog-bg);
+  border-radius: var(--rte-border-radius);
+  box-shadow: var(--rte-dialog-shadow);
+  transform: scale(0.95) translateY(-20px);
+  transition: transform var(--rte-transition);
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.rte-dialog-overlay.open .rte-dialog {
+  transform: scale(1) translateY(0);
+}
+.rte-dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--rte-border-color);
+}
+.rte-dialog-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+}
+.rte-dialog-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: var(--rte-text-muted);
+  font-size: 24px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all var(--rte-transition);
+}
+.rte-dialog-close:hover {
+  background: var(--rte-bg-hover);
+  color: var(--rte-text-color);
+}
+.rte-dialog-body {
+  padding: 20px;
+  overflow-y: auto;
+}
+.rte-dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 16px 20px;
+  border-top: 1px solid var(--rte-border-color);
+  background: var(--rte-bg-secondary);
+}
+/* Dialog Form Fields */
+.rte-dialog-field {
+  margin-bottom: 16px;
+}
+.rte-dialog-field:last-child {
+  margin-bottom: 0;
+}
+.rte-dialog-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--rte-text-secondary);
+}
+.rte-dialog-input,
+.rte-dialog-textarea,
+.rte-dialog-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--rte-border-color);
+  border-radius: 6px;
+  background: var(--rte-bg-color);
+  color: var(--rte-text-color);
+  font-size: 14px;
+  transition: border-color var(--rte-transition), box-shadow var(--rte-transition);
+}
+.rte-dialog-input:focus,
+.rte-dialog-textarea:focus,
+.rte-dialog-select:focus {
+  outline: none;
+  border-color: var(--rte-primary-color);
+  box-shadow: 0 0 0 3px var(--rte-primary-light);
+}
+.rte-dialog-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+.rte-dialog-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.rte-dialog-checkbox input {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+.rte-dialog-help {
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--rte-text-muted);
+}
+.rte-dialog-error {
+  padding: 8px 12px;
+  margin-bottom: 16px;
+  background: var(--color-error-light);
+  border: 1px solid var(--color-error-hover);
+  border-radius: var(--border-radius-md);
+  color: var(--color-error);
+  font-size: 14px;
+}
+.rte-dialog-field.error .rte-dialog-input,
+.rte-dialog-field.error .rte-dialog-textarea,
+.rte-dialog-field.error .rte-dialog-select {
+  border-color: var(--color-error);
+}
+/* Dialog Buttons */
+.rte-dialog-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--rte-transition);
+}
+.rte-dialog-btn-cancel {
+  background: var(--rte-bg-secondary);
+  color: var(--rte-text-color);
+  border: 1px solid var(--rte-border-color);
+}
+.rte-dialog-btn-cancel:hover {
+  background: var(--rte-bg-hover);
+}
+.rte-dialog-btn-primary {
+  background: var(--rte-primary-color);
+  color: var(--color-primary-text, #fff);
+}
+.rte-dialog-btn-primary:hover {
+  background: var(--rte-primary-hover);
+}
+.rte-dialog-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.rte-dialog-btn.loading {
+  position: relative;
+  color: transparent;
+}
+.rte-dialog-btn.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: rte-spin 0.6s linear infinite;
+}
+@keyframes rte-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* ========================================
+   Notification
+   ======================================== */
+.rte-notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 12px 20px;
+  border-radius: var(--border-radius-md);
+  color: #fff;
+  font-size: 14px;
+  box-shadow: var(--rte-shadow-lg);
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: var(--z-index-toast);
+}
+.rte-notification.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+.rte-notification-success {
+  background: var(--rte-notification-success);
+}
+.rte-notification-error {
+  background: var(--rte-notification-error);
+}
+.rte-notification-warning {
+  background: var(--rte-notification-warning);
+}
+.rte-notification-info {
+  background: var(--rte-notification-info);
+}
+/* ========================================
+   Source View
+   ======================================== */
+.rte-source-view {
+  display: none;
+  width: 100%;
+  min-height: 200px;
+  padding: var(--rte-content-padding);
+  border: none;
+  border-top: 1px solid var(--rte-source-border);
+  background: var(--rte-source-bg);
+  color: var(--rte-source-color);
+  caret-color: var(--rte-source-caret);
+  font-family: 'Fira Code', 'Cascadia Code', 'Monaco', 'Consolas', 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  resize: none;
+  box-sizing: border-box;
+  outline: none;
+  tab-size: 2;
+  transition: background var(--rte-transition), color var(--rte-transition);
+}
+.rte-source-view::selection {
+  background: var(--rte-source-selection-bg);
+}
+.rte-container.source-mode .rte-content-wrapper {
+  display: none;
+}
+.rte-container.source-mode .rte-source-view {
+  display: block;
+  flex: 1;
+}
+.rte-container.source-mode .rte-source-view:focus {
+  box-shadow: none;
+  border: none;
+}
+/* ========================================
+   Image Resize Handles
+   ======================================== */
+.rte-image-container {
+  position: relative;
+  display: inline-block;
+}
+.rte-image-container.selected {
+  outline: 2px solid var(--rte-primary-color);
+}
+.rte-resize-handle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: var(--rte-primary-color);
+  border: 2px solid #fff;
+  border-radius: 2px;
+}
+.rte-resize-handle-se {
+  right: -5px;
+  bottom: -5px;
+  cursor: se-resize;
+}
+.rte-resize-handle-sw {
+  left: -5px;
+  bottom: -5px;
+  cursor: sw-resize;
+}
+.rte-resize-handle-ne {
+  right: -5px;
+  top: -5px;
+  cursor: ne-resize;
+}
+.rte-resize-handle-nw {
+  left: -5px;
+  top: -5px;
+  cursor: nw-resize;
+}
+/* ========================================
+   Table Editor
+   ======================================== */
+.rte-table-toolbar {
+  position: absolute;
+  display: none;
+  gap: 4px;
+  padding: 4px;
+  background: var(--rte-bg-color);
+  border: 1px solid var(--rte-border-color);
+  border-radius: 4px;
+  box-shadow: var(--rte-shadow);
+}
+.rte-table-toolbar.visible {
+  display: flex;
+}
+/* ========================================
+   Responsive
+   ======================================== */
+@media (max-width: 768px) {
+  .rte-toolbar {
+    padding: 4px;
+  }
+  .rte-toolbar-btn {
+    width: 28px;
+    height: 28px;
+  }
+  .rte-toolbar-btn .rte-icon {
+    font-size: 14px;
+  }
+  .rte-content {
+    padding: 12px;
+    font-size: 15px;
+  }
+  .rte-dialog {
+    width: 95vw !important;
+  }
+}
+/* ===== RTE Icons - Using System icomoon Font ===== */
+/* Toolbar icons use system icon font from fonts.css */
+.rte-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+}
+/* ========================================
+   Dark mode Support
+   ======================================== */
+/*
+ * Primary: the editor delegates all color tokens to the Now.js design system
+ * CSS variables, so [data-theme="dark"] on <html>/<body> automatically applies
+ * dark colors to the editor through the variable chain.
+ *
+ * The rules below cover the two spots with hardcoded rgba values that fall
+ * outside the variable system, plus a standalone @media fallback for when
+ * the page does not use data-theme at all (standalone / OS-level dark mode).
+ */
+/* Loading spinner inside primary button — keep it visible on dark bg */
+[data-theme="dark"] .rte-dialog-btn.loading::after {
+  border-color: rgba(255, 255, 255, 0.25);
+  border-top-color: rgba(255, 255, 255, 0.9);
+}
+/* Source view scrollbar — subtle on dark backgrounds */
+[data-theme="dark"] .rte-source-view::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+[data-theme="dark"] .rte-source-view::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+}
+[data-theme="dark"] .rte-source-view::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+[data-theme="dark"] .rte-source-view::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+/* ── Standalone dark mode (OS preference, no data-theme attribute) ── */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) {
+    --rte-primary-color: #818cf8;
+    --rte-primary-hover: #6366f1;
+    --rte-primary-light: rgba(99, 102, 241, 0.15);
+    --rte-border-color: rgba(255, 255, 255, 0.1);
+    --rte-bg-color: #0f172a;
+    --rte-bg-secondary: rgba(255, 255, 255, 0.05);
+    --rte-bg-hover: rgba(255, 255, 255, 0.08);
+    --rte-text-color: #f8fafc;
+    --rte-text-secondary: #94a3b8;
+    --rte-text-muted: #64748b;
+    --rte-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+    --rte-shadow-lg: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);
+    --rte-toolbar-bg: rgba(255, 255, 255, 0.05);
+    --rte-toolbar-border: rgba(255, 255, 255, 0.1);
+    --rte-btn-hover-bg: rgba(255, 255, 255, 0.08);
+    --rte-btn-active-bg: rgba(255, 255, 255, 0.12);
+    --rte-btn-active-color: #818cf8;
+    --rte-dialog-overlay-bg: rgba(0, 0, 0, 0.7);
+    --rte-dialog-bg: #1e293b;
+    --rte-dialog-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+    --rte-source-bg: #0f172a;
+    --rte-source-color: #e2e8f0;
+    --rte-source-border: rgba(255, 255, 255, 0.1);
+    --rte-source-selection-bg: rgba(255, 255, 255, 0.1);
+    --rte-source-caret: #f8fafc;
+    /* Fix hardcoded 3D-bevel borders */
+    --color-3d-dark: rgba(0, 0, 0, 0.2);
+    --color-3d-light: rgba(255, 255, 255, 0.06);
+  }
+  :root:not([data-theme="light"]):not([data-theme="dark"]) .rte-dialog-btn.loading::after {
+    border-color: rgba(255, 255, 255, 0.25);
+    border-top-color: rgba(255, 255, 255, 0.9);
+  }
+}
+/* ========================================
+   Gallery Grid (inserted content)
+   Uses data-media-viewer — MediaViewer auto-inits on the live page.
+   Direct <img> children are the grid items (no wrapper elements).
+   ======================================== */
+.rte-gallery-grid {
+  --rte-gallery-columns: 3;
+  display: grid;
+  grid-template-columns: repeat(var(--rte-gallery-columns), 1fr);
+  gap: 8px;
+  margin: 16px 0;
+}
+.rte-gallery-grid > img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--border-radius-md, 6px);
+  display: block;
+  transition: transform 0.25s ease;
+}
+.rte-gallery-grid > img:hover {
+  transform: scale(1.04);
+  cursor: zoom-in;
+}
+@media (max-width: 480px) {
+  .rte-gallery-grid {
+    --rte-gallery-columns: 2 !important;
+  }
+}
+/* ========================================
+   Broken / empty <img> in editor content area
+   Ensures images are always visible and clickable to edit,
+   even when src is missing or has not loaded yet.
+   ======================================== */
+.rte-content img {
+  min-width: 24px;
+  min-height: 24px;
+}
+.rte-content img:not([src]),
+.rte-content img[src=""] {
+  display: inline-block;
+  width: 120px;
+  height: 80px;
+  background: var(--rte-bg-secondary, #f0f0f0);
+  border: 2px dashed var(--rte-border-color, #ccc);
+  border-radius: var(--border-radius-md, 6px);
+  color: transparent;
+  /* hide alt text */
+  vertical-align: middle;
+  cursor: pointer;
+}
+/* ========================================
+   Iframe / video / audio in editor content area
+   pointer-events:none prevents focus traps inside contenteditable
+   and allows the element to be click-selected normally.
+   min dimensions prevent an empty/blocked element from collapsing
+   to zero and becoming impossible to find or delete.
+   ======================================== */
+.rte-content iframe,
+.rte-content video,
+.rte-content audio {
+  display: block;
+  pointer-events: none;
+}
+.rte-content iframe {
+  min-width: 240px;
+  min-height: 135px;
+  border: 2px solid var(--rte-border-color, #ccc);
+  border-radius: var(--border-radius-sm, 4px);
+  background: var(--rte-bg-secondary, #f0f0f0);
+}
+.rte-content video {
+  min-width: 240px;
+  min-height: 135px;
+}
+.rte-content audio {
+  min-width: 240px;
+}
+/* ========================================
+   Gallery Upload Dialog — Preview Grid
+   ======================================== */
+.rte-gallery-upload-zone {
+  margin-bottom: 12px;
+}
+.rte-gallery-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.rte-gallery-preview-card {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--rte-border-color);
+  background: var(--rte-bg-secondary);
+}
+.rte-gallery-preview-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+}
+.rte-gallery-preview-remove {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity var(--rte-transition);
+}
+.rte-gallery-preview-card:hover .rte-gallery-preview-remove {
+  opacity: 1;
+}
+.rte-gallery-preview-name {
+  display: block;
+  padding: 2px 4px;
+  font-size: 10px;
+  color: var(--rte-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Drag-and-drop sort for preview cards */
+.rte-gallery-preview-card {
+  cursor: grab;
+}
+.rte-gallery-preview-card:active {
+  cursor: grabbing;
+}
+.rte-gallery-preview-card.dragging {
+  opacity: 0.35;
+  box-shadow: none;
+  outline: 2px dashed var(--rte-primary-color);
+}
+.rte-gallery-preview-card.drag-over {
+  outline: 2px solid var(--rte-primary-color);
+  outline-offset: 2px;
+  background: var(--rte-primary-light, rgba(99, 102, 241, 0.08));
+}
+.rte-gallery-drag-hint {
+  font-size: 11px;
+  color: var(--rte-text-muted);
+  text-align: center;
+  margin-bottom: 6px;
+}
+.rte-dialog-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--rte-border-color);
+}
+.rte-dialog-tab {
+  padding: 8px 16px;
+  border: none;
+  background: none;
+  color: var(--rte-text-secondary);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  transition: all 0.2s;
+}
+.rte-dialog-tab.active {
+  color: var(--rte-primary-color);
+  border-bottom-color: var(--rte-primary-color);
+}
+.rte-dialog-tab-content {
+  display: none;
+}
+.rte-dialog-tab-content.active {
+  display: block;
+}
+.rte-upload-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  border: 2px dashed var(--rte-border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.rte-upload-zone:hover,
+.rte-upload-zone.dragover {
+  border-color: var(--rte-primary-color);
+  background: var(--rte-primary-light);
+}
+.rte-upload-icon {
+  font-size: 48px;
+  margin-bottom: 8px;
+}
+.rte-upload-text {
+  color: var(--rte-text-secondary);
+}
+.rte-image-preview {
+  margin-top: 12px;
+  text-align: center;
+}
+.rte-image-preview img {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 4px;
+}
+.rte-dialog-btn-secondary {
+  background: var(--rte-bg-secondary);
+  border: 1px solid var(--rte-border-color);
+  color: var(--rte-text-color);
+}

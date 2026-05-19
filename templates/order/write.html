@@ -1,0 +1,187 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <form class="card-groups" data-form="orderWrite" action="api/order/write/save" method="POST" data-ajax-submit="true" data-load-api="api/order/write/get"
+            data-load-query-params="true" data-confirm="Confirm save" data-on-load="initOrderWrite">
+        <header>
+          <div>
+            <h1 class="icon-cart" data-text="id ? document_type_text + ' #' + order_no : '{LNG_Create} ' + document_type_text"></h1>
+            <p id="orderWriteDescription" data-text="id ? '{LNG_Order details and management}' : '{LNG_Create a new order manually}'"></p>
+          </div>
+          <div class="header-actions">
+            <a class="btn icon-arrow-left" href="/orders" data-i18n>Back</a>
+            <a class="btn outline icon-print" href="#" id="orderPrintBtn" data-show="id > 0" onclick="printOrderReceipt(this)" data-i18n>Print</a>
+          </div>
+        </header>
+        <div class="content-body">
+          <!-- Customer/Supplier Info -->
+          <fieldset>
+            <legend class="icon-user" data-text="document_profile.party_label"></legend>
+            <div class="form-group bottom">
+              <div class="width90">
+                <label for="customer_id" data-text="document_profile.party_search_label"></label>
+                <span class="form-control icon-search">
+                  <input type="text" id="customer_id" name="customer_id" autocomplete="off" data-autocomplete="true" data-source="api/customer/customers/search"
+                         data-action="change:requestApi" data-api-url="api/customer/autocomplete" data-api-method="get" data-param-customer-id="{customer_id}"
+                         placeholder="{LNG_Type to search from} {LNG_Code}, {LNG_Name}, {LNG_Phone}" data-attr="value:customer" data-result="result_customer_id">
+                </span>
+              </div>
+              <div class="width10">
+                <button type="button" id="orderPartyManageBtn" class="btn outline fullwidth icon-register" data-action="click.prevent:requestApi"
+                        data-api-url="api/customer/customer/get" data-param-type="{party_type}" data-api-method="get" data-param-id="{customer_id}" data-param-context="order"
+                        data-attr="title:document_profile.party_manage_label"></button>
+              </div>
+            </div>
+            <div id="result_customer_id" class="comment" data-text="document_profile.party_help_text"></div>
+            <input type="hidden" id="party_type" data-attr="value:document_profile.party_type">
+          </fieldset>
+          <!-- Order Info (read-only for existing orders) -->
+          <fieldset data-if="id == 0">
+            <legend class="icon-info" data-i18n>Basic information</legend>
+            <div class="form-group">
+              <div class="width50">
+                <label data-i18n>Number</label>
+                <span class="form-control icon-barcode">
+                  <input type="text" data-attr="value:order_no" placeholder="{LNG_Leave empty for generate auto}">
+                </span>
+              </div>
+              <div class="width50">
+                <label data-i18n>Created</label>
+                <span class="form-control icon-calendar">
+                  <input type="datetime-local" data-attr="value:created_at">
+                </span>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="width50">
+                <label for="reference_document_no" data-i18n>Reference Document</label>
+                <span class="form-control icon-link readonly">
+                  <input type="text" id="reference_document_no" name="reference_document_no" data-attr="value:reference_document_no" readonly>
+                </span>
+              </div>
+              <div class="width50">
+                <label for="due_date" data-i18n>Due Date</label>
+                <span class="form-control icon-calendar">
+                  <input type="date" id="due_date" name="due_date" data-attr="value:due_date">
+                </span>
+              </div>
+            </div>
+          </fieldset>
+          <!-- Order Items -->
+          <fieldset>
+            <legend class="icon-list" data-i18n>Items</legend>
+            <div>
+              <label for="orderProductSearch" data-i18n>Search for product items</label>
+              <span class="form-control icon-search">
+                <input type="text" id="orderProductSearch" name="product" placeholder="{LNG_Type SKU or product name}" autocomplete="off" data-autocomplete="true"
+                       data-source="api/order/search" data-role="product">
+              </span>
+            </div>
+            <div class="grid">
+              <div class="tablebody">
+                <table class="table border fullwidth" data-line-items="items" data-detail-api="api/order/search/get" data-listen-select="[data-role='product']"
+                       data-api-params="[data-role]" data-merge="true" data-merge-key="product_code" data-allow-delete="true" data-reindex-on-remove="true"
+                       data-on-calculate="calculateOrderItems">
+                  <thead>
+                    <tr>
+                      <th data-field="inventory_item_id" data-type="text" data-hidden="true">ID</th>
+                      <th data-field="product_code" data-readonly="true" data-size="10" class="center" data-i18n>{LNG_Code}</th>
+                      <th data-field="name" data-type="text" data-i18n>{LNG_Product Name}</th>
+                      <th data-field="qty" data-type="number"
+                          data-attr="data-min:options.value_step || '0.0001', data-step:options.value_step || '0.0001', data-decimals:options.value_decimals || 4" data-size="8"
+                          class="center" data-i18n>{LNG_Quantity}</th>
+                      <th data-field="unit" data-type="text" data-readonly="true" data-size="5" class="center" data-i18n>{LNG_Unit}</th>
+                      <th data-field="price" data-type="currency" data-attr="data-decimals:options.value_decimals || 4" data-size="10" class="center" data-i18n>{LNG_Unit Price}
+                      </th>
+                      <th data-field="discount_amount" data-type="currency" data-attr="data-decimals:options.value_decimals || 4" data-size="10" data-i18n>{LNG_Discount}</th>
+                      <th data-field="total" data-type="currency" data-attr="data-decimals:options.value_decimals || 4" data-readonly="true" data-size="10" data-i18n>
+                        {LNG_Subtotal}</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+            <!-- Totals -->
+            <div class="flex gap-2 right column">
+              <div class="flex gap-2 middle justify-between">
+                <label for="order_subtotal" data-i18n>Subtotal</label>
+                <span class="form-control">
+                  <input type="currency" name="subtotal" id="order_subtotal" data-attr="data-decimals:options.value_decimals || 4, value:subtotal" readonly>
+                  <span class="unit">THB</span>
+                </span>
+              </div>
+              <div class="flex gap-2 middle justify-between">
+                <label for="order_discount_amount" data-i18n>Discount</label>
+                <span class="form-control">
+                  <input type="currency" name="discount_amount" id="order_discount_amount"
+                         data-attr="data-decimals:options.value_decimals || 4, step:options.value_step || '0.0001', value:discount_amount" data-on="input:reCalculateOrderItems">
+                  <span class="unit">THB</span>
+                </span>
+              </div>
+              <div class="flex gap-2 middle justify-between">
+                <label for="order_vat_rate" data-i18n>VAT</label>
+                <span class="form-control right">
+                  <input type="number" name="tax_rate" id="order_vat_rate"
+                         data-attr="data-decimals:options.value_decimals || 4, step:options.value_step || '0.0001', value:tax_rate" min="0" size="7"
+                         data-on="input:reCalculateOrderItems">
+                  <span class="unit">%</span>
+                </span>
+                <span class="form-control">
+                  <input type="currency" name="tax_amount" id="order_vat_amount" data-attr="data-decimals:options.value_decimals || 4, value:tax_amount" readonly>
+                  <span class="unit">THB</span>
+                </span>
+              </div>
+              <div class="flex gap-2 middle justify-between">
+                <label for="order_total_amount" data-i18n>Total</label>
+                <span class="form-control">
+                  <input type="currency" name="total" id="order_total_amount" data-attr="data-decimals:options.value_decimals || 4, value:total" readonly>
+                  <span class="unit">THB</span>
+                </span>
+              </div>
+            </div>
+          </fieldset>
+          <!-- Notes -->
+          <fieldset>
+            <legend class="icon-comments" data-i18n>Notes</legend>
+            <div>
+              <label for="note" data-i18n>Document Notes</label>
+              <span class="form-control icon-comments">
+                <textarea id="note" name="note" rows="2" data-text="note"></textarea>
+              </span>
+            </div>
+            <div>
+              <label for="internal_note" data-i18n>Internal Note</label>
+              <span class="form-control icon-comments">
+                <textarea id="internal_note" name="internal_note" rows="2" data-text="internal_note"></textarea>
+              </span>
+              <div class="comment" data-i18n>Only visible to admin</div>
+            </div>
+            <div>
+              <label for="document_type" data-i18n>Document Type</label>
+              <span class="form-control icon-file">
+                <select id="document_type" name="document_type" data-options-key="document_type" data-attr="value:document_type"></select>
+              </span>
+            </div>
+          </fieldset>
+          <fieldset class="submit">
+            <button type="submit" class="btn btn-primary icon-save" data-i18n>Save</button>
+            <div data-show="id > 0" class="flex middle">
+              <input type="checkbox" class="switch" id="saveAsNewDocument" name="saveAsNewDocument" value="1">
+              <label for="saveAsNewDocument" data-i18n>Save as new document</label>
+            </div>
+            <input type="hidden" name="id" data-attr="value:id">
+            <input type="hidden" name="source_document_id" data-attr="value:source_document_id">
+            <input type="hidden" name="root_document_id" data-attr="value:root_document_id">
+            <input type="hidden" name="order_type" data-attr="value:order_type">
+          </fieldset>
+        </div>
+      </form>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 Order Management - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

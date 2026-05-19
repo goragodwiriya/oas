@@ -1,0 +1,103 @@
+/**
+ * Dark Theme Variables
+ * Dark mode overrides for the design system
+ * Created: 18-05-2025
+ */
+[data-theme="dark"] {
+  /* Dark Theme Application Colors */
+  --color-background: #0f172a;
+  --color-surface-hover: rgba(255, 255, 255, 0.16);
+  --color-surface-darker: rgba(255, 255, 255, 0.06);
+  --color-surface-dark: rgba(255, 255, 255, 0.08);
+  --color-surface: rgba(255, 255, 255, 0.1);
+  --color-surface-light: rgba(255, 255, 255, 0.12);
+  --color-surface-lighter: rgba(255, 255, 255, 0.14);
+  --color-text: #f8fafc;
+  --color-text-muted: #94a3b8;
+  --color-divider: #1e293b;
+  --content-bg: #1e293b;
+  --color-3d-light: rgba(255, 255, 255, 0.1);
+  --color-3d-dark: rgba(0, 0, 0, 0.2);
+  /* Interactive Elements Adjustments */
+  --overlay: rgba(255, 255, 255, 0.01);
+  --background-transparent: rgba(255, 255, 255, 0.4);
+  --color-border-highlight: rgba(0, 0, 0, 0.2);
+  --color-border: rgba(255, 255, 255, 0.1);
+  --topmenu-mobile-bg: #1e293b;
+  --topmenu-mobile-text: #FFFFFF;
+  --label-bg: rgba(255, 255, 255, 0.05);
+  --label-shadow: rgba(255, 255, 255, 0.1);
+  --color-dark: rgba(255, 255, 255, 0.05);
+  /* Shadows Adjustments */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.6), 0 4px 6px -4px rgb(0 0 0 / 0.6);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.7), 0 8px 10px -6px rgb(0 0 0 / 0.7);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.8);
+  /* Notifications */
+  --notification-bg: #1e293b;
+  --notification-text: #f8fafc;
+  --notification-border: rgba(255, 255, 255, 0.1);
+  --notification-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --notification-success-bg: #064e3b;
+  --notification-success-text: #a7f3d0;
+  --notification-success-border: #065f46;
+  --notification-error-bg: #7f1d1d;
+  --notification-error-text: #fecaca;
+  --notification-error-border: #991b1b;
+  --notification-warning-bg: #78350f;
+  --notification-warning-text: #fef3c7;
+  --notification-warning-border: #92400e;
+  --notification-info-bg: #1e3a8a;
+  --notification-info-text: #bfdbfe;
+  --notification-info-border: #1e40af;
+  /* Dialog/Modal Override */
+  --dialog-bg: #1e293b;
+  --dialog-text: #f8fafc;
+  --dialog-border: rgba(255, 255, 255, 0.1);
+  --dialog-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+  --dialog-overlay: rgba(0, 0, 0, 0.7);
+  /* Form Elements */
+  --input-bg: #0f172a;
+  --input-border-color: #334155;
+  --input-text: #f8fafc;
+  --input-placeholder: #64748b;
+  /* Table Overrides */
+  --table-bg: #0f172a;
+  --table-border-color: #334155;
+  --table-header-bg: #1e293b;
+  --table-header-shadow: rgba(0, 0, 0, 0.7);
+  --table-header-color: #f8fafc;
+  --table-stripe-bg: #1e293b;
+  --table-hover-bg: #334155;
+  --table-selected-bg: #475569;
+  --table-nav-bg: #1e293b;
+  --table-empty-bg: #1e293b;
+  --table-empty-color: #94a3b8;
+  /* Pagination */
+  --pagination-bg: #1e293b;
+  --pagination-color: #f8fafc;
+  --pagination-border-color: #334155;
+  --pagination-hover-bg: #334155;
+  --pagination-active-bg: #3b82f6;
+  --pagination-active-color: #ffffff;
+  --pagination-active-border-color: #3b82f6;
+  /* Card Elements */
+  --card-bg: #1e293b;
+  --card-border: #334155;
+  --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  /* Tabs */
+  --tabs-bg: rgba(255, 255, 255, 0.02);
+  --tabs-buttons-bg: rgba(255, 255, 255, 0.02);
+  --tabs-button-bg: transparent;
+  --tabs-button-bg-hover: rgba(255, 255, 255, 0.05);
+  --tabs-button-bg-active: rgba(99, 102, 241, 0.1);
+  --tabs-button-text: #94a3b8;
+  --tabs-button-text-active: #818cf8;
+  --tabs-border: rgba(255, 255, 255, 0.1);
+  --tabs-border-active: #818cf8;
+  --tabs-panel-bg: transparent;
+  --tabs-panel-text: #e2e8f0;
+  --tabs-focus-ring: #818cf8;
+  --tabs-focus-ring-offset: #0f172a;
+}

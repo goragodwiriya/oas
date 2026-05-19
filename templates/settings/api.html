@@ -1,0 +1,65 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups">
+        <header>
+          <div>
+            <h1 class="icon-host" data-i18n>API Settings</h1>
+            <p data-i18n>API configuration and system settings</p>
+          </div>
+        </header>
+        <div class="content-body">
+          <!-- API Settings -->
+          <form data-form="settings" action="api/index/settings/save" method="POST" data-ajax-submit="true" data-load-api="api/index/settings/api" data-confirm="Confirm save">
+            <fieldset>
+              <legend class="icon-host" data-i18n>API</legend>
+              <div>
+                <label for="api_url" data-i18n>API URL</label>
+                <span class="form-control icon-world">
+                  <input type="url" id="api_url" name="api_url" data-attr="value:api_url">
+                </span>
+              </div>
+              <div>
+                <label for="api_token" data-i18n>Token</label>
+                <span class="form-control icon-password">
+                  <input type="text" id="api_token" name="api_token" data-attr="value:api_token">
+                </span>
+              </div>
+              <div>
+                <label for="api_secret" data-i18n>Secret</label>
+                <span class="form-control icon-password">
+                  <input type="text" id="api_secret" name="api_secret" data-attr="value:api_secret">
+                </span>
+              </div>
+              <div>
+                <label for="api_ips" data-i18n>White list</label>
+                <span class="form-control icon-ip">
+                  <textarea id="api_ips" name="api_ips" data-text="api_ips" placeholder="0.0.0.0 mean all IP addresses"></textarea>
+                </span>
+                <div class="comment" id="result_api_ips" data-i18n>List of IPs that allow connection 1 line per 1 IP</div>
+              </div>
+              <div>
+                <label for="api_cors" data-i18n>CORS Origins</label>
+                <span class="form-control icon-shield">
+                  <input type="text" id="api_cors" name="api_cors" data-attr="value:api_cors" placeholder="* or specific domain">
+                </span>
+                <div class="comment" id="result_api_cors" data-i18n>Enter the domain name you want to allow or enter * for all domains. or leave it blank if you want to use it on
+                  this domain only</div>
+              </div>
+            </fieldset>
+            <!-- Submit Button -->
+            <fieldset class="submit">
+              <input type="hidden" name="module" value="api">
+              <button type="submit" class="btn btn-primary icon-save" data-i18n>Save</button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

@@ -1,0 +1,41 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+    <div>
+        <header data-component="topbar"></header>
+        <main class="content">
+            <div class="card-groups">
+                <header>
+                    <div>
+                        <h1 class="icon-report" data-i18n>Cost Layers</h1>
+                        <p data-i18n>Read-only view of stock lots and remaining quantities</p>
+                    </div>
+                </header>
+                <div class="content-body">
+                    <div class="tablebody">
+                        <table class="table border fullwidth" data-table="inventoryCostLayers" data-source="api/inventory/costlayers" data-default-sort="received_at desc"
+                               data-page-size="25" data-search-columns="topic,sku,reference_no">
+                            <thead>
+                                <tr>
+                                    <th data-field="received_at" class="center" data-cell-class="center" data-sort="received_at" data-format="date" data-i18n>{LNG_Date}</th>
+                                    <th data-field="topic" data-sort="topic" data-i18n>{LNG_Product}</th>
+                                    <th data-field="sku" data-i18n>{LNG_Serial}/{LNG_Registration No}</th>
+                                    <th data-field="reference_type" data-filter="true" data-type="select" data-sort="reference_type" data-i18n>{LNG_Reference type}</th>
+                                    <th data-field="reference_no" data-sort="reference_no" data-i18n>{LNG_Reference}</th>
+                                    <th data-field="received_qty" class="center" data-cell-class="center" data-sort="received_qty" data-i18n>{LNG_Received qty}</th>
+                                    <th data-field="remaining_qty" class="center" data-cell-class="center" data-sort="remaining_qty" data-i18n>{LNG_Remaining qty}</th>
+                                    <th data-field="layer_state" data-filter="true" data-type="select" class="center" data-cell-class="center" data-i18n>{LNG_State}</th>
+                                    <th data-field="unit_cost" class="center" data-cell-class="center" data-sort="unit_cost" data-i18n> {LNG_Price}</th>
+                                    <th data-field="currency" class="center" data-cell-class="center" data-i18n>{LNG_Currency}</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer class="footer">
+        <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+    </footer>
+</div>

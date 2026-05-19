@@ -1,0 +1,45 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+    <div>
+        <header data-component="topbar"></header>
+        <main class="content">
+            <div class="card-groups">
+                <header>
+                    <div>
+                        <h1 class="icon-report" data-i18n>{LNG_Stock Movement}</h1>
+                        <p data-i18n>History of all stock in/out movements</p>
+                    </div>
+                    <div class="header-actions">
+                        <a class="btn btn-secondary icon-product" href="/inventory-products" data-i18n>{LNG_Inventory}</a>
+                    </div>
+                </header>
+                <div class="content-body">
+                    <div class="tablebody">
+                        <table class="table border fullwidth" data-table="inventoryStockMovements" data-source="api/inventory/stockmovements" data-default-sort="occurred_at desc"
+                               data-page-size="25" data-search-columns="topic,sku,reference_no">
+                            <thead>
+                                <tr>
+                                    <th data-field="occurred_at" class="center" data-cell-class="center" data-sort="occurred_at" data-format="date" data-i18n>{LNG_Date}</th>
+                                    <th data-field="topic" data-sort="topic" data-i18n>{LNG_Product}</th>
+                                    <th data-field="sku" data-i18n>{LNG_Serial}/{LNG_Registration No}</th>
+                                    <th data-field="movement_direction" data-filter="true" data-type="select" class="center" data-cell-class="center" data-sort="movement_direction"
+                                        data-format="lookup" data-i18n>IN/OUT</th>
+                                    <th data-field="movement_type" data-filter="true" data-type="select" data-sort="movement_type" data-i18n>{LNG_Type}</th>
+                                    <th data-field="quantity" class="center" data-cell-class="center" data-sort="quantity" data-i18n>{LNG_Quantity}</th>
+                                    <th data-field="unit_cost" class="center" data-cell-class="center" data-sort="unit_cost" data-i18n>{LNG_Unit Cost}</th>
+                                    <th data-field="total_cost" class="center" data-cell-class="center" data-sort="total_cost" data-i18n>{LNG_Total Cost}</th>
+                                    <th data-field="reference_type" data-filter="true" data-type="select" data-sort="reference_type" data-i18n>{LNG_Reference type}</th>
+                                    <th data-field="reference_no" data-sort="reference_no" data-i18n>{LNG_Reference}</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer class="footer">
+        <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+    </footer>
+</div>

@@ -1,0 +1,89 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups">
+        <header id="order-list-header">
+          <div>
+            <h1 class="icon-cart" data-text="params.document_type ? options.document_type[params.document_type] : '{LNG_Orders}'"></h1>
+            <p data-i18n>Manage sales and purchase documents</p>
+          </div>
+          <div class="header-actions">
+            <a class="btn btn-primary icon-new" href="/order" data-attr="href:params.document_type !== '' ? '/order?document_type=' + params.document_type : '/order'"
+               data-text="'{LNG_Add} ' + (params.document_type ? options.document_type[params.document_type] : '{LNG_Orders}')" data-show="params.document_type !== ''"></a>
+          </div>
+        </header>
+        <div class="content-body">
+          <div class="tablebody">
+            <form data-table-filter="orderList" class="table_nav">
+              <div>
+                <label for="pageSize" data-i18n>Show</label>
+                <span class="form-control">
+                  <select name="pageSize" id="pageSize">
+                    <option value="10" data-i18n>10 {LNG_entries}</option>
+                    <option value="25" data-i18n>25 {LNG_entries}</option>
+                    <option value="50" data-i18n>50 {LNG_entries}</option>
+                    <option value="100" data-i18n>100 {LNG_entries}</option>
+                  </select>
+                </span>
+              </div>
+              <div>
+                <label for="document_type" data-i18n>Show</label>
+                <span class="form-control">
+                  <select name="document_type" id="document_type" data-options-key="document_type">
+                    <option value="" data-i18n>All items</option>
+                  </select>
+                </span>
+              </div>
+              <div>
+                <label for="date_from" data-i18n>From</label>
+                <span class="form-control">
+                  <input type="date" name="date_from" id="date_from">
+                </span>
+              </div>
+              <div>
+                <label for="date_to" data-i18n>To</label>
+                <span class="form-control">
+                  <input type="date" name="date_to" id="date_to">
+                </span>
+              </div>
+            </form>
+            <table class="table border fullwidth" data-table="orderList" data-source="api/order/setup" data-search-columns="order_no,customer_name"
+                   data-load-target="#order-list-header" data-page-size="25" data-show-checkbox="true" data-load-query-params="true" data-actions='{
+                       "delete": "Delete"
+                   }' data-action-url="api/order/setup/action" data-row-actions='{
+                       "edit": {
+                         "label": "View",
+                         "className": "btn btn-success icon-edit"
+                       },
+                       "print": {
+                         "label": "Print",
+                         "className": "btn btn-brown icon-print",
+                         "attrs": {
+                           "target": "_blank"
+                         }
+                       }
+                   }'>
+              <thead>
+                <tr>
+                  <th data-field="id" data-sort="id" class="center" data-cell-class="center" data-i18n>{LNG_ID}</th>
+                  <th data-field="order_no" data-sort="order_no" data-template="<a href='/order?id=${id}' class='nowrap'>${order_no}</a>" data-i18n>{LNG_Order No.} </th>
+                  <th data-field="document_type" class="center" data-cell-class="center" data-filter="true" data-format="lookup" data-i18n>{LNG_Document Type}</th>
+                  <th data-field="customer_name" data-template="<div class='two_line'>${customer_name}<br><small class='comment'>${customer_phone}</small></div>" data-i18n>
+                    {LNG_Customer}</th>
+                  <th data-field="total_display" data-sort="total" class="center" data-cell-class="right" data-i18n> {LNG_Total}</th>
+                  <th data-field="created_date" data-sort="created_at" class="center" data-cell-class="center nowrap" data-i18n>{LNG_Date}</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 Order Management - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

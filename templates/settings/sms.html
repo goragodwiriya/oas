@@ -1,0 +1,81 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups">
+        <header>
+          <div>
+            <h1 class="icon-mobile" data-i18n>SMS Settings</h1>
+            <p data-i18n>SMS configuration and system settings</p>
+          </div>
+        </header>
+
+        <div class="content-body">
+          <!-- SMS Settings -->
+          <form data-form="settings" action="api/index/settings/save" method="POST" data-ajax-submit="true" data-load-api="api/index/settings/sms" data-confirm="Confirm save"
+                autocomplete="off">
+            <fieldset>
+              <legend class="icon-mobile"><span data-i18n>SMS</span> <a href="https://www.thaibulksms.com/" target=_blank class=icon-help></a></legend>
+
+              <div>
+                <label for="sms_username" data-i18n>Username</label>
+                <span class="form-control icon-user">
+                  <input type="text" id="sms_username" name="sms_username" data-attr="value:sms_username" autocomplete="off">
+                </span>
+              </div>
+
+              <div>
+                <label for="sms_password" data-i18n>Password</label>
+                <span class="form-control icon-password">
+                  <input type="password" id="sms_password" name="sms_password" autocomplete="new-password">
+                </span>
+                <div class="comment" id="result_sms_password" data-i18n>Leave blank to keep existing</div>
+              </div>
+
+              <div>
+                <label for="sms_api_key" data-i18n>API Key</label>
+                <span class="form-control icon-password">
+                  <input type="text" id="sms_api_key" name="sms_api_key" data-attr="value:sms_api_key">
+                </span>
+              </div>
+
+              <div>
+                <label for="sms_api_secret" data-i18n>API Secret</label>
+                <span class="form-control icon-password">
+                  <input type="text" id="sms_api_secret" name="sms_api_secret" data-attr="value:sms_api_secret">
+                </span>
+              </div>
+
+              <div>
+                <label for="sms_sender" data-i18n>Sender Name</label>
+                <span class="form-control icon-customer">
+                  <input type="text" id="sms_sender" name="sms_sender" data-attr="value:sms_sender" placeholder="THAIBLUKSMS">
+                </span>
+                <div class="comment" id="result_sms_sender" data-i18n>Some packages may not be able to assign the sender name. Please check with the service provider.</div>
+              </div>
+
+              <div>
+                <label for="sms_type" data-i18n>Credit Type</label>
+                <span class="form-control icon-star0">
+                  <select id="sms_type" name="sms_type" data-attr="value:sms_type" data-options-key="sms_typies">
+                    <option value="" data-i18n>Please select</option>
+                  </select>
+                </span>
+              </div>
+            </fieldset>
+
+            <!-- Submit Button -->
+            <fieldset class="submit">
+              <input type="hidden" name="module" value="sms">
+              <button type="submit" class="btn btn-primary icon-save" data-i18n>Save</button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

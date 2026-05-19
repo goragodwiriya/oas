@@ -1,0 +1,206 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <form class="card-groups dashboard" data-form="orderDashboard" data-load-api="api/order/dashboard/get" data-ajax-submit="false" data-validate="false" autocomplete="off">
+        <header>
+          <div>
+            <h1 class="icon-dashboard" data-i18n>Dashboard</h1>
+            <p><span data-i18n>Order and inventory overview</span> <span data-text="period_label"></span></p>
+          </div>
+          <div class="header-actions dashboard-header-actions">
+            <a class="btn icon-cart" href="/orders?document_type=PO" data-i18n>{LNG_Purchase Order}</a>
+            <a class="btn outline icon-product" href="/inventory-products" data-i18n>{LNG_Inventory}</a>
+            <a class="btn btn-primary icon-new" href="/order?document_type=RCP" data-i18n>{LNG_Receipt}</a>
+          </div>
+        </header>
+        <div class="content-body dashboard-layout">
+          <section>
+            <div class="dashboard-card-grid" data-for="item in kpi_cards">
+              <template>
+                <a class="dashboard-focus-card" data-attr="href:item.url">
+                  <span class="dashboard-focus-icon" data-attr="class:'dashboard-focus-icon ' + item.icon"></span>
+                  <span class="dashboard-focus-content">
+                    <span class="dashboard-focus-label" data-text="item.label"></span>
+                    <strong class="dashboard-focus-value" data-text="item.value"></strong>
+                    <span class="comment" data-text="item.hint"></span>
+                  </span>
+                </a>
+              </template>
+            </div>
+          </section>
+          <section class="dashboard-graph-card">
+            <div class="dashboard-section-head">
+              <div>
+                <h2 class="icon-documents" data-i18n>Documents this month</h2>
+                <p class="comment" data-text="period_label"></p>
+              </div>
+            </div>
+            <div class="tablebody">
+              <table class="table border fullwidth">
+                <thead>
+                  <tr>
+                    <th data-i18n>{LNG_Document Type}</th>
+                    <th class="center" data-i18n>{LNG_Count}</th>
+                    <th class="right" data-i18n>{LNG_Total}</th>
+                  </tr>
+                </thead>
+                <tbody data-for="doc in document_summary">
+                  <template>
+                    <tr>
+                      <td><a data-attr="href:doc.url" data-text="doc.label"></a></td>
+                      <td class="center" data-text="doc.count"></td>
+                      <td class="right" data-text="doc.total"></td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+            </div>
+          </section>
+          <section class="dashboard-graph-card">
+            <div class="dashboard-section-head">
+              <div>
+                <h2 class="icon-cart" data-i18n>Recent orders</h2>
+                <p class="comment" data-i18n>Latest issued documents</p>
+              </div>
+              <a class="btn small icon-search" href="/orders" data-i18n>{LNG_View all}</a>
+            </div>
+            <div class="tablebody">
+              <table class="table border fullwidth">
+                <thead>
+                  <tr>
+                    <th data-i18n>{LNG_Order No.}</th>
+                    <th data-i18n>{LNG_Customer}</th>
+                    <th class="right" data-i18n>{LNG_Total}</th>
+                  </tr>
+                </thead>
+                <tbody data-for="order in recent_orders">
+                  <template>
+                    <tr>
+                      <td>
+                        <a class="nowrap" data-attr="href:order.url" data-text="order.order_no"></a>
+                        <div class="comment" data-text="order.document_type_text + ' - ' + order.created_at"></div>
+                      </td>
+                      <td data-text="order.customer_name"></td>
+                      <td class="right" data-text="order.total"></td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+            </div>
+          </section>
+          <section class="dashboard-graph-card">
+            <div class="dashboard-section-head">
+              <div>
+                <h2 class="icon-warning" data-i18n>Stock watch</h2>
+                <p class="comment"><span data-i18n>Low stock</span> <span data-text="inventory_summary.low_stock_count"></span></p>
+              </div>
+              <a class="btn small icon-product" href="/inventory-products" data-i18n>{LNG_Inventory}</a>
+            </div>
+            <div class="tablebody">
+              <table class="table border fullwidth">
+                <thead>
+                  <tr>
+                    <th data-i18n>{LNG_Product}</th>
+                    <th data-i18n>SKU</th>
+                    <th class="right" data-i18n>{LNG_Stock}</th>
+                  </tr>
+                </thead>
+                <tbody data-for="item in low_stock_items">
+                  <template>
+                    <tr>
+                      <td>
+                        <a data-attr="href:item.url" data-text="item.topic"></a>
+                        <div class="comment" data-text="item.product_code"></div>
+                      </td>
+                      <td data-text="item.sku"></td>
+                      <td class="right"><span data-text="item.stock"></span> <span data-text="item.unit"></span></td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+            </div>
+          </section>
+          <section class="dashboard-graph-card">
+            <div class="dashboard-section-head">
+              <div>
+                <h2 class="icon-report" data-i18n>Inventory movement</h2>
+                <p class="comment"><span data-i18n>Today</span> <span data-text="inventory_summary.movements_today"></span></p>
+              </div>
+              <a class="btn small icon-report" href="/inventory-stock-movements" data-i18n>{LNG_Stock Movement}</a>
+            </div>
+            <div class="form-group">
+              <div class="width50">
+                <span class="stat-label" data-i18n>Stock in this month</span>
+                <strong class="stat-value" data-text="inventory_summary.in_qty_month"></strong>
+              </div>
+              <div class="width50">
+                <span class="stat-label" data-i18n>Stock out this month</span>
+                <strong class="stat-value" data-text="inventory_summary.out_qty_month"></strong>
+              </div>
+            </div>
+            <div class="tablebody">
+              <table class="table border fullwidth">
+                <thead>
+                  <tr>
+                    <th data-i18n>{LNG_Product}</th>
+                    <th class="center">IN/OUT</th>
+                    <th class="right" data-i18n>{LNG_Quantity}</th>
+                  </tr>
+                </thead>
+                <tbody data-for="move in recent_movements">
+                  <template>
+                    <tr>
+                      <td>
+                        <a data-attr="href:move.url" data-text="move.topic"></a>
+                        <div class="comment" data-text="move.sku + ' - ' + move.movement_type + ' - ' + move.occurred_at"></div>
+                      </td>
+                      <td class="center" data-text="move.direction"></td>
+                      <td class="right" data-text="move.quantity"></td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+            </div>
+          </section>
+          <section class="dashboard-graph-card">
+            <div class="dashboard-section-head">
+              <div>
+                <h2 class="icon-win" data-i18n>Top products</h2>
+                <p class="comment" data-i18n>Receipt items this month</p>
+              </div>
+              <a class="btn small icon-cart" href="/orders?document_type=RCP" data-i18n>Receipt</a>
+            </div>
+            <div class="tablebody">
+              <table class="table border fullwidth">
+                <thead>
+                  <tr>
+                    <th data-i18n>{LNG_Product}</th>
+                    <th class="right" data-i18n>{LNG_Quantity}</th>
+                    <th class="right" data-i18n>{LNG_Total}</th>
+                  </tr>
+                </thead>
+                <tbody data-for="product in top_products">
+                  <template>
+                    <tr>
+                      <td>
+                        <span data-text="product.name"></span>
+                        <div class="comment" data-text="product.product_code"></div>
+                      </td>
+                      <td class="right" data-text="product.quantity"></td>
+                      <td class="right" data-text="product.total"></td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </form>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 Order Management - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

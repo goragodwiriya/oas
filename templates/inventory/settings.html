@@ -1,0 +1,63 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+    <div>
+        <header data-component="topbar"></header>
+        <main class="content">
+            <div class="card-groups">
+                <header>
+                    <div>
+                        <h1 class="icon-cog" data-i18n>{LNG_Module settings}</h1>
+                        <p data-i18n>Inventory upload and warranty notification settings</p>
+                    </div>
+                </header>
+                <div class="content-body">
+                    <form data-form="inventorySettings" action="api/inventory/settings/save" method="POST" data-ajax-submit="true" data-load-api="api/inventory/settings/get"
+                          data-confirm="Confirm save">
+                        <fieldset>
+                            <legend class="icon-number" data-i18n>Format Number</legend>
+                            <div>
+                                <label for="inventory_sku_no" data-i18n>Default SKU format</label>
+                                <span class="form-control icon-product">
+                                    <input type="text" id="inventory_sku_no" name="inventory_sku_no" maxlength="20" data-attr="value:inventory_sku_no" placeholder="SKU%04d">
+                                </span>
+                                <div class="comment" id="result_inventory_sku_no" data-i18n>Number such as %04d (%04d means 4 digits, maximum 11 digits)</div>
+                            </div>
+                            <div>
+                                <label for="customer_format_code" data-i18n>Customer</label>
+                                <span class="form-control icon-user">
+                                    <input type="text" id="customer_format_code" name="customer_format_code" maxlength="20" data-attr="value:customer_format_code"
+                                           placeholder="CUS%04d">
+                                </span>
+                                <div class="comment" id="result_customer_format_code" data-i18n>Number such as %04d (%04d means 4 digits, maximum 11 digits)</div>
+                            </div>
+                            <div>
+                                <label for="supplier_format_code" data-i18n>Supplier</label>
+                                <span class="form-control icon-customer">
+                                    <input type="text" id="supplier_format_code" name="supplier_format_code" maxlength="20" data-attr="value:supplier_format_code"
+                                           placeholder="SUP%04d">
+                                </span>
+                                <div class="comment" id="result_supplier_format_code" data-i18n>Number such as %04d (%04d means 4 digits, maximum 11 digits)</div>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend class="icon-thumbnail" data-i18n>{LNG_Size of} {LNG_Image}</legend>
+                            <div>
+                                <label for="inventory_w" data-i18n>Width</label>
+                                <span class="form-control icon-width">
+                                    <input type="number" id="inventory_w" name="inventory_w" min="200" max="3000" data-attr="value:inventory_w">
+                                </span>
+                                <div class="comment" data-i18n>{LNG_Image size is in pixels} ({LNG_resized automatically})</div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="submit">
+                            <button type="submit" class="btn btn-primary icon-save" data-i18n>{LNG_Save}</button>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer class="footer">
+        <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+    </footer>
+</div>

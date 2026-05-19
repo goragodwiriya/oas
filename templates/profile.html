@@ -1,0 +1,212 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <!-- User Registration Form -->
+      <form data-form="profile" data-validate="true" data-reset="true" action="api/index/profile/save" method="post" data-ajax-submit="true" data-load-query-params="true"
+            data-load-query-params="true" data-load-api="api/index/profile/get" autocomplete="off" data-on-load="initProfile">
+        <div class="card-groups">
+          <header>
+            <div>
+              <h1 class="icon-profile" data-text="id ? '{LNG_Edit profile}' : '{LNG_New profile}'" data-i18n></h1>
+              <p data-text="id ? '{LNG_Editing existing profile}' : '{LNG_Creating new profile}'" data-i18n></p>
+            </div>
+          </header>
+          <div class="content-body">
+            <!-- Account Information -->
+            <fieldset>
+              <legend data-i18n>Account Information</legend>
+              <div>
+                <label for="username" data-i18n>Username</label>
+                <span class="form-control icon-user">
+                  <input type="text" id="username" name="username" required maxlength="50" autofocus data-attr="value:username" autocomplete="off">
+                </span>
+              </div>
+              <div>
+                <div class="form-group">
+                  <div class="width50">
+                    <label for="password" data-i18n>Password</label>
+                    <span class="form-control icon-password">
+                      <input maxlength="20" type="password" id="password" name="password" data-password-criteria-list="false"
+                             data-password-strength="bar">
+                    </span>
+                  </div>
+                  <div class="width50">
+                    <label for="repassword" data-i18n>Confirm Password</label>
+                    <span class="form-control icon-password">
+                      <input maxlength="20" type="password" id="repassword" name="repassword" data-target-password="password">
+                    </span>
+                  </div>
+                </div>
+                <div class="comment" id="result_password" data-i18n>Password must be at least 8 characters long and contain at least one uppercase letter and one lowercase letter.
+                </div>
+              </div>
+            </fieldset>
+            <!-- Personal Information -->
+            <fieldset>
+              <legend data-i18n>Personal Information</legend>
+              <div>
+                <label for="avatar" data-i18n>Avatar</label>
+                <span class="form-control icon-portfolio">
+                  <input type="file" id="avatar" name="avatar" data-files="avatar" data-preview="true" data-allow-remove-existing="true"
+                         data-action-url="api/index/profile/remove-avatar" data-file-reference="url" accept="image/*">
+                </span>
+                <div class="comment" id="result_avatar" data-i18n>{LNG_Browse image uploaded, type} jpg, jpeg, png, webp</div>
+              </div>
+              <div class="form-group">
+                <div class="width50">
+                  <label for="name" data-i18n>Full Name</label>
+                  <span class="form-control icon-profile">
+                    <input type="text" id="name" name="name" data-attr="value:name" required maxlength="150" autocomplete="off">
+                  </span>
+                </div>
+                <div class="width50">
+                  <label for="department" data-i18n>Department</label>
+                  <span class="form-control icon-group">
+                    <select id="department" name="department" data-attr="value:metas['department'][0],disabled:!isSuperAdmin" data-options-key="department">
+                      <option value="" data-i18n>Not specified</option>
+                    </select>
+                  </span>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="width50">
+                  <label for="sex" data-i18n>Gender</label>
+                  <span class="form-control icon-sex">
+                    <select id="sex" name="sex" data-options-key="sex" data-attr="value:sex">
+                      <option value="">Not specified</option>
+                    </select>
+                  </span>
+                </div>
+                <div class="width50">
+                  <label for="birthday" data-i18n>Birthday</label>
+                  <span class="form-control icon-calendar">
+                    <input type="date" id="birthday" name="birthday" data-attr="value:birthday">
+                  </span>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="width50">
+                  <label for="id_card" data-i18n>ID Card</label>
+                  <span class="form-control icon-profile">
+                    <input type="text" id="id_card" name="id_card" data-attr="value:id_card" maxlength="13">
+                  </span>
+                </div>
+                <div class="width50">
+                  <label for="tax_id" data-i18n>Tax ID</label>
+                  <span class="form-control icon-profile">
+                    <input type="text" id="tax_id" name="tax_id" data-attr="value:tax_id" maxlength="13">
+                  </span>
+                </div>
+              </div>
+              <div>
+                <label for="signature" data-i18n>Signature</label>
+                <span class="form-control icon-gesture">
+                  <input type="file" id="signature" name="signature" data-files="signature" data-preview="true" data-allow-remove-existing="true"
+                         data-action-url="api/index/profile/remove-signature" data-file-reference="url" accept="image/*">
+                </span>
+                <div class="comment" id="result_signature" data-i18n>{LNG_Browse image uploaded, type} jpg, jpeg, png, webp</div>
+              </div>
+            </fieldset>
+            <!-- Contact Information -->
+            <fieldset>
+              <legend data-i18n>Contact Information</legend>
+              <div class="form-group">
+                <div class="width50">
+                  <label for="phone" data-i18n>Phone</label>
+                  <span class="form-control icon-phone">
+                    <input type="tel" id="phone" name="phone" data-attr="value:phone" maxlength="20" autocomplete="off">
+                  </span>
+                </div>
+                <div class="width50">
+                  <label for="phone1" data-i18n>Fax</label>
+                  <span class="form-control icon-print">
+                    <input type="tel" id="phone1" name="phone1" data-attr="value:phone1" maxlength="20" autocomplete="off">
+                  </span>
+                </div>
+              </div>
+              <div>
+                <label for="website" data-i18n>Website</label>
+                <span class="form-control icon-link">
+                  <input type="url" id="website" name="website" data-attr="value:website" maxlength="255" placeholder="https://" autocomplete="off">
+                </span>
+              </div>
+              <div>
+                <label for="company" data-i18n>Company</label>
+                <span class="form-control icon-office">
+                  <input type="text" id="company" name="company" data-attr="value:company" maxlength="64" autocomplete="off">
+                </span>
+              </div>
+            </fieldset>
+            <!-- Address Information -->
+            <fieldset>
+              <legend data-i18n>Address</legend>
+              <div>
+                <label for="address" data-i18n>{LNG_Address} 1</label>
+                <span class="form-control icon-address">
+                  <textarea rows="2" id="address" name="address" data-text="address" maxlength="64" autocomplete="off"></textarea>
+                </span>
+              </div>
+              <div>
+                <label for="address2" data-i18n>{LNG_Address} 2</label>
+                <span class="form-control icon-address">
+                  <textarea rows="2" id="address2" name="address2" data-text="address2" maxlength="64"></textarea>
+                </span>
+              </div>
+              <div class="form-group">
+                <div class="width50">
+                  <label for="provinceID" data-i18n>Province</label>
+                  <span class="form-control icon-location">
+                    <input type="text" id="provinceID" name="provinceID" data-options-key="province" data-attr="value:provinceID" placeholder="{LNG_Type to search}">
+                  </span>
+                </div>
+                <div class="width50">
+                  <label for="zipcode" data-i18n>Zipcode</label>
+                  <span class="form-control icon-location">
+                    <input type="text" id="zipcode" name="zipcode" data-attr="value:zipcode" maxlength="5">
+                  </span>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset data-if="isSuperAdmin">
+              <legend data-i18n>Other</legend>
+              <div class="form-group">
+                <div class="width50">
+                  <label for="status" data-i18n>Status</label>
+                  <span class="form-control icon-menus">
+                    <select id="status" name="status" data-options-key="status" data-attr="value:status">
+                      <option value="0" data-i18n>General</option>
+                    </select>
+                  </span>
+                </div>
+                <div class="width50">
+                  <label for="active" data-i18n>Active</label>
+                  <span class="form-control icon-menus">
+                    <select id="active" name="active" data-attr="value:active">
+                      <option value="0" data-i18n>Inactive</option>
+                      <option value="1" data-i18n>Active</option>
+                    </select>
+                  </span>
+                </div>
+              </div>
+              <div>
+                <label for="permission" data-i18n>Permissions</label>
+                <span class="form-control icon-world">
+                  <input type="text" id="permission" name="permission" data-element="tags" data-attr="value:permission" data-options-key="permission">
+                </span>
+              </div>
+            </fieldset>
+            <fieldset class="submit">
+              <button type="submit" class="btn btn-primary icon-save" data-i18n>Save</button>
+              <input type="hidden" name="id" data-attr="value:id">
+            </fieldset>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

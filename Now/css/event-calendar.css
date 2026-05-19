@@ -1,0 +1,785 @@
+/**
+ * EventCalendar Styles
+ * Full-featured event calendar with spanning events
+ */
+/* ========================================
+   CSS Variables
+   ======================================== */
+:root {
+  /* Colors */
+  --ec-primary: #4285F4;
+  --ec-primary-hover: #3367D6;
+  --ec-bg: #ffffff;
+  --ec-bg-secondary: rgba(0, 0, 0, 0.04);
+  --ec-border: #e0e0e0;
+  --ec-text: #3c4043;
+  --ec-text-secondary: #70757a;
+  --ec-today-text: #1a73e8;
+  --ec-weekend-bg: #fafafa;
+  --ec-other-month: #9e9e9e;
+  --ec-hover: rgba(66, 133, 244, 0.08);
+  --ec-event-text: #ffffff;
+  /* Sizing */
+  --ec-header-height: 56px;
+  --ec-day-height: 120px;
+  --ec-event-height: 22px;
+  --ec-event-gap: 2px;
+  --ec-allday-label-width: 60px;
+  --ec-time-label-width: 60px;
+  --ec-border-radius: 8px;
+  --ec-event-radius: 4px;
+  /* Transitions */
+  --ec-transition: 0.2s ease;
+}
+/* Dark mode */
+[data-theme=dark] {
+  --ec-bg: #1e1e1e;
+  --ec-bg-secondary: rgba(255, 255, 255, 0.1);
+  --ec-border: #3d3d3d;
+  --ec-text: #e8eaed;
+  --ec-text-secondary: #9aa0a6;
+  --ec-today-text: #8ab4f8;
+  --ec-weekend-bg: #252525;
+  --ec-other-month: #6b6b6b;
+  --ec-hover: rgba(138, 180, 248, 0.12);
+}
+/* ========================================
+   Calendar Container
+   ======================================== */
+.event-calendar {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  background: var(--ec-bg);
+  border: 1px solid var(--ec-border);
+  border-radius: var(--ec-border-radius);
+  overflow: hidden;
+  color: var(--ec-text);
+}
+/* ========================================
+   Header
+   ======================================== */
+.ec-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--ec-bg);
+  border-bottom: 1px solid var(--ec-border);
+  gap: 16px;
+  flex-wrap: wrap;
+}
+/* Navigation */
+.ec-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ec-nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  padding: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ec-text);
+  cursor: pointer;
+  transition: background var(--ec-transition);
+}
+.ec-nav-btn:hover {
+  background: var(--ec-hover);
+}
+.ec-nav-btn:active {
+  background: rgba(66, 133, 244, 0.15);
+}
+.ec-nav-btn svg {
+  width: 20px;
+  height: 20px;
+}
+.ec-current-period {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  min-width: 180px;
+  color: var(--ec-text);
+}
+.ec-current-period-label {
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+}
+.ec-period-picker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.ec-period-picker[hidden] {
+  display: none;
+}
+.ec-period-select {
+  border: none;
+  padding: 0;
+  text-align: center;
+  background-image: url();
+}
+.ec-period-select:focus {
+  outline: 2px solid rgba(66, 133, 244, 0.2);
+  outline-offset: 1px;
+}
+.ec-period-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.ec-today-btn {
+  padding: 8px 16px;
+  border: 1px solid var(--ec-border);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--ec-primary);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--ec-transition);
+  white-space: nowrap;
+}
+.ec-today-btn:hover {
+  background: var(--ec-hover);
+}
+.ec-nav-btn:disabled,
+.ec-today-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.ec-nav-btn:disabled:hover,
+.ec-today-btn:disabled:hover {
+  background: transparent;
+}
+/* View Switcher */
+.ec-view-switcher {
+  display: flex;
+  border: 1px solid var(--ec-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.ec-view-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ec-text-secondary);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all var(--ec-transition);
+}
+.ec-view-btn:not(:last-child) {
+  border-right: 1px solid var(--ec-border);
+}
+.ec-view-btn:hover {
+  background: var(--ec-hover);
+}
+.ec-view-btn.active {
+  background: var(--ec-primary);
+  color: white;
+}
+/* ========================================
+   Month View
+   ======================================== */
+.ec-month-view {
+  overflow-x: auto;
+}
+.ec-month-grid {
+  min-width: 600px;
+}
+/* Weekday Header */
+.ec-weekday-header {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  background: var(--ec-bg-secondary);
+  border-bottom: 1px solid var(--ec-border);
+}
+.ec-weekday {
+  padding: 12px 8px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--ec-text-secondary);
+}
+/* Week Row */
+.ec-week-row {
+  --ec-month-bar-space: 0px;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: var(--ec-day-height);
+  border-bottom: 1px solid var(--ec-border);
+}
+.ec-week-row:last-child {
+  border-bottom: none;
+}
+/* Day Layer */
+.ec-day-layer {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  position: relative;
+  z-index: 1;
+}
+/* Event Layer */
+.ec-event-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+.ec-event-layer > * {
+  pointer-events: auto;
+}
+/* Day Cell */
+.ec-day-cell {
+  position: relative;
+  padding: 0;
+  min-height: var(--ec-day-height);
+  border-right: 1px solid var(--ec-border);
+  cursor: pointer;
+  transition: background var(--ec-transition);
+  min-width: 0;
+}
+.ec-day-cell:last-child {
+  border-right: none;
+}
+.ec-day-cell:hover {
+  background: var(--ec-hover);
+}
+.ec-day-cell.ec-weekend {
+  background: var(--ec-weekend-bg);
+}
+.ec-day-cell.ec-other-month {
+  background: transparent;
+}
+.ec-day-cell.ec-other-month .ec-day-number {
+  color: var(--ec-other-month);
+}
+/* Day Number */
+.ec-day-number {
+  display: flex;
+  align-items: center;
+  height: var(--ec-event-height);
+  line-height: var(--ec-event-height);
+  padding: 0 4px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--ec-text);
+}
+.ec-today .ec-day-number {
+  background: var(--ec-primary);
+  color: white;
+  font-weight: 500;
+}
+.ec-day-events {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ec-event-gap);
+  margin-top: var(--ec-month-bar-space);
+  padding: 2px 4px 18px;
+}
+.ec-day-event:hover {
+  background: var(--ec-hover);
+}
+/* More Events Indicator */
+.ec-more-events {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-size: 11px;
+  color: var(--ec-text-secondary);
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 2px;
+  transition: background var(--ec-transition);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+.ec-more-events:hover {
+  background: var(--ec-hover);
+  color: var(--ec-primary);
+}
+/* ========================================`
+   Spanning Event Bars
+   ======================================== */
+.ec-day-event,
+.ec-event-bar,
+.ec-timed-event {
+  border-left: 3px solid var(--ec-day-event-color, var(--ec-primary));
+  background: var(--ec-bg-secondary);
+  color: var(--ec-text);
+  transition: opacity var(--ec-transition), transform var(--ec-transition);
+  font-size: 11px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  min-width: 0;
+}
+.ec-day-event,
+.ec-event-bar {
+  display: block;
+  height: var(--ec-event-height);
+  line-height: var(--ec-event-height);
+}
+.ec-day-event {
+  width: 100%;
+  padding: 0 6px;
+  border-radius: 0 var(--ec-event-radius) var(--ec-event-radius) 0;
+}
+.ec-event-bar {
+  position: absolute;
+  padding: 0 8px;
+  z-index: 10;
+}
+.ec-timed-event {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  line-height: 1.2;
+  white-space: normal;
+}
+.ec-day-event:hover,
+.ec-event-bar:hover,
+.ec-timed-event:hover {
+  opacity: 0.9;
+}
+.ec-day-event.ec-schedule-recurring-slot {
+  border-left-style: dashed;
+  font-weight: 500;
+}
+.ec-timed-event.ec-schedule-recurring-slot {
+  border-left-style: dashed;
+}
+.ec-timed-event.ec-continuation-slice {
+  opacity: 0.88;
+}
+.ec-event-bar.ec-event-start {
+  border-radius: var(--ec-event-radius) 0 0 var(--ec-event-radius);
+}
+.ec-event-bar.ec-event-end {
+  border-radius: 0 var(--ec-event-radius) var(--ec-event-radius) 0;
+}
+.ec-event-bar.ec-event-start.ec-event-end {
+  border-radius: var(--ec-event-radius);
+}
+.ec-day-event-title,
+.ec-event-title {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* ========================================
+   Week View
+   ======================================== */
+.ec-week-view {
+  overflow: hidden;
+}
+.ec-week-container {
+  display: flex;
+  flex-direction: column;
+  height: 600px;
+}
+/* All-day Section */
+.ec-allday-section {
+  display: grid;
+  grid-template-columns: var(--ec-allday-label-width) minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  border-bottom: 1px solid var(--ec-border);
+  min-height: 80px;
+}
+.ec-allday-label {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  font-size: 11px;
+  color: var(--ec-text-secondary);
+  text-transform: uppercase;
+  width: auto;
+}
+.ec-allday-grid {
+  grid-column: 2;
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  padding-left: 0;
+}
+.ec-week-day-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+  border-right: 1px solid var(--ec-border);
+  min-width: 0;
+}
+.ec-week-day-header:last-child {
+  border-right: none;
+}
+.ec-week-dayname {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--ec-text-secondary);
+}
+.ec-week-daynum {
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--ec-text);
+}
+.ec-week-day-header.ec-today .ec-week-daynum {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  background: var(--ec-primary);
+  color: white;
+  border-radius: 50%;
+}
+.ec-allday-events {
+  grid-column: 2;
+  grid-row: 2;
+  position: relative;
+  min-height: var(--ec-week-allday-space, var(--ec-event-height));
+  margin-left: 0;
+}
+/* Time Grid */
+.ec-time-grid {
+  display: flex;
+  flex: 1;
+  overflow-y: auto;
+}
+.ec-time-labels {
+  width: var(--ec-time-label-width);
+  flex-shrink: 0;
+}
+.ec-time-label {
+  height: 48px;
+  padding: 0 8px;
+  font-size: 11px;
+  color: var(--ec-text-secondary);
+  text-align: right;
+}
+.ec-day-columns {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  flex: 1;
+}
+.ec-day-column {
+  position: relative;
+  border-right: 1px solid var(--ec-border);
+  min-width: 0;
+}
+.ec-day-column:last-child {
+  border-right: none;
+}
+.ec-hour-slot {
+  height: 48px;
+  border-bottom: 1px solid var(--ec-border);
+  cursor: pointer;
+  transition: background var(--ec-transition);
+}
+.ec-hour-slot:hover {
+  background: var(--ec-hover);
+}
+/* Timed Events */
+.ec-timed-event {
+  position: absolute;
+  padding: 4px 6px;
+  border-radius: var(--ec-event-radius);
+  font-size: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  z-index: 10;
+  transition: opacity var(--ec-transition);
+  pointer-events: auto;
+}
+.ec-timed-event:hover {
+  opacity: 0.9;
+}
+.ec-timed-event .ec-event-time {
+  font-size: 10px;
+  opacity: 0.9;
+}
+.ec-timed-event .ec-event-title {
+  font-weight: 500;
+}
+/* ========================================
+   Day View
+   ======================================== */
+.ec-day-view {
+  overflow: hidden;
+}
+.ec-day-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+  font-size: 24px;
+  color: var(--ec-text);
+}
+.ec-day-header .ec-day-name {
+  font-weight: 400;
+  color: var(--ec-text-secondary);
+}
+.ec-day-header .ec-day-date {
+  font-size: 36px;
+  font-weight: 400;
+}
+.ec-day-header .ec-day-month {
+  font-weight: 400;
+}
+.ec-day-allday {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--ec-border);
+  background: var(--ec-bg-secondary);
+}
+.ec-allday-event {
+  min-width: 0;
+  padding: 6px 12px;
+  border-radius: var(--ec-event-radius);
+  color: var(--ec-event-text);
+  font-size: 13px;
+  cursor: pointer;
+  transition: opacity var(--ec-transition);
+}
+.ec-allday-event:hover {
+  opacity: 0.9;
+}
+.ec-day-time-grid {
+  position: relative;
+  height: 500px;
+  overflow-y: auto;
+}
+.ec-day-events-layer {
+  position: absolute;
+  top: 0;
+  left: var(--ec-time-label-width);
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+.ec-day-time-grid .ec-hour-slot {
+  display: flex;
+  height: 48px;
+  border-bottom: 1px solid var(--ec-border);
+}
+.ec-hour-label {
+  width: var(--ec-time-label-width);
+  padding: 0 8px;
+  font-size: 11px;
+  color: var(--ec-text-secondary);
+  text-align: right;
+  flex-shrink: 0;
+}
+.ec-hour-area {
+  flex: 1;
+  cursor: pointer;
+  transition: background var(--ec-transition);
+}
+.ec-hour-area:hover {
+  background: var(--ec-hover);
+}
+/* ========================================
+   Loading State
+   ======================================== */
+.ec-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+  gap: 16px;
+  color: var(--ec-text-secondary);
+}
+.ec-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--ec-border);
+  border-top-color: var(--ec-primary);
+  border-radius: 50%;
+  animation: ec-spin 0.8s linear infinite;
+}
+@keyframes ec-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* ========================================
+   Modal Styles
+   ======================================== */
+.ec-modal-event {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  margin-bottom: 8px;
+  border-left: 4px solid var(--ec-primary);
+  background: var(--ec-bg-secondary);
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  transition: background var(--ec-transition);
+}
+.ec-modal-event:hover {
+  background: var(--ec-hover);
+}
+.ec-modal-event.is-static {
+  cursor: default;
+}
+.ec-modal-event.is-static:hover {
+  background: var(--ec-bg-secondary);
+}
+.ec-modal-event-title {
+  font-weight: 500;
+  color: var(--ec-text);
+}
+.ec-modal-event-time,
+.ec-modal-event-location {
+  font-size: 12px;
+  color: var(--ec-text-secondary);
+}
+.ec-modal-event-description {
+  font-size: 13px;
+  color: var(--ec-text);
+  white-space: pre-wrap;
+}
+.ec-no-events {
+  padding: 24px;
+  text-align: center;
+  color: var(--ec-text-secondary);
+}
+/* ========================================
+   Responsive Design
+   ======================================== */
+@media (max-width: 768px) {
+  :root {
+    --ec-allday-label-width: 40px;
+    --ec-time-label-width: 40px;
+  }
+  .ec-header {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+  }
+  .ec-nav {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .ec-current-period {
+    font-size: 16px;
+    min-width: auto;
+  }
+  .ec-view-switcher {
+    width: 100%;
+  }
+  .ec-view-btn {
+    flex: 1;
+    padding: 10px 8px;
+  }
+  .ec-month-grid {
+    min-width: 100%;
+  }
+  .ec-weekday {
+    font-size: 10px;
+    padding: 8px 4px;
+  }
+  .ec-day-cell {
+    min-height: 80px;
+    padding: 2px;
+  }
+  .ec-day-number {
+    font-size: 12px;
+  }
+  .ec-day-event {
+    font-size: 10px;
+  }
+  .ec-event-bar {
+    font-size: 10px;
+    padding: 0 4px;
+  }
+  .ec-more-events {
+    font-size: 10px;
+  }
+  /* Week view adjustments */
+  .ec-week-container {
+    height: 500px;
+  }
+  .ec-allday-label {
+    font-size: 9px;
+  }
+  .ec-time-labels {
+    width: 40px;
+  }
+  .ec-time-label {
+    font-size: 9px;
+    padding: 0 4px;
+  }
+  .ec-hour-label {
+    width: 40px;
+    font-size: 9px;
+  }
+}
+@media (max-width: 480px) {
+  :root {
+    --ec-day-height: 60px;
+    --ec-event-height: 16px;
+  }
+  .ec-month-grid {
+    font-size: 12px;
+  }
+  .ec-day-cell {
+    min-height: 60px;
+  }
+  .ec-day-number {
+    font-size: 11px;
+  }
+  .ec-event-bar {
+    font-size: 9px;
+    padding: 0 4px;
+  }
+}
+/* ========================================
+   Print Styles
+   ======================================== */
+@media print {
+  .event-calendar {
+    border: none;
+    box-shadow: none;
+  }
+  .ec-header {
+    background: white;
+  }
+  .ec-nav-btn,
+  .ec-today-btn,
+  .ec-view-switcher {
+    display: none;
+  }
+  .ec-event-bar {
+    color: black !important;
+    background: #f0f0f0 !important;
+    border: 1px solid #999;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

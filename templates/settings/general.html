@@ -1,0 +1,144 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content" data-script="initGeneralSettings">
+      <div class="card-groups">
+        <header>
+          <div>
+            <h1 class="icon-settings" data-i18n>General Settings</h1>
+            <p data-i18n>Website configuration and system settings</p>
+          </div>
+        </header>
+        <div class="content-body">
+          <!-- Settings Form -->
+          <form data-form="settings" action="api/index/settings/save" method="POST" data-ajax-submit="true" data-load-api="api/index/settings/general" data-confirm="Confirm save">
+            <!-- General Settings -->
+            <fieldset>
+              <legend class="icon-cog" data-i18n>General</legend>
+              <div>
+                <label for="web_title" data-i18n>Website Title</label>
+                <span class="form-control icon-home">
+                  <input type="text" id="web_title" name="web_title" maxlength="100" data-attr="value:web_title">
+                </span>
+                <div class="comment" id="result_web_title" data-i18n>Site Name</div>
+              </div>
+              <div>
+                <label for="web_description" data-i18n>Website Description</label>
+                <span class="form-control icon-edit">
+                  <input type="text" id="web_description" name="web_description" maxlength="255" required data-attr="value:web_description">
+                </span>
+                <div class="comment" id="result_web_description" data-i18n>Short description about your website</div>
+              </div>
+              <div>
+                <label for="logo" data-i18n>Logo</label>
+                <span class="form-control icon-image">
+                  <input type="file" id="logo" name="logo" data-files="logo" data-preview="true" data-allow-remove-existing="true" data-action-url="api/index/settings/remove-logo"
+                         data-file-reference="url" accept="image/*">
+                </span>
+                <div class="comment" id="result_logo" data-i18n>{LNG_Browse image uploaded, type} jpg, jpeg, png, webp</div>
+              </div>
+              <div>
+                <label for="timezone" data-i18n>Timezone</label> (<span data-i18n>Server time</span>&nbsp;<em data-text="server_time" id="server_time"></em>,&nbsp;<span
+                      data-i18n>Local time</span>&nbsp;<em id=local_time></em>) <span class="form-control icon-clock">
+                  <select id="timezone" name="timezone" data-options-key="timezone" data-attr="value:timezone">
+                    <option value="" data-i18n>Please select</option>
+                  </select>
+                </span>
+                <div class="comment" id="result_timezone" data-i18n>Settings the timing of the server to match the local time</div>
+              </div>
+              <div>
+                <label for="server_version" data-i18n>Server Version</label>
+                <span class="form-control icon-host">
+                  <input type="text" id="server_version" name="server_version" disabled data-attr="value:server_version">
+                </span>
+              </div>
+            </fieldset>
+            <!-- Registration Settings -->
+            <fieldset>
+              <legend class="icon-user" data-i18n>User</legend>
+              <div>
+                <input type="checkbox" class="switch" id="user_register" name="user_register" data-attr="checked:user_register">
+                <label for="user_register" data-i18n>Allow User Registration</label>
+              </div>
+              <div>
+                <input type="checkbox" class="switch" id="new_members_active" name="new_members_active" data-attr="checked:new_members_active">
+                <label for="new_members_active" data-i18n>If disabled, new members will be waiting to check from the staff</label>
+              </div>
+              <div>
+                <input type="checkbox" class="switch" id="user_forgot" name="user_forgot" data-attr="checked:user_forgot">
+                <label for="user_forgot" data-i18n>Allow Forgot Password</label>
+              </div>
+              <div>
+                <input type="checkbox" class="switch" id="activate_user" name="activate_user" data-attr="checked:activate_user">
+                <label for="activate_user" data-i18n>Require Email Verification</label>
+              </div>
+              <div>
+                <input type="checkbox" class="switch" id="require_terms_acceptance" name="require_terms_acceptance" data-attr="checked:require_terms_acceptance">
+                <label for="require_terms_acceptance" data-i18n>Require Terms Acceptance</label>
+              </div>
+              <div data-if="options.department.length > 0">
+                <label for="default_department" data-i18n>Department</label>
+                <span class="form-control icon-group">
+                  <select id="default_department" name="default_department" data-options-key="department" data-attr="value:default_department">
+                    <option value="" data-i18n>Please select</option>
+                  </select>
+                </span>
+                <div class="comment" id="result_default_department" data-i18n>Default department for new members</div>
+              </div>
+            </fieldset>
+            <!-- Social Login -->
+            <fieldset>
+              <legend class="icon-share" data-i18n>Social Login</legend>
+              <div>
+                <label for="facebook_appId" data-i18n>Facebook App ID</label>
+                <a class="icon-help" href="https://gcms.in.th/index.php?module=howto&amp;id=350" target="_blank"></a>
+                <span class="form-control icon-facebook">
+                  <input type="text" id="facebook_appId" name="facebook_appId" data-attr="value:facebook_appId">
+                </span>
+              </div>
+              <div>
+                <label for="google_client_id" data-i18n>Google client ID</label>
+                <a class="icon-help" href="https://gcms.in.th/index.php?module=howto&amp;id=374" target="_blank"></a>
+                <span class="form-control icon-google">
+                  <input type="text" name="google_client_id" id="google_client_id" data-attr="value:google_client_id">
+                </span>
+                <div id="result_google_client_id" class="comment"><em>xxxxxxxxxx</em>.apps.googleusercontent.com</div>
+              </div>
+              <div>
+                <input type="checkbox" class="switch" id="demo_mode" name="demo_mode" data-attr="checked:demo_mode">
+                <label for="demo_mode" data-i18n>When enabled, Social accounts can be logged in as an administrator. (Some abilities will not be available)</label>
+              </div>
+            </fieldset>
+            <!-- Cache Settings -->
+            <fieldset>
+              <legend class="icon-database" data-i18n>Cache</legend>
+              <div>
+                <label for="cache_expire" data-i18n>Cache Duration</label>
+                <span class="form-control icon-clock">
+                  <input type="number" id="cache_expire" name="cache_expire" min="0" max="86400" data-attr="value:cache_expire" placeholder="0">
+                </span>
+                <div class="comment" id="result_cache_expire" data-i18n>Cache duration in seconds (0 = disabled)</div>
+              </div>
+              <div>
+                <label data-i18n>Clear Cache</label>
+                <button type="button" class="btn btn-warning icon-delete" id="clearCacheBtn" data-action="click.prevent:requestApi" data-api-url="api/index/cache/clear"
+                        data-api-method="post" data-confirm="Are you sure you want to clear all cache?" data-loading-text="Clearing Cache" data-notify-success="true"
+                        data-i18n>Clear All Cache</button>
+                <div class="comment" data-i18n>Remove all cached data to refresh content</div>
+              </div>
+            </fieldset>
+            <!-- Submit Button -->
+            <fieldset class="submit">
+              <input type="hidden" name="module" value="general">
+              <button type="submit" class="btn btn-primary icon-save" data-i18n>Save</button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

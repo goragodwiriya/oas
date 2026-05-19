@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="%LANG%">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>%TITLE%</title>
+    <link rel="stylesheet" href="%WEB_URL%modules/export/views/print.css">
+    <style>
+        @page {
+            size: %PAPER% %ORIENTATION%;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <button type="button" class="btn-print" onclick="window.print()">{LNG_Print}</button>
+    <div class="print-content">%CONTENT%</div>
+</body>
+
+</html>

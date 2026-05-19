@@ -1,0 +1,48 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups">
+        <header>
+          <div>
+            <h1 class="icon-verfied" data-i18n>Cookie Policy</h1>
+            <p data-i18n>Cookie policy settings</p>
+          </div>
+        </header>
+        <div class="content-body">
+          <!-- Cookie Policy -->
+          <form data-form="settings" action="api/index/settings/save" method="POST" data-ajax-submit="true" data-load-api="api/index/settings/cookie-policy"
+                data-confirm="Confirm save">
+            <fieldset>
+              <legend class="icon-verfied" data-i18n>General</legend>
+              <div>
+                <label>
+                  <input type="checkbox" class="switch" id="cookie_policy" name="cookie_policy" data-attr="checked:cookie_policy">
+                  <label for="cookie_policy" data-i18n>Show Cookie Policy</label>
+                </label>
+                <div class="comment" id="result_cookie_policy" data-i18n>When enabled, a cookies consent banner will be displayed.</div>
+              </div>
+              <div>
+                <label for="data_controller" data-i18n>Data Protection Officer</label>
+                <span class="form-control icon-email">
+                  <input type="email" id="data_controller" name="data_controller" maxlength="100" data-attr="value:data_controller">
+                </span>
+                <div class="comment" id="result_data_controller" data-i18n>The e-mail address of the person or entity that has the authority to make decisions about the collection,
+                  use or dissemination of personal data.</div>
+              </div>
+            </fieldset>
+            <!-- Submit Button -->
+            <fieldset class="submit">
+              <input type="hidden" name="module" value="cookie-policy">
+              <button type="submit" class="btn btn-primary icon-save" data-i18n>Save</button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

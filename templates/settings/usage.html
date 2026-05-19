@@ -1,0 +1,74 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups">
+        <header>
+          <div>
+            <h1 class="icon-report" data-i18n>Usage history</h1>
+            <p data-i18n>View usage history</p>
+          </div>
+        </header>
+        <div class="content-body">
+          <div class="tablebody">
+            <!-- External Filter Form -->
+            <form data-table-filter="usage" class="table_nav">
+              <div>
+                <label for="pageSize" data-i18n>Show</label>
+                <span class="form-control">
+                  <select name="pageSize">
+                    <option value="10" data-i18n>10 {LNG_entries}</option>
+                    <option value="25" data-i18n>25 {LNG_entries}</option>
+                    <option value="50" data-i18n>50 {LNG_entries}</option>
+                    <option value="100" data-i18n>100 {LNG_entries}</option>
+                  </select>
+                </span>
+              </div>
+              <div>
+                <label for="module" data-i18n>Module</label>
+                <span class="form-control">
+                  <select name="src" id="src">
+                    <option value="" data-i18n>Please select</option>
+                  </select>
+                </span>
+              </div>
+              <div>
+                <label for="from" data-i18n>From</label>
+                <span class="form-control">
+                  <input type="date" name="from" id="from">
+                </span>
+              </div>
+              <div>
+                <label for="to" data-i18n>To</label>
+                <span class="form-control">
+                  <input type="date" name="to" id="to">
+                </span>
+              </div>
+              <input type="search" name="search" placeholder="{LNG_Search}...">
+            </form>
+            <!-- Usage Table -->
+            <table class="table border fullwidth" data-table="usage" data-source="api/index/usage" data-default-sort="created_at desc" data-page-size="25"
+                   data-search-columns="name,topic,reason" data-action-url="api/index/usage/action" data-actions='{"delete":"Delete"}'>
+              <thead>
+                <tr>
+                  <th data-field="id" data-sort="id" data-i18n>ID</th>
+                  <th data-field="created_at" data-sort="created_at" data-format="datetime" data-i18n>{LNG_Created}</th>
+                  <th data-field="src" data-i18n>{LNG_Module}</th>
+                  <th data-field="action" data-i18n>{LNG_Action}</th>
+                  <th data-field="topic" data-sort="topic" data-i18n>{LNG_Details}</th>
+                  <th data-field="reason" data-i18n>{LNG_Reason}</th>
+                  <th data-field="name" data-sort="name" data-i18n>{LNG_Maker}</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

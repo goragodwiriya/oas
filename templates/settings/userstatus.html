@@ -1,0 +1,47 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups">
+        <header>
+          <div>
+            <h1 class="icon-star0" data-i18n>Member status</h1>
+            <p data-i18n>The members status of the site</p>
+          </div>
+        </header>
+        <div class="content-body">
+          <!-- User Status Form -->
+          <form data-form="settings" action="api/index/userstatus/save" method="post" data-ajax-submit="true" data-load-api="api/index/userstatus/get" data-confirm="Confirm save">
+            <fieldset class="grid">
+              <div class="tablebody">
+                <table class="table border fullwidth" data-table="userStatus" data-editable-rows="true" data-attr="data:userstatus">
+                  <thead>
+                    <tr>
+                      <th data-field="status" data-i18n>{LNG_Status}</th>
+                      <th data-field="color" data-cell-element="color" data-i18n>{LNG_Color}</th>
+                      <th data-field="topic" data-cell-element="text" data-size="20" data-max-length="50" data-i18n> {LNG_Status Name}</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+              <ul>
+                <li class="comment" data-i18n>Status 0 for general members (must have)</li>
+                <li class="comment" data-i18n>Status 1 for Administrator, can do everything (must have)</li>
+              </ul>
+            </fieldset>
+            <fieldset class="submit">
+              <button type="submit" class="btn btn-primary icon-save" data-i18n>Save</button>
+              <input type="hidden" name="module" value="user-status">
+            </fieldset>
+          </form>
+        </div>
+      </div>
+  </div>
+  </main>
+</div>
+<footer class="footer">
+  <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+</footer>
+</div>

@@ -1,0 +1,82 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+    <div>
+        <header data-component="topbar"></header>
+        <main class="content">
+            <div class="card-groups">
+                <header>
+                    <div>
+                        <h1 class="icon-cog" data-i18n>{LNG_Module settings}</h1>
+                        <p data-i18n>Inventory upload and warranty notification settings</p>
+                    </div>
+                </header>
+                <div class="content-body">
+                    <form data-form="inventorySettings" action="api/order/settings/save" method="POST" data-ajax-submit="true" data-load-api="api/order/settings/get"
+                          data-confirm="Confirm save">
+                        <fieldset>
+                            <legend class="icon-file" data-i18n>Purchase Order</legend>
+                            <div>
+                                <label for="company_authorized" data-i18n>Authorized</label>
+                                <span class="form-control icon-profile">
+                                    <input type="text" id="company_authorized" name="company_authorized" maxlength="150" data-attr="value:company_authorized"
+                                           data-options-key="users">
+                                </span>
+                                <div class="comment" id="result_company_authorized" data-i18n>Select the person authorized to sign the receipt.</div>
+                            </div>
+                            <div data-for="item in numbers">
+                                <template>
+                                    <div class="form-group">
+                                        <div class="width50">
+                                            <label for="inventory_prefix_{{item.type}}" data-text="item.label + ' ({LNG_Prefix})'"></label>
+                                            <span class="form-control icon-number">
+                                                <input type="text" id="inventory_prefix_{{item.type}}" name="inventory_prefix[{{item.type}}]" maxlength="50"
+                                                       data-attr="value:item.prefix">
+                                            </span>
+                                        </div>
+                                        <div class="width50">
+                                            <label for="inventory_no_{{item.type}}" data-i18n>Number</label>
+                                            <span class="form-control icon-number">
+                                                <input type="text" id="inventory_no_{{item.type}}" name="inventory_no[{{item.type}}]" maxlength="50" data-attr="value:item.no">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="comment" id="result_inventory_prefix_{{item.type}}" data-i18n>Number such as %04d (%04d means 4 digits, maximum 11 digits)</div>
+                                </template>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend class="icon-money" data-i18n>Finance</legend>
+                            <div class="form-group">
+                                <div class="width50">
+                                    <label for="inventory_bank_name" data-i18n>Bank</label>
+                                    <span class="form-control icon-office">
+                                        <input type="text" id="inventory_bank_name" name="inventory_bank_name" maxlength="100" data-attr="value:inventory_bank_name">
+                                    </span>
+                                </div>
+                                <div class="width50">
+                                    <label for="inventory_bank_account_name" data-i18n>Account Name</label>
+                                    <span class="form-control icon-profile">
+                                        <input type="text" id="inventory_bank_account_name" name="inventory_bank_account_name" maxlength="150"
+                                               data-attr="value:inventory_bank_account_name">
+                                    </span>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="inventory_bank_account_no" data-i18n>Account Number</label>
+                                <span class="form-control icon-number">
+                                    <input type="text" id="inventory_bank_account_no" name="inventory_bank_account_no" maxlength="30" data-attr="value:inventory_bank_account_no">
+                                </span>
+                            </div>
+                        </fieldset>
+                        <fieldset class="submit">
+                            <button type="submit" class="btn btn-primary icon-save" data-i18n>{LNG_Save}</button>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer class="footer">
+        <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+    </footer>
+</div>

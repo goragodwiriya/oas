@@ -1,0 +1,112 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups">
+        <header>
+          <div>
+            <h1 class="icon-support" data-i18n>AI Settings</h1>
+            <p data-i18n>Configure the AI connector provider, model, and API key</p>
+          </div>
+        </header>
+        <div class="content-body">
+          <form data-form="settings" action="api/index/settings/save" method="POST" data-ajax-submit="true" data-load-api="api/index/settings/ai" data-confirm="Confirm save"
+                autocomplete="off" data-on-load="initAiSettings">
+            <!-- Enable / Disable -->
+            <fieldset>
+              <legend class="icon-link" data-i18n>AI Connector</legend>
+              <div>
+                <label>
+                  <input type="checkbox" class="switch" id="ai_enabled" name="ai_enabled" data-attr="checked:ai_enabled">
+                  <label for="ai_enabled" data-i18n>Enable AI</label>
+                </label>
+                <div class="comment" id="result_ai_enabled" data-i18n>Enable or disable the AI connector globally</div>
+              </div>
+              <div>
+                <label for="ai_provider" data-i18n>Active Provider</label>
+                <span class="form-control icon-host">
+                  <select id="ai_provider" name="ai_provider" data-attr="value:ai_provider" data-options-key="ai_providers">
+                    <option value="" data-i18n>Please select</option>
+                  </select>
+                </span>
+                <div class="comment" id="result_ai_provider" data-i18n>The selected provider is the one used at runtime when the AI connector is enabled.</div>
+              </div>
+            </fieldset>
+            <!-- Provider settings -->
+            <fieldset>
+              <legend class="icon-config" data-i18n>Provider Settings</legend>
+              <div>
+                <label for="ai_edit_provider" data-i18n>Edit Provider</label>
+                <span class="form-control icon-host">
+                  <select id="ai_edit_provider" name="ai_edit_provider" data-attr="value:ai_edit_provider" data-options-key="ai_providers">
+                    <option value="" data-i18n>Please select</option>
+                  </select>
+                </span>
+                <div class="comment" id="result_ai_edit_provider" data-i18n>Select a provider to load and edit only that provider's saved settings.</div>
+              </div>
+              <div>
+                <label for="ai_api_key" data-i18n>API Key</label>
+                <span class="form-control icon-password">
+                  <input type="password" id="ai_api_key" name="ai_api_key" data-attr="value:ai_api_key" autocomplete="new-password">
+                </span>
+                <div class="comment" id="result_ai_api_key" data-i18n>API key stored for the selected provider only. Leave blank for local models if no key is required.</div>
+              </div>
+              <div>
+                <label for="ai_api_url" data-i18n>Custom API URL</label>
+                <span class="form-control icon-world">
+                  <input type="url" id="ai_api_url" name="ai_api_url" data-attr="value:ai_api_url" placeholder="https://api.openai.com/v1">
+                </span>
+                <div class="comment" id="result_ai_api_url" data-i18n>Custom URL stored for the selected provider only. Leave blank to use the provider default.</div>
+              </div>
+              <div>
+                <label for="ai_model" data-i18n>Model</label>
+                <span class="form-control icon-cpu">
+                  <select id="ai_model" name="ai_model" data-attr="value:ai_model">
+                    <option value="" data-i18n>Please select</option>
+                    <option value="__custom__" data-i18n>Custom</option>
+                  </select>
+                </span>
+                <div class="comment" id="result_ai_model" data-i18n>The model list comes from the provider class. If a model is added or removed, update it in the PHP class.</div>
+              </div>
+              <div id="ai_custom_model_field" class="hidden">
+                <label for="ai_custom_model" data-i18n>Custom Model</label>
+                <span class="form-control icon-support">
+                  <input type="text" id="ai_custom_model" name="ai_custom_model" data-attr="value:ai_custom_model" placeholder="Enter exact model ID">
+                </span>
+                <div class="comment" id="result_ai_custom_model" data-i18n>Enter the exact model ID when it is not in the built-in list.</div>
+              </div>
+            </fieldset>
+            <!-- Generation parameters -->
+            <fieldset>
+              <legend class="icon-cog" data-i18n>Generation Parameters</legend>
+              <div>
+                <label for="ai_max_tokens" data-i18n>Max Tokens</label>
+                <span class="form-control icon-number">
+                  <input type="number" id="ai_max_tokens" name="ai_max_tokens" data-attr="value:ai_max_tokens" min="1" max="32768" placeholder="1024">
+                </span>
+                <div class="comment" id="result_ai_max_tokens" data-i18n>Maximum number of tokens to generate per response (1 - 32768)</div>
+              </div>
+              <div>
+                <label for="ai_temperature" data-i18n>Temperature</label>
+                <span class="form-control icon-config">
+                  <input type="number" id="ai_temperature" name="ai_temperature" data-attr="value:ai_temperature" min="0" max="2" step="0.1" placeholder="0.7">
+                </span>
+                <div class="comment" id="result_ai_temperature" data-i18n>Sampling temperature 0.0 - 2.0. Lower = more deterministic output.</div>
+              </div>
+            </fieldset>
+            <!-- Submit -->
+            <fieldset class="submit">
+              <input type="hidden" name="module" value="ai">
+              <button type="submit" class="btn btn-primary icon-save" data-i18n>Save</button>
+              <button type="button" class="btn icon-support" id="test_ai" data-i18n>Test Connection</button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 Books Store - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

@@ -1,0 +1,59 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups">
+        <header>
+          <div>
+            <h1 class="icon-users" data-i18n>Users</h1>
+            <p data-i18n>Manage user accounts</p>
+          </div>
+          <div>
+            <a class="btn btn-primary icon-register" href="/profile?id=0" data-i18n>Register</a>
+          </div>
+        </header>
+        <div class="content-body">
+          <!-- Users Table -->
+          <div class="tablebody">
+            <table class="table border fullwidth" data-table="users" data-source="api/index/users" data-default-sort="created_at desc" data-page-size="25"
+                   data-search-columns="name,phone,username" data-show-checkbox="true"
+                   data-actions='{"approval":"Send login approval notification","sendactivation":"Send member confirmation message","sendpassword":"Send a new password request","activate":"Accept member verification request","deactivated":"Unable to log in","delete":"Delete"}'
+                   data-action-url="api/index/users/action" data-action-button="Process|btn-success" data-row-actions='{
+                              "edit": {
+                                "title": "Edit",
+                                "className": "btn btn-success icon-edit"
+                              },
+                              "impersonate": {
+                                "title": "Login as User",
+                                "className": "btn btn-warning icon-signin",
+                                "condition": "${id != 1}"
+                              }
+                          }'>
+              <thead>
+                <tr>
+                  <th data-field="id" data-sort="id" data-i18n>ID</th>
+                  <th data-field="name" data-sort="name"
+                      data-template="<span class='userinfo'><span class='usericon' style='background-image:url(${avatar})'>${initial_name}</span><span><span class='icon-${social}'>${name}</span><a class='icon-email' href='mailto:${username}'>${username}</a></span>"
+                      data-i18n>{LNG_Name}</th>
+                  <th data-field="department" data-sort="department" data-filter="true" data-type="select" data-show-all="true" data-all-value="" data-format="lookup" data-i18n>
+                    {LNG_Department}</th>
+                  <th data-field="active" class="center" data-cell-class="center" data-sort="active"
+                      data-template="<button class='btn-table-action' data-action='active' data-value='${active}'></button>" data-i18n>{LNG_Active}</th>
+                  <th data-field="phone" class="center" data-cell-class="center" data-template="<a href='tel:${phone}'>${phone}</a>" data-i18n>{LNG_Phone}</th>
+                  <th data-field="created_at" data-sort="created_at" class="center" data-cell-class="center" data-format="datetime" data-i18n>{LNG_Created}</th>
+                  <th data-field="status" data-sort="status" class="center" data-cell-class="center" data-filter="true" data-type="select" data-show-all="true" data-all-value=""
+                      data-label="Status" data-template="<span style='color:var(--status${status})'>${status_text}</span>" data-i18n>{LNG_Status}</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

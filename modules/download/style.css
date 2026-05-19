@@ -1,0 +1,65 @@
+.file_thumb,
+.file_list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.file_thumb div {
+  margin: 1em 1em 0 0;
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+td > .file_thumb div {
+  width: auto;
+  margin: 2px 5px;
+}
+.file_thumb a {
+  color: inherit;
+}
+.file_thumb .preview:not(.file-thumb) {
+  display: block;
+  height: 100%;
+  background-size: cover;
+}
+td > .file_thumb .preview {
+  width: 1.5em;
+  height: 1.5em;
+  line-height: 1.5em;
+}
+td > .file_thumb .preview > span {
+  font-size: 0.3em;
+}
+.file_thumb .icon-delete:before {
+  margin: 0;
+  position: absolute;
+  right: -0.85em;
+  top: -0.85em;
+  width: 1.7em;
+  height: 1.7em;
+  line-height: 1.7em;
+  text-align: center;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #FFF;
+  border-radius: 50em;
+}
+td > .file_thumb .icon-delete:before {
+  display: none;
+}
+.file_list > div {
+  border-radius: 5px;
+  border: 1px solid #eee;
+  transition: background-color 0.3s ease-out;
+}
+.file_list > div:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+.file_list a {
+  margin: 5px;
+  display: inline-block;
+  color: inherit;
+}
+.file_list a span {
+  margin-left: 5px;
+}

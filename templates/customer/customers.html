@@ -1,0 +1,47 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups">
+        <header id="customer-table-header">
+          <div>
+            <h1 class="icon-user" data-class="params.type === 'supplier' ? 'icon-customer' : 'icon-user'"
+                data-text="params.type === 'supplier' ? '{LNG_Supplier}' : '{LNG_Customer}'"></h1>
+            <p data-text="params.type === 'supplier' ? 'Manage supplier information' : 'Manage customer information'"></p>
+          </div>
+          <button class="btn btn-primary icon-new" data-action="click.prevent:requestApi" data-api-url="api/customer/customer/get" data-api-method="get"
+                  data-attr="data-param-type:params.type" data-param-context="customers"
+                  data-text="params.type === 'supplier' ? '{LNG_Add} {LNG_Supplier}' : '{LNG_Add} {LNG_Customer}'"></button>
+        </header>
+        <div class="content-body">
+          <div class="tablebody">
+            <table class="table border fullwidth" data-table="customers" data-source="api/customer/customers" data-load-target="#customer-table-header" data-default-sort="id desc"
+                   data-page-size="25" data-search-columns="name,code,phone,email" data-show-checkbox="true" data-actions='{"delete":"Delete"}'
+                   data-action-url="api/customer/customers/action" data-row-actions='{
+                "edit": {
+                  "label": "Edit",
+                  "className": "btn btn-success icon-edit"
+                }
+              }'>
+              <thead>
+                <tr>
+                  <th data-field="name" data-sort="name" data-i18n>{LNG_Name}</th>
+                  <th data-field="contact" data-sort="contact" data-i18n>{LNG_Contact}</th>
+                  <th data-field="phone" class="center" data-cell-class="center" data-i18n>{LNG_Phone}</th>
+                  <th data-field="email" data-i18n>{LNG_Email}</th>
+                  <th data-field="is_active" class="center" data-cell-class="center" data-sort="is_active"
+                      data-template="<button class='btn-table-action' data-action='active' data-value='${is_active}'></button>" data-i18n>{LNG_Active}</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

@@ -1,0 +1,63 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups">
+        <header>
+          <div>
+            <h1 class="icon-telegram" data-i18n>Telegram Settings</h1>
+            <p data-i18n>Telegram configuration and system settings</p>
+          </div>
+        </header>
+        <div class="content-body">
+          <!-- Settings Form -->
+          <form data-form="settings" action="api/index/settings/save" method="POST" data-ajax-submit="true" data-load-api="api/index/settings/telegram" data-confirm="Confirm save">
+            <!-- General Settings -->
+            <fieldset>
+              <legend class="icon-telegram">Telegram</legend>
+              <div>
+                <label for="telegram_bot_username" data-i18n>Bot Username (Telegram Login Widget)</label>
+                <span class="form-control icon-user">
+                  <input placeholder="/mybots" type="text" name="telegram_bot_username" id="telegram_bot_username" data-attr="value:telegram_bot_username">
+                </span>
+              </div>
+              <div>
+                <label for="telegram_chat_id" data-i18n>Chat ID</label>
+                <span class="form-control icon-support">
+                  <input placeholder="@my_notify" type="text" name="telegram_chat_id" id="telegram_chat_id" data-attr="value:telegram_chat_id">
+                </span>
+              </div>
+              <div>
+                <div class="form-group bottom">
+                  <div class="width90">
+                    <label for="telegram_bot_token" data-i18n>Bot token</label>
+                    <a href="https://www.kotchasan.com/knowledge/how_to_obtain_a_telegram_bot_api_token_and_get_started.html" target="_blank" class="icon-help"></a>
+                    <span class="form-control icon-password">
+                      <input type="text" name="telegram_bot_token" id="telegram_bot_token" data-attr="value:telegram_bot_token">
+                    </span>
+                  </div>
+                  <div>
+                    <button type="button" id="test_telegram" class="btn fullwidth center icon-telegram" data-action="click.prevent:requestApi"
+                            data-api-url="api/index/settings/testTelegram" data-api-method="post" data-param-bot-token="{telegram_bot_token}"
+                            data-param-chat-id="{telegram_chat_id}" data-required-fields="telegram_bot_token,telegram_chat_id"
+                            data-required-message="Please fill in Bot token and Chat ID" data-loading-text="Sending..." data-notify-success="true" data-i18n>Send Test</button>
+                  </div>
+                </div>
+                <div class="comment" data-i18n>Send notification message when a transaction is made</div>
+              </div>
+            </fieldset>
+            <!-- Submit Button -->
+            <fieldset class="submit">
+              <input type="hidden" name="module" value="telegram">
+              <button type="submit" class="btn btn-primary icon-save" data-i18n>Save</button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

@@ -1,0 +1,35 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <!-- Category Form -->
+  <form data-form="settings" action="api/index/categories/save" method="post" data-ajax-submit="true" data-load-api="api/index/categories/get" data-load-query-params="true"
+        data-confirm="Confirm save">
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups">
+        <header>
+          <div>
+            <h1 class="icon-list" data-text="title || type" data-i18n>Category</h1>
+            <p data-i18n>The category of the site</p>
+          </div>
+        </header>
+        <div class="content-body">
+          <fieldset class="grid">
+            <div class="tablebody">
+              <table class="table border fullwidth" data-table="indexCategories" data-editable-rows="true" data-attr="data:options" data-dynamic-columns="true">
+                <!-- Headers will be generated from form data -->
+                <tbody></tbody>
+              </table>
+            </div>
+          </fieldset>
+          <fieldset class="submit">
+            <button type="submit" class="btn btn-primary icon-save" data-i18n>Save</button>
+            <input type="hidden" name="type" data-attr="value:type">
+          </fieldset>
+        </div>
+      </div>
+    </main>
+  </form>
+</div>
+<footer class="footer">
+  <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+</footer>

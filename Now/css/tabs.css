@@ -1,0 +1,317 @@
+/**
+ * Tabs Component Styles
+ * Modern, accessible tabs with smooth animations
+ *
+ * Style Scoping:
+ * - Default styles apply when NO data-style attribute OR data-style="default"
+ * - Add data-style="custom" (or any value) to use your own CSS
+ */
+/* ============================================
+   Scope Selector Variables (for readability)
+   Using :where() for lower specificity where appropriate
+   ============================================ */
+/* ============================================
+   Base Tabs Container
+   ============================================ */
+input[type="radio"][data-tab-radio] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+}
+[data-component="tabs"]:not([data-style]),
+[data-component="tabs"][data-style="default"] {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--tabs-bg);
+  border-radius: var(--tabs-border-radius);
+  overflow: hidden;
+}
+[data-component="tabs"][data-orientation="vertical"]:not([data-style]),
+[data-component="tabs"][data-orientation="vertical"][data-style="default"] {
+  flex-direction: row;
+}
+/* ============================================
+   Tab Buttons Container (Tablist)
+   ============================================ */
+.tab-buttons,
+[data-component="tabs"]:not([data-style]) .tab-buttons,
+[data-component="tabs"][data-style="default"] .tab-buttons {
+  display: flex;
+  gap: var(--tabs-button-gap);
+  border-bottom: 1px solid var(--tabs-border);
+  background-color: var(--tabs-buttons-bg);
+  padding: 0.5rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--tabs-border) transparent;
+}
+.tab-buttons > div {
+  display: flex;
+  gap: var(--tabs-button-gap);
+}
+/* Webkit scrollbar styling */
+[data-component="tabs"]:not([data-style]) .tab-buttons::-webkit-scrollbar,
+[data-component="tabs"][data-style="default"] .tab-buttons::-webkit-scrollbar {
+  height: 4px;
+}
+[data-component="tabs"]:not([data-style]) .tab-buttons::-webkit-scrollbar-track,
+[data-component="tabs"][data-style="default"] .tab-buttons::-webkit-scrollbar-track {
+  background: transparent;
+}
+[data-component="tabs"]:not([data-style]) .tab-buttons::-webkit-scrollbar-thumb,
+[data-component="tabs"][data-style="default"] .tab-buttons::-webkit-scrollbar-thumb {
+  background: var(--tabs-border);
+  border-radius: 2px;
+}
+/* Vertical orientation */
+[data-component="tabs"]:not([data-style]) [role="tablist"][aria-orientation="vertical"],
+[data-component="tabs"][data-style="default"] [role="tablist"][aria-orientation="vertical"] {
+  flex-direction: column;
+  border-bottom: none;
+  border-right: 1px solid var(--tabs-border);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+/* ============================================
+   Tab Buttons
+   ============================================ */
+.tab-button,
+[data-component="tabs"]:not([data-style]) .tab-button,
+[data-component="tabs"][data-style="default"] .tab-button {
+  position: relative;
+  padding: var(--tabs-button-padding);
+  background-color: var(--tabs-button-bg);
+  color: var(--tabs-button-text);
+  border: none;
+  border-bottom: var(--tabs-border-width) solid transparent;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--tabs-transition-duration) var(--tabs-transition-timing);
+  white-space: nowrap;
+  outline: none;
+  user-select: none;
+}
+/* Hover state */
+.tab-button:hover,
+[data-component="tabs"]:not([data-style]) .tab-button:hover,
+[data-component="tabs"][data-style="default"] .tab-button:hover {
+  background-color: var(--tabs-button-bg-hover);
+  color: var(--tabs-button-text-active);
+}
+/* Active state */
+[data-component="tabs"]:not([data-style]) .tab-button.active,
+[data-component="tabs"][data-style="default"] .tab-button.active {
+  background-color: var(--tabs-button-bg-active);
+  color: var(--tabs-button-text-active);
+  border-bottom-color: var(--tabs-border-active);
+}
+/* Focus state (keyboard navigation) */
+.tab-button:focus-visible,
+[data-component="tabs"]:not([data-style]) .tab-button:focus-visible,
+[data-component="tabs"][data-style="default"] .tab-button:focus-visible {
+  outline: 2px solid var(--tabs-focus-ring);
+  outline-offset: 2px;
+  z-index: 1;
+}
+/* Disabled state */
+.tab-button:disabled,
+[data-component="tabs"]:not([data-style]) .tab-button:disabled,
+[data-component="tabs"][data-style="default"] .tab-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+/* Active indicator (optional decorative element) */
+input[type="radio"][data-tab-radio]:checked + .tab-button::after,
+.tab-button.active::after,
+[data-component="tabs"]:not([data-style]) .tab-button.active::after,
+[data-component="tabs"][data-style="default"] .tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: var(--tabs-border-width);
+  background-color: var(--tabs-border-active);
+  animation: tabsSlideIn var(--tabs-transition-duration) var(--tabs-transition-timing);
+}
+@keyframes tabsSlideIn {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+/* Vertical tabs button styling */
+[data-component="tabs"]:not([data-style]) [aria-orientation="vertical"] .tab-button,
+[data-component="tabs"][data-style="default"] [aria-orientation="vertical"] .tab-button {
+  border-bottom: none;
+  border-right: var(--tabs-border-width) solid transparent;
+  text-align: left;
+}
+[data-component="tabs"]:not([data-style]) [aria-orientation="vertical"] .tab-button.active,
+[data-component="tabs"][data-style="default"] [aria-orientation="vertical"] .tab-button.active {
+  border-right-color: var(--tabs-border-active);
+  border-bottom-color: transparent;
+}
+[data-component="tabs"]:not([data-style]) [aria-orientation="vertical"] .tab-button.active::after,
+[data-component="tabs"][data-style="default"] [aria-orientation="vertical"] .tab-button.active::after {
+  bottom: 0;
+  left: auto;
+  right: -1px;
+  top: 0;
+  width: var(--tabs-border-width);
+  height: auto;
+}
+/* ============================================
+   Tab Content Container
+   ============================================ */
+[data-component="tabs"]:not([data-style]) .tab-content,
+[data-component="tabs"][data-style="default"] .tab-content {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+/* ============================================
+   Tab Panels
+   ============================================ */
+.tab-pane {
+  display: none;
+  opacity: 0;
+  animation: tabsFadeOut var(--tabs-transition-duration) var(--tabs-transition-timing);
+}
+[data-component="tabs"]:not([data-style]) .tab-pane,
+[data-component="tabs"][data-style="default"] .tab-pane {
+  padding: var(--tabs-panel-padding);
+  color: var(--tabs-panel-text);
+}
+/* Active panel */
+input[type="radio"][data-tab-radio]:checked + .tab-pane,
+[data-component="tabs"]:not([data-style]) .tab-pane.active,
+[data-component="tabs"][data-style="default"] .tab-pane.active {
+  display: flex;
+  opacity: 1;
+  animation: tabsFadeIn var(--tabs-transition-duration) var(--tabs-transition-timing);
+}
+/* Fade animations */
+@keyframes tabsFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes tabsFadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+/* Panel focus state */
+[data-component="tabs"]:not([data-style]) .tab-pane:focus,
+[data-component="tabs"][data-style="default"] .tab-pane:focus {
+  outline: 2px solid var(--tabs-focus-ring);
+  outline-offset: -2px;
+}
+/* ============================================
+   Responsive Design
+   ============================================ */
+@media (max-width: 768px) {
+  [data-component="tabs"]:not([data-style]) .tab-buttons,
+  [data-component="tabs"][data-style="default"] .tab-buttons {
+    padding: 0.25rem;
+  }
+  [data-component="tabs"]:not([data-style]) .tab-button,
+  [data-component="tabs"][data-style="default"] .tab-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.8125rem;
+  }
+  [data-component="tabs"]:not([data-style]) .tab-pane,
+  [data-component="tabs"][data-style="default"] .tab-pane {
+    padding: 1rem;
+  }
+}
+/* ============================================
+   Utility Classes
+   ============================================ */
+/* Centered tabs */
+[data-component="tabs"]:not([data-style]) .tab-buttons.centered,
+[data-component="tabs"][data-style="default"] .tab-buttons.centered {
+  justify-content: center;
+}
+/* Full width tabs */
+[data-component="tabs"]:not([data-style]) .tab-buttons.full-width,
+[data-component="tabs"][data-style="default"] .tab-buttons.full-width {
+  gap: 0;
+}
+[data-component="tabs"]:not([data-style]) .tab-buttons.full-width .tab-button,
+[data-component="tabs"][data-style="default"] .tab-buttons.full-width .tab-button {
+  flex: 1;
+  text-align: center;
+}
+/* Compact tabs */
+[data-component="tabs"]:not([data-style]) .tab-buttons.compact .tab-button,
+[data-component="tabs"][data-style="default"] .tab-buttons.compact .tab-button {
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
+}
+/* Pills style tabs */
+[data-component="tabs"]:not([data-style]) .tab-buttons.pills .tab-button,
+[data-component="tabs"][data-style="default"] .tab-buttons.pills .tab-button {
+  border-radius: 9999px;
+  border-bottom: none;
+}
+[data-component="tabs"]:not([data-style]) .tab-buttons.pills .tab-button.active,
+[data-component="tabs"]:not([data-style]) [role="tablist"].pills [role="tab"][aria-selected="true"],
+[data-component="tabs"][data-style="default"] .tab-buttons.pills .tab-button.active,
+[data-component="tabs"][data-style="default"] [role="tablist"].pills [role="tab"][aria-selected="true"] {
+  background-color: var(--tabs-border-active);
+  color: white;
+  border-bottom-color: transparent;
+}
+[data-component="tabs"]:not([data-style]) .tab-buttons.pills .tab-button.active::after,
+[data-component="tabs"][data-style="default"] .tab-buttons.pills .tab-button.active::after {
+  display: none;
+}
+/* ============================================
+   Print Styles
+   ============================================ */
+@media print {
+  [data-component="tabs"]:not([data-style]) .tab-buttons,
+  [data-component="tabs"][data-style="default"] .tab-buttons {
+    display: none;
+  }
+  [data-component="tabs"]:not([data-style]) .tab-pane,
+  [data-component="tabs"][data-style="default"] .tab-pane {
+    display: block !important;
+    opacity: 1 !important;
+    page-break-inside: avoid;
+  }
+}
+/* ============================================
+   Reduced Motion
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .tab-button,
+  .tab-pane,
+  [data-component="tabs"]:not([data-style]) .tab-button,
+  [data-component="tabs"]:not([data-style]) .tab-pane,
+  [data-component="tabs"][data-style="default"] .tab-button,
+  [data-component="tabs"][data-style="default"] .tab-pane {
+    animation: none !important;
+    transition: none !important;
+  }
+}

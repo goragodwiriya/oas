@@ -1,0 +1,59 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <!-- Use FormManager: data-form identifies the form type, data-action is the endpoint, ajaxSubmit enables AJAX -->
+    <form data-form="login" class="auth-form" novalidate action="api/index/auth/login" method="post" data-ajax-submit="true" data-redirect="/" data-auto-fill-intended-url="true"
+          data-load-api="api/index/config/login" data-load-cache="true" data-load-cache-time="300000">
+      <div class="auth-header">
+        <a href="/" class="auth-logo" data-style="backgroundImage:url({{data.logo}})"></a>
+        <h1 data-text="data.web_title" data-i18n></h1>
+        <p class="login-message" data-i18n>Welcome back! Please login to proceed.</p>
+      </div>
+      <fieldset>
+        <div>
+          <label for="login_username" data-i18n>{LNG_Username}/{LNG_Email}</label>
+          <span class="form-control icon-email">
+            <input maxlength="50" type="text" id="login_username" name="username" autocomplete="username" autofocus data-persist="local" data-persist-key="login_username"
+                   data-persist-ttl-days="30" autofocus>
+          </span>
+        </div>
+        <div>
+          <label for="login_password" data-i18n>Password</label>
+          <span class="form-control icon-password">
+            <input maxlength="50" type="password" id="login_password" name="password" autocomplete="current-password">
+          </span>
+        </div>
+        <div>
+          <div class="form-group">
+            <div class="width50">
+              <!-- remember checkbox: example also marked to persist its state -->
+              <input type="checkbox" id="remember" class="switch" name="remember" value="1" data-persist="local" data-persist-key="login_remember">
+              <label for="remember" data-i18n>Remember Me</label>
+            </div>
+            <div class="width50 right" data-if="data.user_forgot === 1">
+              <a href="forgot" data-i18n>Forgot Password</a>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <fieldset class="center">
+        <button type="submit" class="btn btn-primary fullwidth large icon-signin" data-i18n>Log in</button>
+      </fieldset>
+      <!-- Social Login Divider -->
+      <div class="social-divider" data-if="data.user_register === 1">
+        <span data-i18n>Or continue with</span>
+      </div>
+      <!-- Social Login Buttons -->
+      <fieldset class="center" data-if="data.user_register === 1 || data.demo_mode === 1">
+        <div class="social-login-buttons">
+          <div data-attr="data-username:data.google_client_id" data-social-provider="google"></div>
+          <button type="button" data-attr="data-username:data.line_channel_id" class="btn icon-line" data-social-provider="line" data-i18n>LINE</button>
+          <button type="button" data-attr="data-username:data.facebook_appId" class="btn icon-facebook" data-social-provider="facebook" data-i18n>Facebook</button>
+          <div data-attr="data-username:data.telegram_bot_username" data-social-provider="telegram"></div>
+        </div>
+      </fieldset>
+      <div class="center" data-if="data.user_register === 1">
+        <span data-i18n>Don't have an account?</span> <a href="register" data-i18n>Sign up</a>
+      </div>
+    </form>
+  </div>
+</div>

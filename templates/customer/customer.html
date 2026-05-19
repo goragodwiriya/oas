@@ -1,0 +1,104 @@
+<form data-form="customerForm" data-validate="false" data-reset="false" action="api/customer/customer/save" method="post" data-ajax-submit="true" autocomplete="off">
+  <fieldset>
+    <legend class="icon-info" data-i18n>Basic information</legend>
+    <div class="form-group">
+      <div class="width50">
+        <label for="code" data-i18n>{LNG_Code}</label>
+        <span class="form-control icon-profile">
+          <input type="text" id="code" name="code" data-attr="value:code" maxlength="20">
+        </span>
+        <div class="comment" id="result_code" data-i18n>Leave empty for generate auto</div>
+      </div>
+      <div class="width50">
+        <label for="name" data-i18n>{LNG_Name}/{LNG_Company}/{LNG_Branch}</label>
+        <span class="form-control icon-office">
+          <input type="text" id="name" name="name" data-attr="value:name" maxlength="100">
+        </span>
+        <div class="comment" id="result_name" data-i18n>Name of the person or company's name</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="width50">
+        <label for="tax_id" data-i18n>Tax ID</label>
+        <span class="form-control icon-profile">
+          <input type="text" id="tax_id" name="tax_id" data-attr="value:tax_id" maxlength="13">
+        </span>
+        <div class="comment" id="result_tax_id" data-i18n>Tax ID of the person or company</div>
+      </div>
+      <div class="width50">
+        <label for="contact" data-i18n>Contactor</label>
+        <span class="form-control icon-customer">
+          <input type="text" id="contact" name="contact" data-attr="value:contact" maxlength="100">
+        </span>
+        <div class="comment" id="result_contact" data-i18n>Name of contact person for this customer</div>
+      </div>
+    </div>
+    <div>
+      <label for="address" data-i18n>Address</label>
+      <span class="form-control icon-address">
+        <textarea id="address" name="address" rows="2" data-attr="value:address"></textarea>
+      </span>
+    </div>
+    <div class="form-group">
+      <div class="width50">
+        <label for="province_id" data-i18n>Province</label>
+        <span class="form-control icon-location">
+          <input type="text" id="province_id" name="province_id" data-attr="value:province_id" data-options-key="province_id">
+        </span>
+      </div>
+      <div class="width50">
+        <label for="zipcode" data-i18n>Zipcode</label>
+        <span class="form-control icon-location">
+          <input type="number" id="zipcode" name="zipcode" data-attr="value:zipcode" maxlength="5">
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="width50">
+        <label for="phone" data-i18n>{LNG_Phone}</label>
+        <span class="form-control icon-phone">
+          <input type="tel" id="phone" name="phone" data-attr="value:phone" maxlength="20">
+        </span>
+      </div>
+      <div class="width50">
+        <label for="email" data-i18n>{LNG_Email}</label>
+        <span class="form-control icon-email">
+          <input type="email" id="email" name="email" data-attr="value:email" maxlength="255">
+        </span>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend class="icon-money" data-i18n>{LNG_Commercial Terms}</legend>
+    <div class="form-group">
+      <div class="width50">
+        <label for="bank_account" data-i18n>{LNG_Bank Account}</label>
+        <span class="form-control icon-number">
+          <input type="text" id="bank_account" name="bank_account" maxlength="20" data-attr="value:bank_account">
+        </span>
+      </div>
+      <div class="width50">
+        <label for="bank_name" data-i18n>{LNG_Bank Name}/{LNG_Branch}</label>
+        <span class="form-control icon-office">
+          <input type="text" id="bank_name" name="bank_name" maxlength="100" data-attr="value:bank_name">
+        </span>
+      </div>
+    </div>
+    <div>
+      <label for="note" data-i18n>Notes</label>
+      <span class="form-control icon-write">
+        <textarea id="note" name="note" rows="3" data-attr="value:note"></textarea>
+      </span>
+    </div>
+    <div>
+      <input type="checkbox" class="switch" id="is_active" name="is_active" value="1" data-attr="checked:is_active">
+      <label for="is_active" data-i18n>{LNG_Active}</label>
+    </div>
+  </fieldset>
+  <fieldset class="submit right">
+    <button type="submit" class="btn btn-primary icon-save" data-i18n>Save</button>
+    <input type="hidden" name="id" data-attr="value:id">
+    <input type="hidden" name="type" data-attr="value:type">
+    <input type="hidden" name="context" data-attr="value:context">
+  </fieldset>
+</form>

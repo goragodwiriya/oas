@@ -1,0 +1,102 @@
+<section class="receipt-sheet%SHEET_CLASS%">
+    <div class="receipt-top">
+        <div class="brand-block">
+            <div class="brand-logo">%COMPANY_LOGO%</div>
+            <div>
+                <h1>%COMPANY_NAME%</h1>
+                <p class="subtitle%COMPANY_SUBTITLE_CLASS%">%COMPANY_SUBTITLE%</p>
+                <div class="brand-meta">
+                    <div class="%COMPANY_ADDRESS_CLASS%">%COMPANY_ADDRESS%</div>
+                    <div class="%COMPANY_PHONE_CLASS%">Tel: %COMPANY_PHONE%</div>
+                    <div class="%COMPANY_FAX_CLASS%">Fax: %COMPANY_FAX%</div>
+                    <div class="%COMPANY_EMAIL_CLASS%">Email: %COMPANY_EMAIL%</div>
+                    <div class="%COMPANY_TAX_ID_CLASS%">Tax ID: %COMPANY_TAX_ID%</div>
+                </div>
+            </div>
+        </div>
+        <div class="doc-card">
+            <h2>%TITLE%</h2>
+            <div class="badge-row">
+                <span class="badge">Page %PAGE%</span>
+            </div>
+            <div class="doc-meta">
+                <div>
+                    <div class="doc-meta-label">{LNG_Order No.}</div>
+                    <div class="doc-meta-value">%ORDER_NO%</div>
+                </div>
+                <div>
+                    <div class="doc-meta-label">{LNG_Created}</div>
+                    <div class="doc-meta-value">%CREATED%</div>
+                </div>
+                <div class="%REFERENCE_NO_CLASS%">
+                    <div class="doc-meta-label">{LNG_Reference Document}</div>
+                    <div class="doc-meta-value">%REFERENCE_NO%</div>
+                </div>
+                <div class="%DUE_DATE_CLASS%">
+                    <div class="doc-meta-label">{LNG_Due Date}</div>
+                    <div class="doc-meta-value">%DUE_DATE%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="party-card">
+        <h3>{LNG_Customer}</h3>
+        <p class="party-name">%BILL_TO_NAME%</p>
+        <p>%BILL_TO_ADDRESS%</p>
+        <p class="party-meta%BILL_TO_TAX_ID_CLASS%">Tax ID: %BILL_TO_TAX_ID%</p>
+        <p class="party-meta%BILL_TO_CONTACT_CLASS%">%BILL_TO_CONTACT%</p>
+    </div>
+    <div class="receipt-table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>{LNG_Code}</th>
+                    <th>{LNG_Description}</th>
+                    <th>{LNG_Qty}</th>
+                    <th>{LNG_Unit}</th>
+                    <th>{LNG_Price}</th>
+                    <th>{LNG_Discount}</th>
+                    <th>{LNG_Total}</th>
+                </tr>
+            </thead>
+            <tbody>%ITEM_ROWS%</tbody>
+        </table>
+    </div>
+    <div class="summary-grid">
+        <div class="note-card">
+            <h3>{LNG_Notes}</h3>
+            <p>%NOTES%</p>
+            <p class="grandwords"><strong>{LNG_InWords}:</strong> %GRANDTOTAL_WORDS%</p>
+        </div>
+        <div class="summary-card">
+            <h3>{LNG_Summary}</h3>
+            <div class="summary-row"><span>{LNG_PageSubtotal}</span><span>%PAGESUBTOTAL%</span></div>
+            <div class="summary-row"><span>{LNG_OrderSubtotal}</span><span>%ORDERSUBTOTAL%</span></div>
+            <div class="summary-row"><span>{LNG_Discount}</span><span>%DISCOUNT%</span></div>
+            <div class="summary-row"><span>{LNG_VAT}</span><span>%VAT% (%VATRATE%)</span></div>
+            <div class="summary-row"><span>{LNG_Shipping}</span><span>%SHIPPING%</span></div>
+            <div class="summary-row total"><span>{LNG_Grand Total}</span><span>%GRANDTOTAL%</span></div>
+        </div>
+    </div>
+    <div class="signature-grid">
+        <div class="signature-card">
+            <div class="sig-img">%PREPARED_BY_SIGNATURE%</div>
+            <div class="sig-name">%PREPARED_BY_NAME%</div>
+            <div class="sig-label">Prepared By / ผู้จัดทำ</div>
+        </div>
+        <div class="signature-card">
+            <div class="sig-img">%APPROVED_BY_SIGNATURE%</div>
+            <div class="sig-img">%COMPANY_STAMP%</div>
+            <div class="sig-name">%APPROVED_BY_NAME%</div>
+            <div class="sig-label">Approved By / ผู้อนุมัติ</div>
+        </div>
+        <div class="signature-card">
+            <div class="sig-label">Received By / ผู้รับ</div>
+        </div>
+    </div>
+    <div class="page-foot">
+        <span><strong>{LNG_Order No.}:</strong> %ORDER_NO%</span>
+        <span><strong>{LNG_Items}:</strong> %ITEMS% | <strong>{LNG_Pages}:</strong> %PAGE%</span>
+    </div>
+</section>

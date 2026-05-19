@@ -1,0 +1,72 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <form data-form="inventoryItemsEdit" action="api/inventory/items/save" method="post" data-ajax-submit="true" data-load-api="api/inventory/items/get"
+            data-load-query-params="true" data-confirm="Confirm save">
+        <div class="card-groups">
+          <header>
+            <div>
+              <h1 class="icon-list" data-i18n>Items</h1>
+              <p data-text="topic"></p>
+            </div>
+            <div class="header-actions">
+              <a class="btn btn-secondary icon-product" href="/inventory-products" data-i18n>Inventory</a>
+            </div>
+          </header>
+          <div class="content-body">
+            <fieldset>
+              <div>
+                <label data-i18n>{LNG_Product}</label>
+                <span class="form-control icon-product">
+                  <input type="text" data-attr="value:topic" disabled>
+                </span>
+              </div>
+            </fieldset>
+            <fieldset class="grid">
+              <div class="tablebody">
+                <table class="table border fullwidth" data-table="inventoryItems" data-editable-rows="true" data-attr="data:item_rows" data-dynamic-columns="true"
+                       data-action-url="api/inventory/items/action" data-row-actions='{
+                                                                                    "stock_movements": {
+                                                                                        "label": "",
+                                                                                        "title": "Stock Movement",
+                                                                                        "className": "btn icon-list",
+                                                                                        "condition": "inventory_item_id",
+                                                                                        "params": {
+                                                                                            "inventory_item_id": "{inventory_item_id}",
+                                                                                            "sku": "{sku}"
+                                                                                        }
+                                                                                    },
+                                                                                    "cost_layers": {
+                                                                                        "label": "",
+                                                                                        "title": "Cost Layers",
+                                                                                        "className": "btn icon-cart",
+                                                                                        "condition": "inventory_item_id",
+                                                                                        "params": {
+                                                                                            "inventory_item_id": "{inventory_item_id}",
+                                                                                            "sku": "{sku}"
+                                                                                        }
+                                                                                    }
+                                                                                }'>
+                  <!-- Headers will be generated from item_rows.columns -->
+                  <tbody></tbody>
+                </table>
+                <div class="comment" data-i18n> {LNG_Use this page for item master data only. SKU, Barcode, and default sell price can be edited here.} {LNG_Quantity is read-only
+                  and must be changed through receipt or issue documents in Order.} {LNG_Unit becomes read-only after stock history starts.} {LNG_Existing rows can be deleted only
+                  when stock is zero and no history or active assignment exists.} </div>
+              </div>
+            </fieldset>
+            <fieldset class="submit">
+              <button type="submit" class="btn btn-primary icon-save" data-i18n>Save</button>
+              <input type="hidden" name="id" data-attr="value:id">
+            </fieldset>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

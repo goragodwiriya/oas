@@ -1,0 +1,79 @@
+/**
+ * Dialog Component CSS
+ * Styles for dialog manager components including alerts, confirms, prompts
+ */
+.dialog {
+  position: fixed;
+  background: var(--dialog-bg);
+  color: var(--dialog-text);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--dialog-shadow);
+  max-width: 85vw;
+  max-height: 85vw;
+  width: auto;
+  min-width: 320px;
+  opacity: 0;
+  overflow: hidden;
+  cursor: default;
+  transition: opacity var(--transition-duration) var(--transition-timing);
+  z-index: var(--z-index-alert);
+}
+.dialog-header {
+  display: flex;
+  align-items: center;
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--dialog-border);
+  background: var(--color-surface);
+  user-select: none;
+}
+.dialog-title {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  flex: 1;
+}
+.dialog-body {
+  padding: var(--space-4);
+  overflow-y: auto;
+  max-height: calc(90vh - 12rem);
+}
+.dialog-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-top: 1px solid var(--dialog-border);
+  background: var(--color-surface);
+}
+.dialog.show {
+  opacity: 1;
+}
+.dialog.hiding {
+  opacity: 0;
+}
+.dialog.dragging {
+  transition: none;
+  user-select: none;
+}
+.dialog-input {
+  width: 100%;
+  padding: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-base);
+  margin-bottom: var(--space-4);
+}
+/* Dialog Types */
+.alert .dialog-footer {
+  justify-content: center;
+}
+/* Mobile Responsiveness */
+@media (max-width: 640px) {
+  .dialog-header,
+  .dialog-body,
+  .dialog-footer {
+    padding: var(--space-3);
+  }
+}

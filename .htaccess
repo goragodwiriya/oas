@@ -1,0 +1,36 @@
+# Disable directory listing
+Options -Indexes
+
+RewriteEngine On
+
+# Handle CORS preflight OPTIONS requests
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^api/ - [R=200,L]
+
+# API Rules - Process first and stop
+RewriteRule ^api/(.*)$ api.php/$1 [L,QSA]
+
+# If you don't find a file or directory, go to the Index.html in the same folder.
+# This allows the root index.html to load and perform the JS redirect.
+# But exclude API routes
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/api/
+RewriteRule ^(.*)$ index.html [L,QSA]
+
+<IfModule mod_headers.c>
+  # CORS headers for API requests
+  <If "%{REQUEST_URI} =~ m#^.*/api/#">
+    Header always set Access-Control-Allow-Origin "*"
+    Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    Header always set Access-Control-Allow-Headers "origin, x-requested-with, content-type, authorization, x-api-token, x-access-token"
+  </If>
+
+  # cache 1 week
+  <filesMatch ".(jpg|jpeg|png|gif|ico)$">
+    Header set Cache-Control "max-age=604800, public"
+  </filesMatch>
+  <filesMatch ".(css|js|ttf|woff|svg|eot)$">
+    Header set Cache-Control "max-age=604800, public"
+  </filesMatch>
+</IfModule>

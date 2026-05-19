@@ -1,0 +1,289 @@
+/**
+ * Design System Variables
+ * CSS Variables for consistency across the application
+ * Created: 18-05-2025
+ */
+:root {
+  /* Color System - Semantic Colors (Used for status, alerts, and feedback) */
+  --color-success: #10b981;
+  --color-success-hover: #059669;
+  --color-success-light: #d1fae5;
+  --color-warning: #f59e0b;
+  --color-warning-hover: #d97706;
+  --color-warning-light: #fef3c7;
+  --color-error: #ef4444;
+  --color-error-hover: #dc2626;
+  --color-error-light: #fee2e2;
+  --color-info: #06b6d4;
+  --color-info-hover: #0891b2;
+  --color-info-light: #cffafe;
+  /* Color System - Neutral */
+  --color-white: #FFFFFF;
+  --color-light: #EEEEEE;
+  --color-silver: #CCCCCC;
+  --color-gray: #6C757D;
+  --color-dark-gray: #343A40;
+  --color-dark: #333333;
+  --color-black: #000000;
+  /* Color System - Brand Colors */
+  --color-blue: #0055B8;
+  --color-brown: #795548;
+  --color-brown-hover: #6d4c41;
+  --color-cyan: #17A2B8;
+  --color-cyan-hover: #138496;
+  --color-gold: #FFC107;
+  --color-gold-hover: #d39e00;
+  --color-green: #4CAF50;
+  --color-green-hover: #388e3c;
+  --color-magenta: #F50057;
+  --color-magenta-hover: #c2004f;
+  --color-orange: #FD7E14;
+  --color-orange-hover: #dc6502;
+  --color-pink: #E83E8C;
+  --color-pink-hover: #d61a7f;
+  --color-purple: #6F42C1;
+  --color-purple-hover: #59339d;
+  --color-rosy: #D50000;
+  --color-rosy-hover: #ab0000;
+  --color-red: #DC3545;
+  --color-red-hover: #c82333;
+  --color-comment: #4CAF50;
+  --color-0: #486F96;
+  --color-1: #4CAF50;
+  --color-2: #EF4444;
+  --color-3: #D59C30;
+  --color-4: #8973B4;
+  --color-5: #AA5E60;
+  --color-6: #008EA6;
+  --color-7: #636249;
+  --color-8: #FFE973;
+  --color-9: #FF7063;
+  --color-10: #C72169;
+  --color-11: #9D1030;
+  /* Color System - RGB Values for opacity control */
+  --blue-rgb: 0, 85, 184;
+  --green-rgb: 76, 175, 80;
+  --red-rgb: 220, 53, 69;
+  --orange-rgb: 253, 126, 20;
+  --purple-rgb: 111, 66, 193;
+  /* Application Colors - Light Theme (Override these in theme-dark.css) */
+  --color-accent: #f59e0b;
+  --color-primary: #2563eb;
+  --color-primary-text: #FFFFFF;
+  --color-primary-hover: #1d4ed8;
+  --color-primary-dark: #1d4ed8;
+  --color-primary-light: #60a5fa;
+  --color-secondary: #6b7280;
+  --color-secondary-hover: #4b5563;
+  --color-secondary-light: #f3f4f6;
+  --color-background: #ffffff;
+  --color-surface-bg: var(--color-background);
+  --color-surface-hover: rgba(0, 0, 0, 0.05);
+  --color-surface-darker: rgba(0, 0, 0, 0.06);
+  --color-surface-dark: rgba(0, 0, 0, 0.04);
+  --color-surface: rgba(0, 0, 0, 0.03);
+  --color-surface-light: rgba(0, 0, 0, 0.02);
+  --color-surface-lighter: rgba(0, 0, 0, 0.01);
+  --color-text: #1e293b;
+  --color-text-muted: #64748b;
+  --color-border: rgba(0, 0, 0, 0.1);
+  --color-border-highlight: rgba(255, 255, 255, 0.2);
+  --color-divider: #f1f5f9;
+  --color-3d-light: #ffffff;
+  --color-3d-dark: rgba(0, 0, 0, 0.1);
+  /* Interaction States */
+  --highlight-bg: var(--color-primary);
+  --highlight-text: var(--color-primary-text);
+  /* Border Properties */
+  --field-border-radius: 5px;
+  --field-border-width: 1px;
+  --button-border-radius: 5px;
+  --button-border-width: 1px;
+  --card-border-radius: 8px;
+  /* Typography */
+  --font-family-base: Sarabun, Tahoma, Loma, Arial, Helvetica, sans-serif;
+  --font-family-heading: Sarabun, Tahoma, Loma, Arial, Helvetica, sans-serif;
+  --font-family-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  /* 12px */
+  --font-size-xs: 0.75rem;
+  /* 14px */
+  --font-size-sm: 0.875rem;
+  /* 16px */
+  --font-size-base: 1rem;
+  /* 18px */
+  --font-size-lg: 1.125rem;
+  /* 20px */
+  --font-size-xl: 1.25rem;
+  /* 24px */
+  --font-size-2xl: 1.5rem;
+  /* 30px */
+  --font-size-3xl: 1.875rem;
+  /* 36px */
+  --font-size-4xl: 2.25rem;
+  /* 48px */
+  --font-size-5xl: 3rem;
+  --line-height-none: 1;
+  --line-height-tight: 1.25;
+  --line-height-base: 1.5;
+  --line-height-loose: 1.75;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  /* Borders */
+  --border-radius-sm: 0.125rem;
+  --border-radius: 0.25rem;
+  --border-radius-md: 0.375rem;
+  --border-radius-lg: 0.5rem;
+  --border-radius-xl: 0.75rem;
+  --border-radius-2xl: 1rem;
+  --border-radius-full: 9999px;
+  /* Spacing System */
+  --space-unit: 0.25rem;
+  --space-0: 0;
+  /* 4px */
+  --space-1: var(--space-unit);
+  /* 8px */
+  --space-2: calc(var(--space-unit) * 2);
+  /* 12px */
+  --space-3: calc(var(--space-unit) * 3);
+  /* 16px */
+  --space-4: calc(var(--space-unit) * 4);
+  /* 20px */
+  --space-5: calc(var(--space-unit) * 5);
+  /* 24px */
+  --space-6: calc(var(--space-unit) * 6);
+  /* 32px */
+  --space-8: calc(var(--space-unit) * 8);
+  /* 40px */
+  --space-10: calc(var(--space-unit) * 10);
+  /* 48px */
+  --space-12: calc(var(--space-unit) * 12);
+  /* 64px */
+  --space-16: calc(var(--space-unit) * 16);
+  /* 80px */
+  --space-20: calc(var(--space-unit) * 20);
+  /* 96px */
+  --space-24: calc(var(--space-unit) * 24);
+  /* 128px */
+  --space-32: calc(var(--space-unit) * 32);
+  /* Z-index stack */
+  --z-index-sticky: 988;
+  --z-index-fixed: 989;
+  --z-index-dropdown: 1000;
+  --z-index-menu-backdrop: 1010;
+  --z-index-menu-mobile: 1020;
+  --z-index-menu-submenu: 1030;
+  --z-index-popover: 1050;
+  --z-index-tooltip: 1060;
+  --z-index-loading: 1070;
+  --z-index-modal: 1080;
+  --z-index-toast: 1090;
+  --z-index-alert: 1100;
+  /* Shadows */
+  --shadow: rgba(0, 0, 0, 0.1);
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  /* Animation and Transitions */
+  --transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-duration: 150ms;
+  --transition-speed: 0.3s;
+  --animation-duration: 150ms;
+  --animation-timing: ease-in-out;
+  --menu-animation: 0.3s ease;
+  /* Notifications */
+  --notification-bg: var(--color-background);
+  --notification-text: #1e293b;
+  --notification-border: rgba(0, 0, 0, 0.1);
+  --notification-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  --notification-success-bg: var(--color-success-light);
+  --notification-success-text: var(--color-success);
+  --notification-success-border: var(--color-success-hover);
+  --notification-error-bg: var(--color-error-light);
+  --notification-error-text: var(--color-error);
+  --notification-error-border: var(--color-error-hover);
+  --notification-warning-bg: var(--color-warning-light);
+  --notification-warning-text: var(--color-warning);
+  --notification-warning-border: var(--color-warning-hover);
+  --notification-info-bg: var(--color-info-light);
+  --notification-info-text: var(--color-info);
+  --notification-info-border: var(--color-info-hover);
+  /* Dialog/Modal */
+  --dialog-bg: #ffffff;
+  --dialog-text: #1e293b;
+  --dialog-border: rgba(0, 0, 0, 0.1);
+  --dialog-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --dialog-overlay: rgba(0, 0, 0, 0.4);
+  /* Table Styles */
+  --table-bg: var(--color-background);
+  --table-border-color: var(--color-border);
+  --table-header-bg: var(--color-surface);
+  --table-header-shadow: rgba(255, 255, 255, 0.7);
+  --table-header-color: var(--color-text);
+  --table-stripe-bg: var(--color-surface-light);
+  --table-hover-bg: var(--color-surface-hover);
+  --table-selected-bg: var(--color-surface-dark);
+  --table-resizer-color: var(--color-primary);
+  --table-sort-icon-color: var(--color-text-muted);
+  --table-nav-bg: var(--color-surface);
+  --table-empty-bg: var(--color-surface-light);
+  --table-empty-color: var(--color-text-muted);
+  /* Pagination */
+  --pagination-bg: #ffffff;
+  --pagination-color: #1e293b;
+  --pagination-border-color: #e2e8f0;
+  --pagination-hover-bg: #f1f5f9;
+  --pagination-active-bg: #3b82f6;
+  --pagination-active-color: #ffffff;
+  --pagination-active-border-color: #3b82f6;
+  /* Form Elements */
+  --input-border-color: #e2e8f0;
+  --input-bg: #ffffff;
+  --input-text: #1e293b;
+  --input-placeholder: #64748b;
+  --label-bg: rgba(0, 0, 0, 0.03);
+  --input-height: 40px;
+  --input-disabled-bg: var(--color-surface);
+  --input-disabled-text: var(--color-text-muted);
+  /* Card Elements */
+  --card-bg: var(--color-background);
+  --card-border: var(--color-border);
+  --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  /* Menu */
+  --menu-width: 280px;
+  --sidebar-collapsed-width: 60px;
+  --topmenu-mobile-bg: #EEEEEE;
+  --topmenu-mobile-text: #1e293b;
+  --menu-highlight-bg: var(--highlight-bg);
+  --menu-highlight-text: var(--highlight-text);
+  /* Tabs */
+  --tabs-bg: rgba(0, 0, 0, 0.02);
+  --tabs-buttons-bg: rgba(0, 0, 0, 0.02);
+  --tabs-button-bg-hover: rgba(0, 0, 0, 0.05);
+  --tabs-button-bg-active: rgba(99, 102, 241, 0.1);
+  --tabs-button-text: #6b7280;
+  --tabs-button-text-active: #4f46e5;
+  --tabs-border: rgba(0, 0, 0, 0.1);
+  --tabs-border-active: #4f46e5;
+  --tabs-panel-text: #1f2937;
+  --tabs-focus-ring-offset: #ffffff;
+  /* Spacing */
+  --tabs-button-padding: 0.75rem 1.5rem;
+  --tabs-button-gap: 0.5rem;
+  --tabs-panel-padding: 1.5rem;
+  --tabs-border-width: 2px;
+  --tabs-border-radius: 0.5rem;
+  /* Animation */
+  --tabs-transition-duration: 300ms;
+  --tabs-transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+  /* Switch */
+  --track-bg: var(--color-surface);
+  --knob-bg: var(--color-primary-text);
+  --track-checked-bg: var(--color-primary);
+}

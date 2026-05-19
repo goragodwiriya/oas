@@ -1,0 +1,64 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <!-- Language Editor Form -->
+      <form data-form="editlanguage" data-validate="true" action="api/index/language/save" method="post" data-ajax-submit="true" data-load-query-params="true"
+            data-load-api="api/index/language/get" autocomplete="off">
+        <div class="card-groups">
+          <header>
+            <div>
+              <h1 class="icon-language" data-text="id ? '{LNG_Edit} {LNG_Language}' : '{LNG_Create} {LNG_Language}'" data-i18n></h1>
+              <p data-text="id ? '{LNG_Edit existing} {LNG_Language}' : '{LNG_Create new} {LNG_Language}'" data-i18n>
+              </p>
+            </div>
+          </header>
+          <div class="content-body">
+            <fieldset>
+              <legend data-i18n>Detail</legend>
+              <div>
+                <div class="form-group">
+                  <div class="width50">
+                    <label for="language_type" data-i18n>Type</label>
+                    <span class="form-control icon-menus">
+                      <select id="language_type" name="language_type" data-attr="value:type">
+                        <option value="text" data-i18n>Text</option>
+                        <option value="int" data-i18n>Integer</option>
+                        <option value="array" data-i18n>Array</option>
+                      </select>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label for="language_key" data-i18n>Key</label>
+                <span class="form-control icon-edit">
+                  <input type="text" id="language_key" name="language_key" autofocus data-attr="value:key" autocomplete="off">
+                </span>
+              </div>
+            </fieldset>
+            <fieldset class="grid">
+              <legend data-i18n>Translation</legend>
+              <div class="tablebody">
+                <table class="table border fullwidth" data-table="langEditor" data-editable-rows="true" data-attr="data:translate" data-dynamic-columns="true">
+                  <!-- Headers will be generated from form data -->
+                  <tbody></tbody>
+                </table>
+              </div>
+              <div class="comment" data-i18n>No need to fill in English text if it matches the Key</div>
+            </fieldset>
+            <fieldset class="submit">
+              <button type="submit" class="btn btn-primary icon-save" data-i18n>Save</button>
+              <input type="hidden" name="id" data-attr="value:id">
+            </fieldset>
+          </div>
+        </div>
+  </div>
+  </form>
+  </main>
+</div>
+<footer class="footer">
+  <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+</footer>
+</div>

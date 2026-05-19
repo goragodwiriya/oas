@@ -1,0 +1,112 @@
+<form data-form="productForm" data-validate="false" data-reset="false" action="api/inventory/product/save" method="post" data-ajax-submit="true" autocomplete="off">
+    <fieldset>
+        <div>
+            <label for="topic" data-i18n>Product</label>
+            <span class="form-control icon-product">
+                <input type="text" id="topic" name="topic" data-attr="value:topic" maxlength="150">
+            </span>
+        </div>
+        <div class="form-group">
+            <div class="width50">
+                <label for="product_code" data-i18n>Product code</label>
+                <span class="form-control icon-number">
+                    <input type="text" id="product_code" name="product_code" data-attr="value:product_code" maxlength="150">
+                </span>
+            </div>
+            <div class="width50">
+                <label for="category_id" data-i18n>Category</label>
+                <span class="form-control icon-tags">
+                    <select id="category_id" name="category_id" data-options-key="category_id" data-attr="value:category_id">
+                        <option value="" data-i18n>Please select</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="width50">
+                <label for="location" data-i18n>Location</label>
+                <span class="form-control icon-category">
+                    <input type="text" id="location" name="location" data-attr="value:location" maxlength="150">
+                </span>
+            </div>
+            <div class="width50">
+                <label for="cost" data-text="id == 0 ? '{LNG_Opening unit cost}' : '{LNG_Default cost}'"></label>
+                <span class="form-control icon-money">
+                    <input type="currency" id="cost" name="cost" data-attr="data-decimals:options.value_decimals || 4, step:options.value_step || '0.0001', value:cost">
+                </span>
+            </div>
+        </div>
+        <div class="form-group" data-show="id == 0">
+            <div class="width50">
+                <label for="sku" data-i18n>SKU</label>
+                <span class="form-control icon-barcode">
+                    <input type="text" id="sku" name="sku" data-attr="value:sku" maxlength="150" placeholder="{LNG_Leave empty for generate auto}">
+                </span>
+            </div>
+            <div class="width50">
+                <label for="barcode" data-i18n>Barcode</label>
+                <span class="form-control icon-barcode">
+                    <input type="text" id="barcode" name="barcode" data-attr="value:barcode" maxlength="150">
+                </span>
+            </div>
+        </div>
+        <div class="form-group" data-show="id == 0">
+            <div class="width50">
+                <label for="stock" data-i18n>Stock</label>
+                <span class="form-control icon-cart">
+                    <input type="currency" id="stock" name="stock" data-attr="data-decimals:options.value_decimals || 4, step:options.value_step || '0.0001', value:stock">
+                </span>
+            </div>
+            <div class="width50">
+                <label for="unit" data-i18n>Unit</label>
+                <span class="form-control icon-unzip">
+                    <select id="unit" name="unit" data-options-key="unit" data-attr="value:unit">
+                        <option value="" data-i18n>Please select</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+        <div class="form-group" data-show="id == 0">
+            <div class="width50">
+                <label for="price" data-i18n>Price</label>
+                <span class="form-control icon-money">
+                    <input type="currency" id="price" name="price" data-attr="data-decimals:options.value_decimals || 4, step:options.value_step || '0.0001', value:price">
+                </span>
+            </div>
+        </div>
+        <div>
+            <label for="description" data-i18n>Details</label>
+            <span class="form-control icon-file">
+                <textarea id="description" name="description" rows="4" data-attr="value:description"></textarea>
+            </span>
+        </div>
+        <div>
+            <label for="inventory" data-i18n>Images</label>
+            <span class="form-control icon-upload">
+                <input type="file" id="inventory" name="inventory" data-files="inventory" multiple data-preview="true" data-allow-remove-existing="true"
+                       data-action-url="api/inventory/product/remove-image" accept="image/*">
+            </span>
+            <div class="comment" id="result_inventory" data-i18n>{LNG_Browse image uploaded, type} jpg, jpeg, png, webp</div>
+        </div>
+        <div class="form-group">
+            <div class="width50">
+                <input type="checkbox" class="switch" id="stockable" name="stockable" value="1" data-attr="checked:stockable">
+                <label for="stockable" data-i18n>Stockable</label>
+            </div>
+            <div class="width50">
+                <input type="checkbox" class="switch" id="allow_negative" name="allow_negative" value="1" data-attr="checked:allow_negative">
+                <label for="allow_negative" data-i18n>Allow negative stock</label>
+            </div>
+        </div>
+        <div>
+            <input type="checkbox" class="switch" id="inuse" name="inuse" value="1" data-attr="checked:inuse">
+            <label for="inuse" data-i18n>Active</label>
+        </div>
+    </fieldset>
+    <fieldset class="submit right">
+        <button type="submit" class="btn btn-primary icon-save" data-i18n>Save</button>
+        <input type="hidden" name="id" data-attr="value:id">
+        <input type="hidden" name="inventory_item_id" data-attr="value:inventory_item_id">
+        <input type="hidden" name="tableid" data-attr="value:tableid">
+    </fieldset>
+</form>
