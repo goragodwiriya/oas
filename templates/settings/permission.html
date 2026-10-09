@@ -1,0 +1,28 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups">
+        <header>
+          <div>
+            <h1 class="icon-shield" data-i18n>Permissions</h1>
+            <p data-i18n>Manage member permissions and access levels</p>
+          </div>
+        </header>
+        <div class="content-body">
+          <!-- Permission -->
+          <div class="tablebody">
+            <table class="table border fullwidth" data-table="userPermission" data-source="api/index/permission" data-default-sort="id asc" data-page-size="25"
+                   data-search-columns="name" data-action-url="api/index/permission/action" data-dynamic-columns="true">
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+  </div>
+  </main>
+</div>
+<footer class="footer">
+  <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+</footer>

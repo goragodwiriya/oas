@@ -1,0 +1,229 @@
+/**
+ * ImageGallery Component CSS
+ * Styles for data-component="image-gallery"
+ * Root class: .ig
+ *
+ * CSS custom properties (from variables.css):
+ *   --widget-border-radius, --color-surface, --color-surface-alt,
+ *   --color-border, --color-text-muted, --color-primary
+ */
+/* ── Root ─────────────────────────────────────────────────── */
+.ig {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    container-type: inline-size;
+}
+/* ── Thumbnail position variants ──────────────────────────── */
+.ig--left {
+    flex-direction: row;
+}
+.ig--right {
+    flex-direction: row-reverse;
+}
+.ig--bottom {
+    flex-direction: column;
+}
+.ig--top {
+    flex-direction: column-reverse;
+}
+/* ── Hero area ────────────────────────────────────────────── */
+.ig-hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--widget-border-radius, 14px);
+    background: var(--color-surface-alt, #f0f4f8);
+    min-width: 0;
+    cursor: pointer;
+}
+.ig-hero--empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 180px;
+    color: var(--color-text-muted);
+    font-size: 3rem;
+    cursor: default;
+}
+/* ── Aspect ratio modifiers ───────────────────────────────── */
+.ig--square .ig-hero {
+    aspect-ratio: 1 / 1;
+}
+.ig--wide .ig-hero {
+    aspect-ratio: 16 / 9;
+}
+.ig--tall .ig-hero {
+    aspect-ratio: 3 / 4;
+}
+.ig--auto .ig-hero {
+    aspect-ratio: 1 / 1;
+}
+/* ── Main image ───────────────────────────────────────────── */
+.ig-main-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.22s ease;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+.ig--tall .ig-main-img,
+.ig--auto .ig-main-img {
+    object-fit: contain;
+}
+/* ── Zoom button ──────────────────────────────────────────── */
+.ig-zoom-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0, 0, 0, 0.4);
+    color: #fff;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease, background 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    z-index: 2;
+}
+.ig-hero:hover .ig-zoom-btn,
+.ig-zoom-btn:focus-visible {
+    opacity: 1;
+}
+.ig-zoom-btn:hover {
+    background: rgba(0, 0, 0, 0.65);
+}
+/* ── Caption ──────────────────────────────────────────────── */
+.ig-caption {
+    font-size: 0.84rem;
+    line-height: 1.4;
+    color: var(--color-text-muted);
+    text-align: center;
+    min-height: 1.2em;
+}
+/* ── Thumbnail strip ──────────────────────────────────────── */
+.ig-thumbs {
+    display: grid;
+    gap: 0.5rem;
+}
+/* Bottom / top: horizontal strip */
+.ig-thumbs--bottom,
+.ig-thumbs--top {
+    grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
+}
+/* Left / right: vertical column */
+.ig-thumbs--left,
+.ig-thumbs--right {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 76px;
+    flex-shrink: 0;
+    align-content: start;
+    overflow-y: auto;
+    max-height: 100%;
+}
+/* ── Thumbnail button ─────────────────────────────────────── */
+.ig-thumb {
+    display: block;
+    height: auto;
+    overflow: hidden;
+    padding: 0;
+    border-radius: 8px;
+    border: 2px solid var(--color-border, #e2e8f0);
+    background: var(--color-surface, #fff);
+    cursor: pointer;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.15s ease;
+    flex-shrink: 0;
+}
+.ig-thumb img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    pointer-events: none;
+    user-select: none;
+}
+.ig-thumb:hover {
+    border-color: var(--color-primary, #4361ee);
+}
+.ig-thumb.is-active {
+    border-color: var(--color-primary, #4361ee);
+    box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.22);
+    transform: translateY(-1px);
+}
+/* ── Side-layout adjustments (left / right thumbs) ───────── */
+.ig--left .ig-hero,
+.ig--right .ig-hero {
+    aspect-ratio: unset;
+    min-height: 160px;
+}
+/* ── Loading state ────────────────────────────────────────── */
+.ig-loading .ig-hero,
+.ig-loading-indicator {
+    animation: ig-pulse 1.2s ease-in-out infinite;
+}
+@keyframes ig-pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.45;
+    }
+}
+/* ── Responsive ───────────────────────────────────────────── */
+@container (max-width: 420px) {
+    .ig--left,
+    .ig--right {
+        flex-direction: column;
+    }
+    .ig-thumbs--left,
+    .ig-thumbs--right {
+        flex-direction: row;
+        width: 100%;
+        max-height: unset;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+    .ig-thumbs--left .ig-thumb,
+    .ig-thumbs--right .ig-thumb {
+        width: 60px;
+    }
+}
+@container (max-width: 360px) {
+    .ig-thumbs--bottom,
+    .ig-thumbs--top {
+        grid-template-columns: repeat(auto-fit, minmax(52px, 1fr));
+    }
+}
+/* ── No-container-query fallback for older browsers ──────── */
+@media (max-width: 420px) {
+    .ig--left,
+    .ig--right {
+        flex-direction: column;
+    }
+    .ig-thumbs--left,
+    .ig-thumbs--right {
+        flex-direction: row;
+        width: 100%;
+        max-height: unset;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+    .ig-thumbs--left .ig-thumb,
+    .ig-thumbs--right .ig-thumb {
+        width: 60px;
+    }
+    .ig-thumbs--bottom,
+    .ig-thumbs--top {
+        grid-template-columns: repeat(auto-fit, minmax(52px, 1fr));
+    }
+}

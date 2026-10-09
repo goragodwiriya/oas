@@ -1,0 +1,48 @@
+<!-- ชั้นต้นทุน FIFO
+
+     ⚠️ ต้นทุนขายที่ระบบคิดให้มาจากชั้นพวกนี้ล้วน ๆ ชั้นที่เก่าที่สุดถูกตัดออกก่อน
+     "คงเหลือ" คือของที่ยังไม่ถูกตัด ถ้าคงเหลือเป็นศูนย์แปลว่าชั้นนั้นถูกขายหมดแล้ว -->
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups">
+        <header>
+          <div>
+            <h1 class="icon-report" data-i18n>{LNG_Cost layers}</h1>
+            <p data-i18n>FIFO cost layers, oldest consumed first</p>
+          </div>
+          <a class="btn btn-secondary icon-list" href="/inventory-movements" data-i18n>{LNG_Stock ledger}</a>
+        </header>
+        <div class="content-body">
+          <div class="tablebody">
+            <table class="table border fullwidth" data-table="costlayers" data-source="api/inventory/costlayers"
+                   data-default-sort="received_at desc" data-page-size="50" data-search-columns="product_topic,sku,reference_no">
+              <thead>
+                <tr>
+                  <th data-field="received_at" data-sort="received_at" data-size="14" class="center" data-cell-class="center"
+                      data-format="datetime" data-i18n>{LNG_Received}</th>
+                  <th data-field="product_topic" data-i18n>{LNG_Product name}</th>
+                  <th data-field="sku" data-sort="sku" data-size="12" class="center" data-cell-class="center" data-i18n>{LNG_Product code}</th>
+                  <th data-field="inventory_id" data-filter="true" data-type="select" data-show-all="true" data-all-value="" data-hidden="true" data-i18n>{LNG_Product name}</th>
+                  <th data-field="remaining" data-filter="true" data-type="select" data-show-all="true" data-all-value="" data-hidden="true" data-i18n>{LNG_Status}</th>
+                  <th data-field="reference_no" data-size="14" class="center" data-cell-class="center" data-i18n>{LNG_Document No}</th>
+                  <th data-field="received_qty" data-sort="received_qty" data-size="10" class="right" data-cell-class="right" data-i18n>{LNG_Received}</th>
+                  <th data-field="remaining_qty" data-sort="remaining_qty" data-size="10" class="right" data-cell-class="right"
+                      data-formatter="formatCostLayerRemaining" data-i18n>{LNG_Balance}</th>
+                  <th data-field="unit_cost" data-sort="unit_cost" data-size="10" class="right" data-cell-class="right" data-format="currency" data-i18n>{LNG_Cost}</th>
+                  <th data-field="remaining_value" data-size="12" class="right" data-cell-class="right" data-format="currency" data-i18n>{LNG_Stock value}</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 e-OMS - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

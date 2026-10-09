@@ -1,0 +1,58 @@
+<!-- ฟอร์มปรับยอดสินค้าคงคลัง — หน้าต่างซ้อน เปิดจากปุ่มในแท็บสต๊อกของสินค้า
+     (api/inventory/stocks/modal คืน action ชนิด modal ที่ชี้มาที่ไฟล์นี้)
+
+     ไม่มี data-load-api เพราะข้อมูลมาพร้อมกับ action ที่เปิดหน้าต่างนี้แล้ว
+     ถ้าใส่ จะกลายเป็นโหลดทับข้อมูลที่ส่งมา (แบบเดียวกับ customer.html)
+
+     ⚠️ ช่อง "ยอดที่นับได้" คือยอดใหม่ทั้งก้อน ไม่ใช่ส่วนต่าง — ฝั่งเซิร์ฟเวอร์
+     อ่านยอดปัจจุบันจากฐานเองตอนบันทึก แล้วลงบัญชีเฉพาะส่วนต่าง ค่าที่เห็นตรงนี้
+     จึงเป็นแค่ข้อมูลประกอบการตัดสินใจ ไม่ได้ถูกใช้คำนวณ -->
+<form data-form="inventoryStockAdjust" action="api/inventory/stocks/adjust" method="post"
+      data-ajax-submit="true" autocomplete="off">
+  <fieldset>
+    <div>
+      <label data-i18n>{LNG_Product}</label>
+      <span class="form-control icon-product">
+        <input type="text" data-attr="value:topic" readonly tabindex="-1">
+      </span>
+      <div class="comment" data-text="'{LNG_Product code} ' + product_no" data-i18n></div>
+    </div>
+    <!-- สินค้าที่นับสต๊อกแยกรายชิ้นเลือกหน่วยย่อยก่อน ยอดคงเหลือของแต่ละหน่วย
+         อยู่ในข้อความของตัวเลือกเอง เพราะเปลี่ยนหน่วยแล้วยอดเปลี่ยนตาม -->
+    <div data-if="has_units">
+      <label for="adjust_item" data-i18n>{LNG_Barcode}</label>
+      <span class="form-control icon-barcode">
+        <select id="adjust_item" name="inventory_item_id" data-options-key="inventory_item_id"
+                data-attr="value:inventory_item_id"></select>
+      </span>
+      <div class="comment" id="result_adjust_item"></div>
+    </div>
+    <div class="form-group">
+      <div class="width50" data-if="single_unit">
+        <label for="adjust_instock" data-i18n>{LNG_Quantity On Hand}</label>
+        <span class="form-control icon-list">
+          <input type="text" id="adjust_instock" data-attr="value:instock" readonly tabindex="-1">
+        </span>
+      </div>
+      <div class="width50">
+        <label for="adjust_quantity" data-i18n>{LNG_New Stock}</label>
+        <span class="form-control icon-number">
+          <input type="number" step="0.01" id="adjust_quantity" name="quantity" required autofocus>
+        </span>
+        <div class="comment" id="result_adjust_quantity" data-i18n>{LNG_Quantity counted in the warehouse}</div>
+      </div>
+    </div>
+    <div>
+      <label for="adjust_note" data-i18n>{LNG_Annotation}</label>
+      <span class="form-control icon-edit">
+        <input type="text" id="adjust_note" name="note" maxlength="150" required>
+      </span>
+      <div class="comment" id="result_adjust_note" data-i18n>{LNG_Why the balance changed, shown in the stock ledger}</div>
+    </div>
+  </fieldset>
+  <fieldset class="submit right">
+    <button type="button" class="btn modal-close" data-i18n>{LNG_Cancel}</button>
+    <button type="submit" class="btn btn-primary icon-save" data-i18n>{LNG_Save}</button>
+    <input type="hidden" name="id" data-attr="value:id">
+  </fieldset>
+</form>

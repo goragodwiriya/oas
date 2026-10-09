@@ -1,0 +1,68 @@
+<!-- แท็บ "รายละเอียดอื่น ๆ" ของสินค้า — ระบบเดิมคือ module=inventory-write&tab=detail
+     เก็บลง inventory_meta (คำอธิบาย/รายละเอียด) + รูปสินค้า datas/inventory/{id}.jpg -->
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <form data-form="inventoryDetail" action="api/inventory/detail/save" method="post" data-ajax-submit="true"
+            data-load-api="api/inventory/detail/get" data-load-query-params="true" autocomplete="off"
+            enctype="multipart/form-data">
+        <div class="card-groups">
+          <header>
+            <div>
+              <h1 class="icon-file" data-text="topic"></h1>
+              <p data-i18n>{LNG_Other details}</p>
+            </div>
+            <div>
+              <a class="btn icon-arrow-left" href="/inventory-setup" data-i18n>{LNG_Back}</a>
+            </div>
+          </header>
+          <nav class="inventory-tabs">
+            <a class="inventory-tab" data-attr="href:'/inventory-overview?id=' + id" data-i18n>{LNG_Overview}</a>
+            <a class="inventory-tab" data-attr="href:'/inventory-write?id=' + id" data-i18n>{LNG_Product}</a>
+            <a class="inventory-tab" data-attr="href:'/inventory-barcode?id=' + id" data-i18n>{LNG_Barcode}</a>
+            <a class="inventory-tab active" data-attr="href:'/inventory-detail?id=' + id" data-i18n>{LNG_Other details}</a>
+            <a class="inventory-tab" data-attr="href:'/inventory-stock?id=' + id" data-i18n>{LNG_Inventory}</a>
+          </nav>
+          <div class="content-body">
+            <fieldset>
+              <legend class="icon-file" data-i18n>{LNG_Other details}</legend>
+              <div>
+                <label for="description" data-i18n>{LNG_Description}</label>
+                <span class="form-control icon-edit">
+                  <input type="text" id="description" name="description" maxlength="255" data-attr="value:description">
+                </span>
+              </div>
+              <div>
+                <label for="detail" data-i18n>{LNG_Detail}</label>
+                <span class="form-control icon-file">
+                  <textarea id="detail" name="detail" rows="5" data-text="detail"></textarea>
+                </span>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="icon-image" data-i18n>{LNG_Image}</legend>
+              <div>
+                <label for="image" data-i18n>{LNG_Image}</label>
+                <span class="form-control icon-image">
+                  <input type="file" id="image" name="image" data-files="image" data-preview="true"
+                         data-allow-remove-existing="true" data-action-url="api/inventory/detail/remove-image"
+                         data-action-params="id" data-file-reference="url" accept="image/*">
+                </span>
+                <div class="comment" data-text="image_comment"></div>
+              </div>
+            </fieldset>
+            <fieldset class="submit">
+              <button type="submit" class="btn btn-primary icon-save" data-i18n>{LNG_Save}</button>
+              <input type="hidden" name="id" data-attr="value:id">
+            </fieldset>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 e-OMS - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

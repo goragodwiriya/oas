@@ -1,0 +1,74 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups" data-component="api" data-endpoint="api/inventory/orders/page" data-url-params="true" data-url-params-fields="status" data-pagination="false">
+        <header>
+          <div>
+            <h1 class="icon-file" data-text="topic"></h1>
+            <p data-text="mode == 'buy' ? '{LNG_Purchase}' : '{LNG_Sales}'" data-i18n></p>
+          </div>
+          <a class="btn btn-primary icon-new" data-attr="href:new_url" data-text="'{LNG_Add} ' + topic" data-i18n></a>
+        </header>
+        <div class="content-body">
+          <form class="table_nav flex wrap gap-2 bottom" data-table-filter="orders">
+            <div>
+              <label for="filter_from" data-i18n>{LNG_From}</label>
+              <span class="form-control icon-calendar">
+                <input type="date" id="filter_from" name="from">
+              </span>
+            </div>
+            <div>
+              <label for="filter_to" data-i18n>{LNG_To}</label>
+              <span class="form-control icon-calendar">
+                <input type="date" id="filter_to" name="to">
+              </span>
+            </div>
+            <div>
+              <label for="filter_search" data-i18n>{LNG_Search}</label>
+              <span class="form-control icon-search">
+                <input type="search" name="search" id="filter_search" placeholder="{LNG_Search}...">
+              </span>
+            </div>
+          </form>
+          <div class="tablebody">
+            <table class="table border fullwidth" data-table="orders" data-source="api/inventory/orders" data-default-sort="order_date desc" data-page-size="25"
+                   data-search-columns="order_no,company,customer_no" data-show-checkbox="true"
+                   data-actions='{"print":"Print selected documents","pdf":"Download selected documents as PDF","email":"Send document by email","delete":"Delete"}'
+                   data-action-url="api/inventory/orders/action" data-show-footer="true" data-footer-aggregates='{"grand_total":"sum","paid":"sum"}' data-row-actions='{
+                    "print": {
+                      "title": "Print", 
+                      "className": "btn btn-brown icon-print", 
+                      "url": "/export.php?module=inventory&typ=billing&id={id}", 
+                      "target": "_blank",
+                      "method": "get"
+                    },
+                     "edit": {
+                      "title": "Edit", 
+                      "className": "btn btn-success icon-edit", 
+                      "url": "/inventory-order?id={id}", 
+                      "method": "get"
+                    }
+                   }'>
+              <thead>
+                <tr>
+                  <th data-field="order_date" data-sort="order_date" data-size="10" data-format="date" data-i18n>{LNG_Transaction date}</th>
+                  <th data-field="order_no" data-sort="order_no" data-size="14" class="center" data-cell-class="center" data-i18n>{LNG_Order No.}</th>
+                  <th data-field="document_type" class="center" data-cell-class="center" data-format="lookup" data-i18n> {LNG_Type}</th>
+                  <th data-field="company" data-sort="company" data-i18n>{LNG_Customer}</th>
+                  <th data-field="grand_total" class="right" data-cell-class="right" data-sort="grand_total" data-format="currency" data-i18n>{LNG_Amount}</th>
+                  <th data-field="paid" class="right" data-cell-class="right" data-format="currency" data-i18n>{LNG_Paid}</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2025 Now.js - <a href="https://nowjs.net">nowjs.net</a></p>
+  </footer>
+</div>

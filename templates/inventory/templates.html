@@ -1,0 +1,43 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups">
+        <header>
+          <div>
+            <h1 class="icon-file" data-i18n>{LNG_List of} {LNG_Template}</h1>
+            <p data-i18n>Document types and how they affect stock</p>
+          </div>
+          <a class="btn btn-primary icon-new" href="/inventory-template" data-i18n>{LNG_Add}</a>
+        </header>
+        <div class="content-body">
+          <div class="tablebody">
+            <table class="table border fullwidth" data-table="templates" data-source="api/inventory/templates" data-default-sort="id asc" data-page-size="25" data-search-columns="status,topic"
+                   data-show-checkbox="true" data-actions='{"delete":"Delete"}' data-action-url="api/inventory/templates/action" data-row-actions='{
+                     "edit": {"title": "Edit", "className": "btn btn-success icon-edit", "url": "/inventory-template?id={id}", "method": "get"}
+                   }'>
+              <thead>
+                <tr>
+                  <th data-field="document_type" data-sort="document_type" data-size="6" class="center" data-cell-class="center" data-i18n>{LNG_Code}</th>
+                  <th data-field="topic" data-sort="topic" data-i18n>{LNG_Name}</th>
+                  <th data-field="mode" class="center" data-cell-class="center" data-filter="true" data-type="select" data-show-all="true" data-all-value=""
+                      data-format="lookup" data-i18n>{LNG_Mode}</th>
+                  <th data-field="prefix" data-template="${prefix}${number_format}" class="center" data-cell-class="center" data-i18n>{LNG_Running number}</th>
+                  <th data-field="in_stock" data-size="8" class="center" data-cell-class="center" data-formatter="formatCheckStatus" data-i18n>{LNG_Stock in}</th>
+                  <th data-field="cut_stock" data-size="8" class="center" data-cell-class="center" data-formatter="formatCheckStatus" data-i18n>{LNG_Stock out}</th>
+                  <th data-field="published" class="center" data-cell-class="center"
+                      data-template="<button class='btn-table-action' data-action='active' data-value='${published}'></button>" data-i18n>{LNG_Active}</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2025 Now.js - <a href="https://nowjs.net">nowjs.net</a></p>
+  </footer>
+</div>

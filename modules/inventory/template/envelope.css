@@ -1,0 +1,242 @@
+/**
+ * modules/inventory/template/envelope.css
+ *
+ * สไตล์ของหน้าพิมพ์ซองจดหมาย — เป็นเรื่องเฉพาะของโมดูลนี้ จึงไม่ได้อยู่ในสไตล์กลาง
+ * ใช้คู่กับ modules/export/views/print.css ที่ให้พื้นฐาน (ตัวอักษร ปุ่มพิมพ์ @media print)
+ */
+}
+/* ---- ซองจดหมาย ---------------------------------------------------------- */
+/*
+ * ซองต้องป้อนเข้าเครื่องพิมพ์ "แนวตั้ง" เสมอ เพราะด้านยาวของซอง (DL ยาว 220 มม.)
+ * กว้างกว่าทางเดินกระดาษของเครื่องพิมพ์ A4 (210 มม.) ป้อนแบบนอนไม่เข้าเครื่อง
+ *
+ * หน้ากระดาษจึงเป็นแนวตั้ง แล้ววาง .sheet (ผังจ่าหน้าตามที่อ่านปกติ ด้านยาว
+ * อยู่แนวนอน) หมุน 90° เข้าไปใน .env-area ขนาดเท่าซองที่ตั้งขึ้น
+ * ค่า width/height/transform จริงถูกฉีดมาจากฝั่ง PHP ตามขนาดซองที่เลือก
+ */
+/* โหมดถาดซอง : หน้ากระดาษเท่าตัวซองพอดี ตัวหน้าจึงไม่ต้องมีพื้นกระดาษของตัวเอง
+   ส่วนโหมดถาด A4 ต้องเห็นแผ่น A4 ทั้งแผ่น จะได้รู้ว่าซองไปวางตรงไหนของถาด */
+body.envelope-a4 {
+  background-color: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+}
+.env-area {
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  background-color: #fff;
+}
+body.envelope-env .env-area {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+}
+/* ⚠️ คลาส .sheet ใช้ร่วมกับใบเอกสาร ซึ่งตั้ง min-height/display:flex/เงา ไว้ตาม
+   ขนาดหน้ากระดาษ ถ้าไม่ล้างค่าพวกนั้น ผังจ่าหน้าซองจะสูงเท่าหน้า A4 (296 มม.)
+   แทนที่จะสูงเท่าตัวซอง แล้วที่อยู่ไปกองผิดตำแหน่งโดยถูก overflow ตัดทิ้งไว้ */
+body.envelope .sheet {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  min-height: 0;
+  transform-origin: top left;
+  padding: 1cm;
+  margin: 0;
+  background-color: transparent;
+  box-shadow: none;
+}
+@media screen {
+  .env-area {
+    outline: 1px dashed #999;
+  }
+}
+@media print {
+  body.envelope {
+    box-shadow: none;
+    background-color: transparent;
+  }
+  .env-area {
+    box-shadow: none;
+    outline: none;
+  }
+}
+table.envelope-address,
+table.envelope-address td {
+  border-style: none;
+}
+table.envelope-address td {
+  padding: 0;
+}
+td.sender {
+  width: 55%;
+  font-size: 0.85em;
+  line-height: 1.4;
+}
+td.receiver {
+  padding-top: 1.2cm !important;
+  padding-left: 5cm !important;
+  font-size: 1.15em;
+  line-height: 1.5;
+}
+td.receiver .to {
+  font-size: 0.8em;
+  color: #444;
+}
+.zipcode {
+  letter-spacing: 0.45em;
+  font-weight: bold;
+}
+.zipcode.big {
+  font-size: 1.4em;
+}
+/* คำแนะนำการวางซอง — แสดงบนจอเท่านั้น */
+.paper-guide {
+  max-width: 22cm;
+  margin: 0 auto 1cm;
+  padding: 0.8cm;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  background-color: #f7f7f7;
+  font-size: 11pt;
+}
+.paper-guide h2 {
+  margin: 0 0 0.6em;
+  font-size: 1.1em;
+}
+.guide-note {
+  margin: 0 0 0.8em;
+  padding: 0.5em 0.7em;
+  border-left: 4px solid #06c;
+  background-color: #eaf2fb;
+}
+.guide-warn {
+  margin: 0 0 0.8em;
+  padding: 0.5em 0.7em;
+  border-left: 4px solid #c00;
+  background-color: #fdecec;
+  color: #900;
+}
+.guide-row {
+  display: flex;
+  gap: 1.2em;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.guide-figure {
+  text-align: center;
+}
+.tray {
+  position: relative;
+  border: 2px solid #444;
+  border-radius: 3px;
+  background-color: #fff;
+}
+/* ถาดกระดาษ A4 แนวตั้ง (อัตราส่วน 210:297) */
+.tray.a4 {
+  width: 148px;
+  height: 210px;
+}
+/* ถาด/ช่องป้อนซอง มองจากด้านบน ซองตั้งขึ้น (อัตราส่วน 110:220) */
+.tray.envelope-only {
+  width: 105px;
+  height: 210px;
+  border-style: dashed;
+}
+/* ซองที่วางตั้ง ข้อความในภาพจึงหมุนตามซองจริง */
+.env-on-tray {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border: 1px solid #06c;
+  background-color: rgba(0, 102, 204, 0.08);
+  color: #06c;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.env-on-tray.portrait {
+  width: 78px;
+  height: 156px;
+}
+
+/* ซองอยู่ชิดมุมล่างซ้ายของกระดาษ : ขอบล่างคือปลายที่เข้าเครื่องทีหลัง
+   ส่วนชิดซ้ายเพื่อให้ฝาซองหนีบขอบกระดาษไว้ได้ */
+.env-on-tray.at-bottom {
+  top: auto;
+  bottom: 0;
+  left: 0;
+}
+.env-on-tray span {
+  transform: rotate(-90deg);
+  white-space: nowrap;
+}
+.tray.envelope-only .env-on-tray {
+  width: 100%;
+  height: 100%;
+  border-style: solid;
+}
+.tray-label {
+  position: absolute;
+  right: 4px;
+  bottom: 2px;
+  font-size: 9px;
+  color: #666;
+}
+.feed-arrow {
+  margin-top: 6px;
+  font-size: 10pt;
+  color: #444;
+}
+.feed-arrow:before {
+  content: "\2191\00a0";
+  font-size: 1.4em;
+  line-height: 1;
+}
+.guide-steps {
+  margin: 0;
+  padding-left: 1.2em;
+  line-height: 1.7;
+  flex: 1 1 12cm;
+}
+/* แถบตัวเลือกตอนพิมพ์ (ขนาดซอง ทิศหมุน ฯลฯ) */
+.guide-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.6em 1em;
+  margin-top: 1em;
+  padding-top: 0.8em;
+  border-top: 1px dashed #bbb;
+}
+.guide-controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+  font-size: 0.9em;
+  color: #444;
+}
+.guide-controls select,
+.guide-controls input[type="number"] {
+  font: inherit;
+  padding: 3px 5px;
+  border: 1px solid #999;
+  border-radius: 3px;
+  background-color: #fff;
+}
+.guide-controls input[type="number"] {
+  width: 6em;
+}
+.guide-controls button {
+  font: inherit;
+  padding: 5px 14px;
+  border: 1px solid #06c;
+  border-radius: 3px;
+  background-color: #06c;
+  color: #fff;
+  cursor: pointer;
+}
+.guide-hint {
+  flex: 1 1 100%;
+  font-size: 0.85em;
+  color: #666;
+}

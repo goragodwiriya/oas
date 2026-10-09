@@ -1,0 +1,111 @@
+/**
+ * Media Base CSS
+ * Shared styles for MediaViewer and Slideshow components
+ */
+/* ===== Variables ===== */
+:root {
+  --media-transition-speed: 0.3s;
+  --media-transition-timing: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --media-bg-overlay: rgba(0, 0, 0, 0.5);
+  --media-bg-dark: rgba(0, 0, 0, 0.7);
+  --media-nav-size: 3rem;
+  --media-nav-size-mobile: 2.5rem;
+  --media-indicator-size: 10px;
+  --media-indicator-size-mobile: 8px;
+}
+/* ===== Navigation Buttons ===== */
+.media-nav-btn {
+  background: var(--media-bg-overlay);
+  border: none;
+  color: white;
+  width: var(--media-nav-size);
+  height: var(--media-nav-size);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  transition: opacity var(--media-transition-speed) ease,
+    background var(--media-transition-speed) ease;
+}
+.media-nav-btn:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.2);
+}
+.media-nav-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4);
+}
+/* ===== Caption ===== */
+.media-caption-base {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background: var(--media-bg-dark);
+  color: white;
+  text-align: center;
+  z-index: 5;
+}
+.media-caption-bottom {
+  bottom: 0;
+}
+.media-caption-top {
+  top: 0;
+}
+.media-caption-gradient {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+}
+/* ===== Indicators ===== */
+.media-indicator {
+  width: var(--media-indicator-size);
+  height: var(--media-indicator-size);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  padding: 0;
+  transition: all var(--media-transition-speed) ease;
+}
+.media-indicator:hover {
+  background: rgba(255, 255, 255, 0.7);
+}
+.media-indicator.active {
+  background: white;
+  border-color: white;
+}
+/* ===== Loading Spinner ===== */
+@keyframes media-spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+.media-loading {
+  position: relative;
+}
+.media-loading::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  border-top-color: rgba(255, 255, 255, 0.9);
+  animation: media-spin 0.8s linear infinite;
+  z-index: 5;
+}
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  :root {
+    --media-nav-size: var(--media-nav-size-mobile);
+    --media-indicator-size: var(--media-indicator-size-mobile);
+  }
+  .media-caption-base {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+}

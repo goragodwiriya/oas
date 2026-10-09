@@ -1,0 +1,66 @@
+# Disable directory listing
+Options -Indexes
+
+# เอกสารภายในและไฟล์ที่ไม่ควรถูกเสิร์ฟ
+<IfModule mod_authz_core.c>
+  <FilesMatch "\.(md|sql|log|bak|orig|dist|cache|gz)$">
+    Require all denied
+  </FilesMatch>
+</IfModule>
+
+RewriteEngine On
+
+# ส่งหัว Authorization ต่อให้ PHP
+#
+# Apache ที่รัน PHP ผ่าน php-fpm (mod_proxy_fcgi) ตัดหัว Authorization ทิ้งก่อนถึง PHP
+# เสมอ เพราะถือว่าเป็นของชั้นเว็บเซิร์ฟเวอร์ ไม่ใช่ของแอป — ผลคือ
+# ApiController::validateTokenBearer() ไม่มีทางผ่านเลยแม้ token จะถูกต้อง และไม่มี
+# ข้อความบอกสาเหตุ ได้แต่ 401 ที่หน้าตาเหมือน token ผิด
+#
+# CGIPassAuth ใช้ได้ตั้งแต่ Apache 2.4.13 ส่วนกฎ RewriteRule ด้านล่างเป็นทางสำรอง
+# ให้เครื่องที่เก่ากว่านั้น (PHP จะเห็นค่าที่ REDIRECT_HTTP_AUTHORIZATION แทน)
+<IfModule mod_setenvif.c>
+  SetEnvIfNoCase ^Authorization$ "(.+)" HTTP_AUTHORIZATION=$1
+</IfModule>
+CGIPassAuth On
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# Handle CORS preflight OPTIONS requests
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^api/ - [R=200,L]
+
+# API Rules - Process first and stop
+RewriteRule ^api/(.*)$ api.php/$1 [L,QSA]
+
+# If you don't find a file or directory, go to the Index.php in the same folder.
+# This allows the root index.php to load and perform the JS redirect.
+# But exclude API routes
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/api/
+RewriteCond %{REQUEST_URI} !^/install/
+RewriteRule ^(.*)$ index.php [L,QSA]
+
+<IfModule mod_headers.c>
+  # CORS headers for API requests
+  <If "%{REQUEST_URI} =~ m#^.*/api/#">
+    Header always set Access-Control-Allow-Origin "*"
+    Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    Header always set Access-Control-Allow-Headers "origin, x-requested-with, content-type, authorization, x-api-token, x-access-token"
+  </If>
+
+  # cache 1 week
+  <filesMatch ".(jpg|jpeg|png|gif|ico)$">
+    Header set Cache-Control "max-age=604800, public"
+  </filesMatch>
+  <filesMatch ".(css|js|ttf|woff|svg|eot)$">
+    Header set Cache-Control "max-age=604800, public"
+  </filesMatch>
+  # เทมเพลตถูกโหลดโดยไม่มี ?v= ต่อท้าย — ถ้าไม่บอกอะไร เบราว์เซอร์เดาอายุ cache เอง
+  # แล้วใช้ของเก่าต่อไปอีกหลายชั่วโมงหลังอัปโหลดไฟล์ใหม่ · no-cache ให้ถามเซิร์ฟเวอร์
+  # ทุกครั้ง (ไฟล์ไม่เปลี่ยนก็ได้ 304 กลับมาเร็ว ๆ)
+  <filesMatch "\.html$">
+    Header set Cache-Control "no-cache"
+  </filesMatch>
+</IfModule>

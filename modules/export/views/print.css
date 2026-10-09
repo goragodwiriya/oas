@@ -1,0 +1,747 @@
+/**
+ * modules/export/views/print.css
+ *
+ * สไตล์กลางของเอกสารสำหรับพิมพ์ ใช้ได้ทุกโมดูล ไม่ผูกกับโมดูลใดโมดูลหนึ่ง
+ * โมดูลที่จะพิมพ์เอกสารเรียกผ่าน Export\Export\Controller::printHtml()
+ *
+ * เอกสารหนึ่งใบอาจยาวหลายหน้า หนึ่ง .sheet คือหนึ่งหน้ากระดาษเสมอ
+ * รายการที่เกินจำนวนต่อหน้าจะขึ้นใบใหม่ ยอดรวมและช่องลายเซ็นอยู่หน้าสุดท้าย
+ * (คุมด้วยคลาส is-last / is-cont ไม่ต้องมีแม่แบบคนละชุด)
+ *
+ * ขนาดกระดาษและระยะขอบถูกฉีดมาจากฝั่ง PHP ผ่าน --sheet-w / --sheet-h / --sheet-pad
+ * ระยะขอบเป็น padding ของตัวใบเอง ไม่ใช่ margin ของ @page ตัวอย่างบนจอจึงเป็น
+ * แผ่นกระดาษเต็มใบเหมือนที่พิมพ์ออกมาจริง
+ *
+ * เครื่องพิมพ์ใบเสร็จขนาดเล็ก (กระดาษม้วน 80/58 มม.) ใช้ผัง .slip คนละชุด
+ *
+ * ตัวเลือก "ไม่พิมพ์..." ทำงานด้วย CSS ล้วน ไม่มี JavaScript —
+ * ช่องติ๊กซ่อนตัวเองไว้ที่ต้นหน้า แล้วใช้ตัวเลือก :checked ~ กับพี่น้องที่ตามหลัง
+ * เลือกใช้ visibility แทน display เพื่อไม่ให้เอกสารขยับเวลาซ่อน
+ */
+:root {
+  --sheet-w: 210mm;
+  --sheet-h: 296mm;
+  --sheet-pad: 11mm 10mm;
+  --brand: #000000;
+  --brand-mid: #1565c0;
+  --brand-light: #e3edf9;
+  --ink: #000000;
+  --muted: #000000;
+  --border: #000000;
+  --line: #ebeff4;
+  --surface: #f5f7fa;
+  --danger: #c62828;
+  --white: #fff;
+  --comment: #4CAF50;
+  /* ขนาดตัวอักษรเป็น pt เพราะเป็นหน่วยของงานพิมพ์ */
+  --t-2xs: 8pt;
+  --t-xs: 9pt;
+  --t-sm: 10pt;
+  --t-md: 11.5pt;
+  --t-lg: 15pt;
+  --t-xl: 18pt;
+  --sp-1: 1mm;
+  --sp-2: 2mm;
+  --sp-3: 3mm;
+  --sp-4: 4mm;
+  --sp-6: 6mm;
+}
+html {
+  background-color: #555;
+}
+body {
+  /* Sarabun มากับโปรเจ็ค (Now/css/fonts/) ไม่ได้พึ่งฟอนต์ที่ติดตั้งในเครื่องผู้ใช้
+     เอกสารที่พิมพ์จากคนละเครื่องจึงหน้าตาเหมือนกัน ตัวถัดไปเป็นตัวสำรองเผื่อไฟล์หาย */
+  font-family: "Sarabun", "TH Sarabun New", "THSarabunNew", "Leelawadee UI", Tahoma, sans-serif;
+  font-size: var(--t-md);
+  line-height: 1.45;
+  color: var(--ink);
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.center {
+  text-align: center;
+}
+.left {
+  text-align: left;
+}
+.right {
+  text-align: right;
+}
+.nowrap {
+  white-space: nowrap;
+}
+.is-hidden {
+  display: none !important;
+}
+/* ---- หนึ่งใบ = หนึ่งหน้ากระดาษ ------------------------------------------ */
+/* ใช้ min-height ไม่ใช่ height ตายตัว : ถ้าตั้งจำนวนรายการต่อหน้าไว้มากจนเนื้อหาล้น
+   ใบจะยืดออกแล้วเบราว์เซอร์ตัดขึ้นหน้าใหม่เอง ดีกว่าตัดเนื้อหาทิ้งเงียบ ๆ
+   ผู้ใช้เห็นว่าล้นแล้วค่อยลดจำนวนรายการต่อหน้าลง */
+.sheet {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: var(--sheet-w);
+  min-height: var(--sheet-h);
+  padding: var(--sheet-pad);
+  margin: 1cm auto;
+  background-color: var(--white);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.35);
+  box-sizing: border-box;
+}
+/* ส่วนที่มีขนาดตายตัวห้ามถูกบีบ มีแต่ตารางรายการเท่านั้นที่ยืดหดได้ */
+.sheet-head,
+.party,
+.cont-note,
+.sheet-sum,
+.signs,
+.sheet-foot {
+  flex-shrink: 0;
+}
+/* ---- หัวเอกสาร : ชื่อบริษัทซ้าย ชนิดเอกสารขวา --------------------------- */
+.sheet-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--sp-6);
+  align-items: start;
+  padding-bottom: var(--sp-3);
+  margin-bottom: var(--sp-3);
+  border-bottom: 2.5px solid var(--brand);
+}
+.brand {
+  display: flex;
+  gap: var(--sp-3);
+  align-items: flex-start;
+}
+.brand .eyebrow {
+  font-size: var(--t-2xs);
+  font-weight: bold;
+  letter-spacing: 0.14em;
+  color: var(--brand-mid);
+}
+.brand h1 {
+  margin: 0 0 0.6mm;
+  font-size: var(--t-xl);
+  line-height: 1.1;
+  color: var(--brand);
+}
+.brand-meta {
+  font-size: var(--t-2xs);
+  color: var(--muted);
+  line-height: 1.6;
+}
+img.logo {
+  display: block;
+  width: auto;
+  max-height: 20mm;
+}
+.doc-card {
+  min-width: 62mm;
+  text-align: right;
+}
+.doc-card h2 {
+  margin: 0 0 var(--sp-2);
+  padding-bottom: 1.5mm;
+  font-size: var(--t-lg);
+  line-height: 1.1;
+  color: var(--brand);
+  border-bottom: 1px solid var(--border);
+}
+.badge-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--sp-2);
+}
+.badge {
+  padding: 0.4mm 2.5mm;
+  border: 1px solid var(--brand-mid);
+  border-radius: 99px;
+  background-color: var(--brand-light);
+  color: var(--brand-mid);
+  font-size: var(--t-2xs);
+  font-weight: bold;
+  white-space: nowrap;
+}
+.doc-meta {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.8mm var(--sp-4);
+  text-align: left;
+}
+.doc-label {
+  font-size: var(--t-2xs);
+  line-height: 1.2;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+.doc-value {
+  font-size: var(--t-xs);
+  font-weight: bold;
+  line-height: 1.3;
+}
+/* ---- คู่ค้า -------------------------------------------------------------- */
+.party {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-3);
+}
+.party-card {
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background-color: var(--surface);
+}
+.party-card h3,
+.note-card h3,
+.sum-card h3 {
+  margin: 0 0 1.5mm;
+  padding-bottom: 1mm;
+  font-size: var(--t-2xs);
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  color: var(--brand-mid);
+  border-bottom: 1px solid var(--border);
+}
+.party-name {
+  margin-bottom: 1mm;
+  font-size: var(--t-md);
+  font-weight: bold;
+  color: var(--brand);
+}
+.party-card p {
+  margin: 0;
+  font-size: var(--t-2xs);
+  line-height: 1.6;
+  color: var(--muted);
+}
+/* ---- ตารางรายการ — ยืดเต็มพื้นที่ที่เหลือของหน้า ------------------------ */
+.items-wrap {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  margin: var(--sp-3) 0;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+table.items {
+  width: 100%;
+  height: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+table.items thead tr {
+  background-color: var(--brand);
+  color: var(--white);
+}
+table.items th {
+  padding: 1.8mm var(--sp-2);
+  font-size: var(--t-2xs);
+  font-weight: bold;
+  letter-spacing: 0.06em;
+  text-align: center;
+  white-space: nowrap;
+}
+table.items tbody tr {
+  border-bottom: 1px solid var(--line);
+}
+table.items tbody tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+table.items td {
+  padding: 1.4mm var(--sp-2);
+  vertical-align: top;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* ชื่อสินค้าคือเนื้อหาหลัก ต้องตัดบรรทัดได้ ไม่ใช่ตัดท้ายทิ้ง */
+table.items td.col-topic {
+  white-space: normal;
+  font-weight: bold;
+}
+table.items .col-item {
+  width: 9mm;
+}
+table.items .col-productno {
+  width: 24mm;
+}
+table.items .col-quantity {
+  width: 22mm;
+}
+table.items .col-price {
+  width: 24mm;
+}
+table.items .col-discount {
+  width: 22mm;
+}
+table.items .col-amount {
+  width: 26mm;
+}
+/* ⚠️ สีประจำคอลัมน์ต้องมีผลกับเซลล์ข้อมูลเท่านั้น ถ้าเขียนรวม th ด้วย
+   ตัวอักษรบนหัวตารางสีเข้มจะกลายเป็นสีเทา/สีแดง อ่านไม่ออก */
+table.items td.col-item,
+table.items td.col-productno {
+  color: var(--muted);
+  font-size: var(--t-2xs);
+}
+table.items td.col-discount {
+  color: var(--danger);
+}
+table.items td.col-amount {
+  font-weight: bold;
+}
+table.items tr.filler,
+table.items tr.filler td {
+  border-bottom: 0;
+  background-color: transparent !important;
+  height: 100%;
+}
+tr.carry td {
+  border-top: 1px solid var(--border);
+  background-color: var(--surface);
+  font-size: var(--t-xs);
+  white-space: nowrap;
+}
+tr.carry span {
+  color: var(--muted);
+}
+.cont-note {
+  margin: 0 0 var(--sp-2);
+  text-align: right;
+  font-size: var(--t-2xs);
+  font-weight: bold;
+  color: var(--brand-mid);
+}
+/* หน้าที่ยังไม่ใช่หน้าสุดท้ายไม่มียอดรวมและลายเซ็น ส่วนหน้าสุดท้ายไม่มียอดยกไป */
+.sheet.is-last .only-cont,
+.sheet.is-cont .only-last {
+  display: none !important;
+}
+/* ---- สรุปยอด ------------------------------------------------------------ */
+.sheet-sum {
+  display: grid;
+  grid-template-columns: 1fr 62mm;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-3);
+}
+.note-card,
+.sum-card {
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background-color: var(--surface);
+}
+.note-card {
+  display: flex;
+  flex-direction: column;
+}
+.note-card .comment {
+  font-size: var(--t-2xs);
+  line-height: 1.7;
+  color: var(--muted);
+}
+.note-card .baht {
+  margin: auto 0 0;
+  padding-top: var(--sp-2);
+  font-size: var(--t-2xs);
+  font-weight: bold;
+  color: var(--muted);
+}
+.sum-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--sp-2);
+  padding: 0.7mm 0;
+  border-bottom: 1px solid var(--line);
+  font-size: var(--t-2xs);
+}
+.sum-row span {
+  color: var(--muted);
+}
+.sum-row b {
+  font-variant-numeric: tabular-nums;
+}
+.sum-row b.minus {
+  color: var(--danger);
+}
+.sum-row.grand {
+  margin-top: 0.5mm;
+  padding-top: 1.5mm;
+  border-bottom: 0;
+  border-top: 1px solid var(--border);
+  font-size: var(--t-sm);
+  color: var(--brand);
+}
+.sum-row.grand span {
+  color: var(--brand);
+  font-weight: bold;
+}
+/* ---- ช่องลายเซ็น -------------------------------------------------------- */
+/* จำนวนช่องลายเซ็นมาจากฐานข้อมูล (1-3 ช่อง) ช่องเดียวไม่ควรยืดเต็มความกว้าง
+   จึงกำหนดความกว้างต่อช่องแล้วชิดขวา เหมือนตำแหน่งลายเซ็นบนเอกสารไทยทั่วไป */
+.signs {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 60mm;
+  justify-content: end;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-2);
+}
+.sign-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 22mm;
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--brand-light);
+  border-radius: 3px;
+  text-align: center;
+  font-size: var(--t-2xs);
+}
+.sign-line {
+  margin: 0 var(--sp-4) 1mm;
+  border-top: 1px dotted var(--muted);
+}
+.sign-name {
+  font-weight: bold;
+}
+.sign-date {
+  display: block;
+  color: var(--muted);
+}
+.marks img {
+  width: auto;
+  height: 14mm;
+}
+.marks img.stamp {
+  opacity: 0.5;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+/* ---- ท้ายหน้า ----------------------------------------------------------- */
+.sheet-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding-top: 1.5mm;
+  border-top: 1px solid var(--border);
+  font-size: var(--t-2xs);
+  color: var(--muted);
+}
+.sheet-foot b {
+  color: var(--ink);
+}
+/* ---- A5 : พื้นที่ราวครึ่งเดียวของ A4 ------------------------------------ */
+body.paper-a5 {
+  font-size: 8.5pt;
+  /* ข้อความประกอบ (ป้ายกำกับ ที่อยู่ หมายเหตุ บรรทัดสรุปยอด) เล็กลงอีกขั้นบน A5
+     เพราะบล็อกพวกนี้กินความสูงรวมกันเกือบครึ่งหน้า */
+  --t-2xs: 6.5pt;
+}
+body.paper-a5 .doc-card {
+  min-width: 46mm;
+}
+body.paper-a5 .sheet-sum {
+  grid-template-columns: 1fr 50mm;
+}
+body.paper-a5 img.logo {
+  max-height: 14mm;
+}
+body.paper-a5 .signs {
+  grid-auto-columns: 42mm;
+}
+/* บล็อกที่ขนาดคงที่ (คู่ค้า สรุปยอด ลายเซ็น) กินพื้นที่พอ ๆ กับบน A4 ทั้งที่หน้า
+   เล็กกว่าเกือบครึ่ง เหลือที่ให้ตารางรายการน้อยมาก จึงบีบระยะให้กระชับขึ้น */
+body.paper-a5 .sheet-head {
+  padding-bottom: var(--sp-2);
+  margin-bottom: var(--sp-2);
+}
+body.paper-a5 .party-card,
+body.paper-a5 .note-card,
+body.paper-a5 .sum-card {
+  padding: 1.5mm 2mm;
+}
+body.paper-a5 .party-name {
+  margin-bottom: 0.5mm;
+  font-size: var(--t-sm);
+}
+body.paper-a5 .items-wrap,
+body.paper-a5 .sheet-sum {
+  margin-top: var(--sp-2);
+  margin-bottom: var(--sp-2);
+}
+body.paper-a5 .sum-row {
+  padding: 0.3mm 0;
+}
+body.paper-a5 .sign-box {
+  padding: 1.5mm 2mm;
+}
+body.paper-a5 .sign-box {
+  min-height: 17mm;
+}
+body.paper-a5 .marks,
+body.paper-a5 .marks img {
+  height: 11mm;
+}
+/* คอลัมน์ตัวเลขกว้างเท่า A4 บนกระดาษที่แคบกว่าเกือบครึ่ง จะเหลือที่ให้ชื่อสินค้า
+   ไม่ถึง 3 ซม. ชื่อยาว ๆ ตัดบรรทัดจนแถวสูงเป็นสิบบรรทัด ต้องบีบคอลัมน์ตัวเลขลง */
+body.paper-a5 table.items .col-item {
+  width: 7mm;
+}
+body.paper-a5 table.items .col-productno {
+  width: 18mm;
+}
+body.paper-a5 table.items .col-quantity {
+  width: 16mm;
+}
+body.paper-a5 table.items .col-price,
+body.paper-a5 table.items .col-discount,
+body.paper-a5 table.items .col-amount {
+  width: 18mm;
+}
+/* ---- เครื่องพิมพ์ใบเสร็จขนาดเล็ก (กระดาษม้วน) --------------------------- */
+.slip {
+  width: var(--sheet-w);
+  padding: var(--sheet-pad);
+  margin: 1cm auto;
+  background-color: var(--white);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.35);
+  box-sizing: border-box;
+  font-size: 8pt;
+  line-height: 1.35;
+  color: #000;
+}
+.slip-head {
+  padding-bottom: 1.5mm;
+  border-bottom: 1px dashed #000;
+  text-align: center;
+}
+.slip-head img.logo {
+  margin: 0 auto 1mm;
+  max-height: 12mm;
+}
+.slip-head h1 {
+  margin: 0;
+  font-size: 1.15em;
+}
+.slip-head h2 {
+  margin: 1.5mm 0 0;
+  font-size: 1.05em;
+}
+.slip-meta {
+  font-size: 0.88em;
+  color: #444;
+}
+.slip-info {
+  padding: 1.5mm 0;
+  border-bottom: 1px dashed #000;
+}
+.slip-info div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0 2mm;
+}
+.slip-info span {
+  color: #444;
+}
+.slip-info b {
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+table.slip-items {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5mm 0;
+}
+table.slip-items td {
+  padding: 0;
+  vertical-align: top;
+}
+tr.slip-name td {
+  padding-top: 1mm;
+  font-weight: bold;
+}
+tr.slip-line td {
+  padding-bottom: 1mm;
+  border-bottom: 1px dotted #bbb;
+  color: #444;
+}
+tr.slip-line td.right {
+  color: #000;
+}
+.slip-sum {
+  padding-top: 1.5mm;
+  border-top: 1px dashed #000;
+}
+.slip .sum-row {
+  padding: 0;
+  border-bottom: 0;
+  font-size: 1em;
+}
+.slip .sum-row span {
+  color: #444;
+}
+.slip .sum-row.grand {
+  margin-top: 1mm;
+  padding-top: 1mm;
+  border-top: 1px solid #000;
+  font-size: 1.1em;
+  color: #000;
+}
+.slip .sum-row.grand span {
+  color: #000;
+}
+.slip-baht,
+.slip-comment {
+  margin-top: 1.5mm;
+  font-size: 0.88em;
+  color: #444;
+}
+.slip-signs {
+  margin-top: 4mm;
+}
+.slip .sign-box {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  font-size: 0.9em;
+}
+.slip .sign-line {
+  margin: 6mm 4mm 1mm;
+  border-top: 1px dotted #000;
+}
+.slip-foot {
+  margin-top: 2mm;
+  padding-top: 1.5mm;
+  border-top: 1px dashed #000;
+  text-align: center;
+  font-size: 0.85em;
+  color: #444;
+}
+/* ---- แถบตัวเลือกตอนพิมพ์ (แสดงบนจอเท่านั้น) ----------------------------- */
+.print-option {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.print-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.6em 1.2em;
+  gap: 0.6em;
+  background-color: var(--white);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.25);
+  font-size: 11pt;
+}
+.print-bar form {
+  max-width: 21cm;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6em;
+  align-items: center;
+  justify-content: center;
+}
+.print-bar label {
+  display: flex;
+  gap: 0.6em;
+  font-size: 0.85em;
+  color: var(--muted);
+  align-items: center;
+}
+.print-bar select,
+.print-bar input[type="number"] {
+  font: inherit;
+  padding: 4px 6px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background-color: var(--white);
+  color: var(--ink);
+}
+.print-bar input[type="number"] {
+  width: 6em;
+}
+.print-bar button {
+  font: inherit;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
+  background-color: var(--brand-mid);
+  color: var(--white);
+  font-weight: bold;
+  cursor: pointer;
+}
+.print-hint {
+  flex: 1 1 100%;
+  text-align: center;
+  font-size: 0.8em;
+  color: var(--comment);
+}
+.print-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75em;
+  color: var(--brand-mid);
+}
+.print-toggles label {
+  cursor: pointer;
+  user-select: none;
+  padding: 0.15em 0.6em;
+  border: 1px solid var(--brand-light);
+  border-radius: 99px;
+  background-color: var(--brand-light);
+}
+#no_stamp:checked ~ * label[for="no_stamp"],
+#no_signature:checked ~ * label[for="no_signature"],
+#no_date:checked ~ * label[for="no_date"] {
+  background-color: var(--brand-mid);
+  color: var(--white);
+}
+#no_stamp:checked ~ img.stamp,
+#no_stamp:checked ~ * img.stamp {
+  visibility: hidden;
+}
+#no_signature:checked ~ img.signature,
+#no_signature:checked ~ * img.signature {
+  visibility: hidden;
+}
+/* "ไม่พิมพ์วันที่" = วันที่ทุกจุด ทั้งวันที่และวันครบกำหนดที่หัวเอกสาร (doc-date) และใต้ลายเซ็น
+   ใช้ visibility ไม่ใช่ display — ป้าย "วันที่" กับที่ว่างยังอยู่ให้เขียนด้วยมือ */
+#no_date:checked ~ .sign-date,
+#no_date:checked ~ * .sign-date,
+#no_date:checked ~ * .doc-date {
+  visibility: hidden;
+}
+@media print {
+  html {
+    background-color: var(--white);
+  }
+  .noprint,
+  .print-bar {
+    display: none !important;
+  }
+  .sheet,
+  .slip {
+    margin: 0;
+    box-shadow: none;
+    page-break-after: always;
+    page-break-inside: avoid;
+  }
+  .sheet:last-child,
+  .slip:last-child {
+    page-break-after: auto;
+  }

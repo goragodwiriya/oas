@@ -1,0 +1,68 @@
+<!-- นำเข้าสินค้า/ลูกค้าจากไฟล์ CSV — ระบบเดิมคือ module=inventory-import&type=...
+     หน้าเดียวรับได้ทั้งสองชนิดผ่าน ?type= เหมือนระบบเดิม ข้อความและคอลัมน์
+     มาจากฝั่งเซิร์ฟเวอร์ทั้งหมด เพิ่มชนิดใหม่จึงไม่ต้องแก้เทมเพลตนี้ -->
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <form data-form="inventoryImport" action="api/inventory/import/save" method="post" data-ajax-submit="true"
+            data-load-api="api/inventory/import/get" data-load-query-params="true" autocomplete="off"
+            enctype="multipart/form-data" data-confirm="Confirm save">
+        <div class="card-groups">
+          <header>
+            <div>
+              <h1 class="icon-import" data-text="'{LNG_Import} ' + title" data-i18n></h1>
+              <p data-i18n>{LNG_Import} CSV</p>
+            </div>
+            <div>
+              <a class="btn icon-arrow-left" data-attr="href:back_url" data-i18n>{LNG_Back}</a>
+            </div>
+          </header>
+          <div class="content-body">
+            <fieldset>
+              <legend class="icon-import" data-i18n>{LNG_Browse file}</legend>
+              <div>
+                <label for="file" data-i18n>{LNG_Browse file}</label>
+                <span class="form-control icon-upload">
+                  <input type="file" id="file" name="file" accept=".csv" required>
+                </span>
+                <div class="comment" id="result_file" data-text="file_comment"></div>
+              </div>
+              <div class="comment">
+                <span data-i18n>{LNG_Required columns}</span> :
+                <b data-text="required_columns"></b>
+              </div>
+              <div class="comment">
+                <span data-i18n>{LNG_All columns}</span> :
+                <span data-text="columns"></span>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="icon-help" data-i18n>{LNG_Comment}</legend>
+              <ol class="comment">
+                <li>
+                  <span data-i18n>{LNG_To import, just insert data into the original file as in this example}</span>
+                  <b><a target="_blank" data-attr="href:sample_url" data-text="type + '.csv'"></a></b>
+                  (<span data-i18n>{LNG_Click to download}</span>)
+                </li>
+                <li>
+                  <b data-text="key_column"></b>
+                  <span data-i18n>{LNG_Cannot contain duplicate data In the event that duplicate data is detected, it will update the existing data.}</span>
+                </li>
+                <li data-i18n>{LNG_You can edit the file and can re-import the same file again This means updating the information according to the latest files.}</li>
+              </ol>
+            </fieldset>
+            <fieldset class="submit">
+              <button type="submit" class="btn btn-primary icon-import" data-i18n>{LNG_Import}</button>
+              <input type="hidden" name="type" data-attr="value:type">
+            </fieldset>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2025 Now.js - <a href="https://nowjs.net">nowjs.net</a></p>
+  </footer>
+</div>

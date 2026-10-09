@@ -1,0 +1,89 @@
+<!-- แท็บ "สต๊อก" ของสินค้า — ระบบเดิมคือ module=inventory-write&tab=inventory
+     บัญชีเดินสต๊อกพร้อมตัวกรอง สถานะ/ปี/เดือน และแถวรวมท้ายตาราง
+     ค่าปริยายชุดเดียวกับระบบเดิม: รายการจ่ายออกของปีปัจจุบัน -->
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups" data-component="api" data-endpoint="api/inventory/product/page" data-url-params="true" data-url-params-fields="id">
+        <header>
+          <div>
+            <h1 class="icon-list" data-text="topic"></h1>
+            <p data-text="'{LNG_Product code} ' + product_no" data-i18n></p>
+          </div>
+          <div>
+            <!-- ปรับยอดสินค้าคงคลัง — ปุ่มเดียวกับที่ระบบเดิมมีบนตารางนี้
+                 ต่างกันที่รุ่นนี้ลงบัญชีผ่าน Posting API จึงเห็นในตารางทันที
+                 ว่าใครปรับ ปรับเท่าไร และเพราะอะไร -->
+            <button type="button" class="btn btn-primary icon-exchange" data-if="can_adjust_stock"
+                    data-modal="inventoryStockAdjust" data-modal-api="api/inventory/stocks/modal"
+                    data-param-id="{id}" data-i18n>{LNG_Inventory Adjust}</button>
+            <a class="btn icon-arrow-left" href="/inventory-setup" data-i18n>{LNG_Back}</a>
+          </div>
+        </header>
+        <nav class="inventory-tabs">
+          <a class="inventory-tab" data-attr="href:'/inventory-overview?id=' + id" data-i18n>{LNG_Overview}</a>
+          <a class="inventory-tab" data-attr="href:'/inventory-write?id=' + id" data-i18n>{LNG_Product}</a>
+          <a class="inventory-tab" data-attr="href:'/inventory-barcode?id=' + id" data-i18n>{LNG_Barcode}</a>
+          <a class="inventory-tab" data-attr="href:'/inventory-detail?id=' + id" data-i18n>{LNG_Other details}</a>
+          <a class="inventory-tab active" data-attr="href:'/inventory-stock?id=' + id" data-i18n>{LNG_Inventory}</a>
+        </nav>
+        <div class="content-body">
+          <!-- ตัวเลือกของ select พวกนี้ TableManager เติมให้เองจาก filters ที่ API ส่งมา
+               ตัวเลือกแรก "ทั้งหมด" ถูกเก็บไว้ (populateExternalFilterOptions) -->
+          <form class="table_nav flex wrap gap-2 bottom" data-table-filter="stocks">
+            <div>
+              <label for="filter_status" data-i18n>{LNG_Status}</label>
+              <span class="form-control icon-list">
+                <select id="filter_status" name="status">
+                  <option value="" data-i18n>{LNG_all items}</option>
+                </select>
+              </span>
+            </div>
+            <div>
+              <label for="filter_year" data-i18n>{LNG_year}</label>
+              <span class="form-control icon-calendar">
+                <select id="filter_year" name="year">
+                  <option value="" data-i18n>{LNG_all items}</option>
+                </select>
+              </span>
+            </div>
+            <div>
+              <label for="filter_month" data-i18n>{LNG_month}</label>
+              <span class="form-control icon-calendar">
+                <select id="filter_month" name="month">
+                  <option value="" data-i18n>{LNG_all items}</option>
+                </select>
+              </span>
+            </div>
+          </form>
+          <div class="tablebody">
+            <table class="table border fullwidth" data-table="stocks" data-source="api/inventory/stocks"
+                   data-default-sort="create_date desc" data-page-size="30"
+                   data-show-footer="true" data-footer-aggregates='{"movement":"sum","total":"sum"}'>
+              <thead>
+                <tr>
+                  <th data-field="create_date" data-sort="create_date" data-size="12" data-format="date" data-i18n>{LNG_Transaction date}</th>
+                  <th data-field="order_no" data-sort="order_no" data-size="16"
+                      data-template="<a href='${order_url}'>${order_no}</a>" data-i18n>{LNG_Order No.}</th>
+                  <th data-field="status_text" class="center" data-cell-class="center" data-i18n>{LNG_Status}</th>
+                  <!-- เหตุผลของการปรับยอด — ระบบเดิมซ่อนไว้ในหน้าต่างซ้อนที่ต้องกดเปิดทีละแถว
+                       ทั้งที่เป็นข้อมูลสั้น ๆ ที่คนอ่านตารางอยากเห็นพร้อมกับแถว -->
+                  <th data-field="note" data-i18n>{LNG_Annotation}</th>
+                  <th data-field="movement" class="center" data-cell-class="center" data-format="number" data-i18n>{LNG_Quantity}</th>
+                  <th data-field="price" class="right" data-cell-class="right" data-format="currency" data-i18n>{LNG_Unit price}</th>
+                  <th data-field="total" class="right" data-cell-class="right" data-sort="total" data-format="currency" data-i18n>{LNG_Total}</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 e-OMS - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

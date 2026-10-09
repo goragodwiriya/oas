@@ -1,0 +1,185 @@
+<form data-form="inventoryCustomer" action="api/inventory/customer/save" method="post" data-ajax-submit="true" autocomplete="off">
+  <fieldset>
+    <div>
+      <label for="customer_no" data-i18n>{LNG_Customer code}</label>
+      <span class="form-control icon-barcode">
+        <input type="text" id="customer_no" name="customer_no" maxlength="20" data-attr="value:customer_no" placeholder="{LNG_Leave empty for generate auto}">
+      </span>
+      <div class="comment" id="result_customer_no"></div>
+    </div>
+    <div class="form-group">
+      <!-- ⚠️ ธงจริงที่หน้ารายชื่อใช้กรองแท็บลูกค้า/คู่ค้า — เป็นได้ทั้งสองอย่าง
+           พร้อมกันในแถวเดียว ไม่ติ๊กเลยสักช่องแปลว่าแถวนี้จะไม่โผล่ในทั้งสองแท็บ -->
+      <div class="width33">
+        <input type="checkbox" id="is_customer" name="is_customer" class="switch" value="1" data-attr="checked:is_customer">
+        <label for="is_customer" data-i18n>{LNG_Customer}</label>
+      </div>
+      <div class="width33">
+        <input type="checkbox" id="is_supplier" name="is_supplier" class="switch" value="1" data-attr="checked:is_supplier">
+        <label for="is_supplier" data-i18n>{LNG_Supplier}</label>
+      </div>
+      <div class="width33">
+        <input type="checkbox" id="is_active" name="is_active" class="switch" value="1" data-attr="checked:is_active">
+        <label for="is_active" data-i18n>{LNG_Active}</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="width50">
+        <label for="company" data-i18n>{LNG_Name}/{LNG_Company name}</label>
+        <span class="form-control icon-office">
+          <input type="text" id="company" name="company" maxlength="64" data-attr="value:company" required autofocus>
+        </span>
+        <div class="comment" id="result_company" data-i18n>{LNG_Name of the person or company name}</div>
+      </div>
+      <div class="width50">
+        <label for="branch" data-i18n>{LNG_Branch}</label>
+        <span class="form-control icon-office">
+          <input type="text" id="branch" name="branch" maxlength="50" data-attr="value:branch">
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="width50">
+        <label for="tax_id" data-i18n>{LNG_Tax ID}</label>
+        <span class="form-control icon-profile">
+          <input type="text" id="tax_id" name="tax_id" maxlength="13" data-attr="value:tax_id">
+        </span>
+      </div>
+      <div class="width50">
+        <label for="name" data-i18n>{LNG_Contactor}</label>
+        <span class="form-control icon-customer">
+          <input type="text" id="name" name="name" maxlength="50" data-attr="value:name">
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="width50">
+        <label for="idcard" data-i18n>{LNG_Identification No.}</label>
+        <span class="form-control icon-profile">
+          <input type="text" id="idcard" name="idcard" maxlength="13" data-attr="value:idcard">
+        </span>
+      </div>
+      <div class="width50">
+        <label for="contact" data-i18n>{LNG_Contact Information}</label>
+        <span class="form-control icon-customer">
+          <input type="text" id="contact" name="contact" maxlength="150" data-attr="value:contact">
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="width50">
+        <label for="phone" data-i18n>{LNG_Phone}</label>
+        <span class="form-control icon-phone">
+          <input type="tel" id="phone" name="phone" maxlength="20" data-attr="value:phone">
+        </span>
+      </div>
+      <div class="width50">
+        <label for="fax" data-i18n>{LNG_Fax}</label>
+        <span class="form-control icon-print">
+          <input type="tel" id="fax" name="fax" maxlength="20" data-attr="value:fax">
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="width50">
+        <label for="email" data-i18n>{LNG_Email}</label>
+        <span class="form-control icon-email">
+          <input type="email" id="email" name="email" maxlength="255" data-attr="value:email">
+        </span>
+        <div class="comment" id="result_email" data-i18n>{LNG_The contact email Used to send documents by email}</div>
+      </div>
+      <div class="width50">
+        <label for="website" data-i18n>{LNG_Website}</label>
+        <span class="form-control icon-world">
+          <input type="url" id="website" name="website" maxlength="150" data-attr="value:website">
+        </span>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend class="icon-address" data-i18n>{LNG_Address details}</legend <div>
+    <label for="address" data-i18n>{LNG_Address}</label>
+    <span class="form-control icon-address">
+      <textarea id="address" name="address" rows="2" maxlength="255" data-text="address"></textarea>
+    </span>
+    </div>
+    <div class="form-group">
+      <div class="width33">
+        <label for="country" data-i18n>{LNG_Country}</label>
+        <span class="form-control icon-world">
+          <!-- เปลี่ยนประเทศ = โหลดรายชื่อจังหวัดของประเทศนั้นมาแทน เหมือนระบบเดิม
+               ไม่ต้องมี JS เลย: requestApi ยิง GET ไปที่ provinces แล้วเซิร์ฟเวอร์ตอบ
+               action ชนิด form ซึ่ง ResponseHandler เอาไป patch ตัวเลือกของฟอร์มนี้ให้เอง -->
+          <select id="country" name="country" data-options-key="country" data-attr="value:country" data-action="change:requestApi" data-api-url="api/inventory/customer/provinces"
+                  data-api-method="get" data-param-country="{country}"></select>
+        </span>
+      </div>
+      <div class="width33">
+        <label for="provinceID" data-i18n>{LNG_Province}</label>
+        <span class="form-control icon-location">
+          <!-- ช่องข้อความที่มี data-options-key จะกลายเป็น "ข้อความ + hidden" อัตโนมัติ
+               เลือกจากรายชื่อได้เมื่อประเทศนั้นมีจังหวัดในระบบ (ไทย/ลาว) ประเทศอื่นพิมพ์เองได้
+               PHP อ่านได้ทั้ง provinceID (รหัส) และ provinceID_text (ชื่อที่พิมพ์) -->
+          <input type="text" id="provinceID" name="provinceID" maxlength="64" data-attr="value:provinceID" data-options-key="provinceID" autocomplete="off">
+        </span>
+      </div>
+      <div class="width33">
+        <label for="zipcode" data-i18n>{LNG_Zipcode}</label>
+        <span class="form-control icon-number">
+          <input type="text" id="zipcode" name="zipcode" maxlength="5" data-attr="value:zipcode">
+        </span>
+      </div>
+    </div>
+    <div class="comment" data-i18n>{LNG_Address details} {LNG_show on receipt}</div>
+  </fieldset>
+  <fieldset>
+    <legend class="icon-money" data-i18n>{LNG_Payments}</legend>
+    <div class="form-group">
+      <div class="width33">
+        <label for="bank" data-i18n>{LNG_Bank}</label>
+        <span class="form-control icon-office">
+          <input type="text" id="bank" name="bank" maxlength="100" data-attr="value:bank">
+        </span>
+      </div>
+      <div class="width33">
+        <label for="bank_name" data-i18n>{LNG_Account name}</label>
+        <span class="form-control icon-customer">
+          <input type="text" id="bank_name" name="bank_name" maxlength="100" data-attr="value:bank_name">
+        </span>
+      </div>
+      <div class="width33">
+        <label for="bank_no" data-i18n>{LNG_Account no.}</label>
+        <span class="form-control icon-number">
+          <input type="text" id="bank_no" name="bank_no" maxlength="20" data-attr="value:bank_no">
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="width33">
+        <label for="discount" data-i18n>{LNG_Discount} (%)</label>
+        <span class="form-control icon-money">
+          <input type="number" step="0.01" min="0" max="100" id="discount" name="discount" data-attr="value:discount">
+        </span>
+        <div class="comment" id="result_discount" data-i18n>{LNG_Discount on order}</div>
+      </div>
+      <div class="width33">
+        <label for="invoice_due_date" data-i18n>{LNG_Credit term} ({LNG_Sales})</label>
+        <span class="form-control icon-calendar">
+          <input type="number" min="0" id="invoice_due_date" name="invoice_due_date" data-attr="value:invoice_due_date">
+        </span>
+      </div>
+      <div class="width33">
+        <label for="expense_due_date" data-i18n>{LNG_Credit term} ({LNG_Purchase})</label>
+        <span class="form-control icon-calendar">
+          <input type="number" min="0" id="expense_due_date" name="expense_due_date" data-attr="value:expense_due_date">
+        </span>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset class="submit right">
+    <button type="button" class="btn modal-close" data-i18n>{LNG_Cancel}</button>
+    <button type="submit" class="btn btn-primary icon-save" data-i18n>{LNG_Save}</button>
+    <input type="hidden" name="id" data-attr="value:id">
+    <input type="hidden" name="from" data-attr="value:from">
+  </fieldset>
+</form>

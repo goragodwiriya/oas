@@ -1,0 +1,152 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups">
+        <header>
+          <div>
+            <h1 class="icon-brush" data-i18n>Theme Settings</h1>
+            <p data-i18n>Theme configuration for decorating your website.</p>
+          </div>
+        </header>
+        <div class="content-body">
+          <!-- Theme Settings -->
+          <form data-form="theme" action="api/index/settings/save" method="POST" data-ajax-submit="true" data-load-api="api/index/settings/theme" data-confirm="Confirm save"
+                data-on-load="initThemeSettingsAssistant">
+            <fieldset>
+              <legend class="icon-color" data-i18n>Body</legend>
+              <div class="form-group">
+                <div class="width50">
+                  <label for="ColorBackground" data-i18n>Background Color</label>
+                  <span class="form-control icon-bgcolor">
+                    <input type="color" id="ColorBackground" name="ColorBackground" data-attr="value:ColorBackground">
+                  </span>
+                </div>
+                <div class="width50">
+                  <label for="ColorText" data-i18n>Text Color</label>
+                  <span class="form-control icon-fontcolor">
+                    <input type="color" id="ColorText" name="ColorText" data-attr="value:ColorText">
+                  </span>
+                </div>
+              </div>
+              <div>
+                <label for="bg_image" data-i18n>Background Image</label>
+                <span class="form-control icon-image">
+                  <input type="file" id="bg_image" name="bg_image" data-files="bg_image" data-preview="true" data-allow-remove-existing="true"
+                         data-action-url="api/index/settings/remove-bg-image" data-file-reference="url" accept="image/*">
+                </span>
+                <div class="comment" id="result_bg_image" data-i18n>{LNG_Browse image uploaded, type} jpg, jpeg, png, webp</div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="icon-link" data-i18n>Brand &amp; accent</legend>
+              <div class="form-group">
+                <div class="width50">
+                  <label for="ColorPrimary" data-i18n>Primary (brand)</label>
+                  <span class="form-control icon-bgcolor">
+                    <input type="color" id="ColorPrimary" name="ColorPrimary" data-attr="value:ColorPrimary">
+                  </span>
+                </div>
+                <div class="width50">
+                  <label for="ColorInfo" data-i18n>Info / accent</label>
+                  <span class="form-control icon-bgcolor">
+                    <input type="color" id="ColorInfo" name="ColorInfo" data-attr="value:ColorInfo">
+                  </span>
+                </div>
+              </div>
+              <div class="comment" data-i18n>Primary and Info drive links, buttons, and the login page background gradient. AI-generated palettes use a dark primary; you may set any value when saving manually.</div>
+            </fieldset>
+            <fieldset>
+              <legend class="icon-color" data-i18n>Header</legend>
+              <div class="form-group">
+                <div class="width50">
+                  <label for="HeaderColorBackground" data-i18n>Background Color</label>
+                  <span class="form-control icon-bgcolor">
+                    <input type="color" id="HeaderColorBackground" name="HeaderColorBackground" data-attr="value:HeaderColorBackground">
+                  </span>
+                </div>
+                <div class="width50">
+                  <label for="HeaderColorText" data-i18n>Text Color</label>
+                  <span class="form-control icon-fontcolor">
+                    <input type="color" id="HeaderColorText" name="HeaderColorText" data-attr="value:HeaderColorText">
+                  </span>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="icon-color" data-i18n>Sidebar</legend>
+              <div class="form-group">
+                <div class="width50">
+                  <label for="SidebarColorBackground" data-i18n>Background Color</label>
+                  <span class="form-control icon-bgcolor">
+                    <input type="color" id="SidebarColorBackground" name="SidebarColorBackground" data-attr="value:SidebarColorBackground">
+                  </span>
+                </div>
+                <div class="width50">
+                  <label for="SidebarColorText" data-i18n>Text Color</label>
+                  <span class="form-control icon-fontcolor">
+                    <input type="color" id="SidebarColorText" name="SidebarColorText" data-attr="value:SidebarColorText">
+                  </span>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="width50">
+                  <label for="MenuHighlightBg" data-i18n>Menu Highlight Background</label>
+                  <span class="form-control icon-bgcolor">
+                    <input type="color" id="MenuHighlightBg" name="MenuHighlightBg" data-attr="value:MenuHighlightBg">
+                  </span>
+                </div>
+                <div class="width50">
+                  <label for="MenuHighlightText" data-i18n>Menu Highlight Text</label>
+                  <span class="form-control icon-fontcolor">
+                    <input type="color" id="MenuHighlightText" name="MenuHighlightText" data-attr="value:MenuHighlightText">
+                  </span>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="icon-color" data-i18n>Footer</legend>
+              <div class="form-group">
+                <div class="width50">
+                  <label for="FooterColorBackground" data-i18n>Background Color</label>
+                  <span class="form-control icon-bgcolor">
+                    <input type="color" id="FooterColorBackground" name="FooterColorBackground" data-attr="value:FooterColorBackground">
+                  </span>
+                </div>
+                <div class="width50">
+                  <label for="ColorText" data-i18n>Text Color</label>
+                  <span class="form-control icon-fontcolor">
+                    <input type="color" id="FooterColorText" name="FooterColorText" data-attr="value:FooterColorText">
+                  </span>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="icon-support" data-i18n>AI Theme Assistant</legend>
+              <div>
+                <label for="theme_prompt" data-i18n>Design Brief</label>
+                <span class="form-control icon-edit">
+                  <textarea id="theme_prompt" rows="3" placeholder="{LNG_Describe style, mood, brand colors, and target audience}"></textarea>
+                </span>
+                <div class="comment" id="result_theme_prompt" data-i18n>{LNG_Example}: modern civic portal, calm blue-green, high readability, professional but friendly</div>
+              </div>
+              <div class="form-group">
+                <button type="button" class="btn icon-support" id="ai_suggest_theme" data-i18n>Generate Palette</button>
+              </div>
+              <div class="comment" data-i18n>After generation, the color scheme will be automatically filled in on the form. Please check and click save below. </div>
+            </fieldset>
+            <!-- Submit Button -->
+            <fieldset class="submit">
+              <input type="hidden" name="module" value="theme">
+              <button type="submit" class="btn btn-primary icon-save" data-i18n>Save</button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

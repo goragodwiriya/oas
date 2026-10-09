@@ -1,0 +1,62 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups">
+        <header id="customer-table-header">
+          <div>
+            <h1 class="icon-user" data-class="params.type === 'supplier' ? 'icon-customer' : 'icon-user'"
+                data-text="params.type === 'supplier' ? '{LNG_Supplier}' : '{LNG_Customer}'"></h1>
+            <p data-text="params.type === 'supplier' ? 'Manage supplier information' : 'Manage customer information'"></p>
+          </div>
+          <div>
+            <a class="btn icon-import" href="/inventory-import?type=customer" data-i18n>{LNG_Import}</a>
+            <a class="btn icon-export" target="_blank" href="export.php?module=inventory&typ=csv&type=customer" data-i18n>{LNG_Export}</a>
+            <button type="button" class="btn btn-primary icon-new" data-modal="inventoryCustomer" data-modal-api="api/inventory/customer/modal" data-param-id="0"
+                    data-attr="data-param-type:params.type" data-param-from="customers"
+                    data-text="params.type === 'supplier' ? '{LNG_Add} {LNG_Supplier}' : '{LNG_Add} {LNG_Customer}'"></button>
+          </div>
+        </header>
+        <div class="content-body">
+          <div class="tablebody">
+            <table class="table border fullwidth" data-table="customers" data-source="api/inventory/customers" data-load-target="#customer-table-header" data-default-sort="id desc"
+                   data-page-size="25" data-search-columns="company,customer_no,name,phone,email,tax_id" data-show-checkbox="true" data-actions='{"delete":"Delete"}'
+                   data-action-url="api/inventory/customers/action" data-row-actions='{
+                    "print": {
+                      "title": "Envelope",
+                      "className": "btn btn-brown icon-print",
+                      "url": "export.php?module=inventory&typ=envelope&customer_id={id}",
+                      "method": "get",
+                      "target": "_blank"
+                    },
+                     "edit": {
+                      "title": "Edit",
+                      "className": "btn btn-success icon-edit",
+                      "url": "api/inventory/customer/modal",
+                      "method": "get",
+                      "navigate": false,
+                      "params": {"id": "{id}", "from": "customers"}
+                    }
+                   }'>
+              <thead>
+                <tr>
+                  <th data-field="customer_no" data-sort="customer_no" data-size="10" class="center" data-cell-class="center" data-i18n>{LNG_Code}</th>
+                  <th data-field="company" data-sort="company" data-i18n>{LNG_Company}</th>
+                  <th data-field="branch" data-size="10" class="center" data-cell-class="center" data-i18n>{LNG_Branch}</th>
+                  <th data-field="name" data-sort="name" data-i18n>{LNG_Contact}</th>
+                  <th data-field="phone" data-size="12" class="center" data-cell-class="center" data-i18n>{LNG_Phone}</th>
+                  <th data-field="email" data-i18n>{LNG_Email}</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2025 Now.js - <a href="https://nowjs.net">nowjs.net</a></p>
+  </footer>
+</div>

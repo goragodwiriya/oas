@@ -1,0 +1,67 @@
+<!-- หน้าแรก — การ์ดและกราฟมาจากโมดูลที่ติดตั้งอยู่ ผ่าน hook initDashboard
+     และ initDashboardBlocks หน้านี้ไม่รู้จักโมดูลไหนเลย ถอดโมดูลออกของของมัน
+     ก็หายไปเอง (ตัวอย่างที่ทำครบทั้งสอง hook อยู่ที่ modules/demo/)
+     ปฏิทินรวมของแกน (api/index/calendar) มาเป็นบล็อกแรกเมื่อมีโมดูลตอบ initCalendarSources -->
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups" data-component="api" data-endpoint="api/index/dashboard" data-cache="true" data-cache-time="60000">
+        <header>
+          <div>
+            <h1 class="icon-dashboard" data-i18n>{LNG_Dashboard}</h1>
+            <p data-i18n>{LNG_Overview}</p>
+          </div>
+        </header>
+        <div class="ggrid" data-for="card in cards">
+          <template>
+            <a class="block3 large6 stat-card" data-class="card.class" data-attr="href:card.url">
+              <div class="stat-header" data-class="card.icon">
+                <div class="stat-title" data-attr="data-i18n:card.title"></div>
+              </div>
+              <div class="stat-value">
+                <span data-text="card.value"></span>
+                <span class="stat-unit" data-attr="data-i18n:card.unit"></span>
+              </div>
+              <div class="stat-change" data-text="card.hint"></div>
+            </a>
+          </template>
+        </div>
+        <!-- บล็อกของโมดูล — ชนิด (kind) และปลายทางของข้อมูลมาจากโมดูลทั้งหมด
+               ทุกค่าที่ลงท้ายใน data-* ต้องผูกด้วย data-attr ไม่ใช่ {{...}}
+               เพราะ TemplateManager ข้ามการแทนค่าใน data-* (ยกเว้น data-attr
+               กับ data-options-key) ค่าจะค้างเป็นข้อความแล้วบล็อกว่างเงียบ ๆ -->
+        <div class="ggrid" data-for="block in blocks">
+          <template>
+            <section data-class="block.size">
+              <h2 data-attr="data-i18n:block.title,class:block.title_class"></h2>
+              <!-- กราฟ — ไม่ระบุ kind ถือว่าเป็นกราฟ (ของเดิมที่ส่งมาก่อนมี kind) -->
+              <div class="dashboard-block" data-if="!block.kind || block.kind == 'graph'" data-component="graph" data-attr="data-type:block.type,data-url:block.url"></div>
+              <!-- ตาราง — หัวตารางมาจาก columns ของ API (ต้องมี data-dynamic-columns)
+                     thead/tbody ว่างต้องมีอยู่จริง ไม่งั้นตัววาดแถวหา tbody ไม่เจอ -->
+              <div class="tablebody" data-if="block.kind == 'table'">
+                <table class="table border fullwidth" data-dynamic-columns="true" data-page-size="5" data-page-sizes="5,10,25"
+                       data-attr="data-table:block.id,data-source:block.url">
+                  <thead>
+                    <tr></tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+              <!-- ปฏิทิน — EventCalendar ไม่มี MutationObserver โมดูลที่ส่งบล็อกชนิดนี้
+                     ต้องสั่ง discoverCalendars() เองหลังหน้าวาดเสร็จ (ดู modules/demo/admin.js) -->
+              <div data-if="block.kind == 'calendar'"
+                   data-attr="data-event-calendar:block.id,data-api:block.url,data-on-event-click-api:block.event_click_url,data-view:block.view,data-show-today:block.show_today,data-show-view-switcher:block.show_switcher,data-show-period-picker:block.show_period_picker">
+              </div>
+            </section>
+          </template>
+        </div>
+        <p class="comment center" data-if="!has_cards && !has_blocks" data-i18n>{LNG_No data available}</p>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2025 Now.js - <a href="https://nowjs.net">nowjs.net</a></p>
+  </footer>
+</div>

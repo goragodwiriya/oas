@@ -1,0 +1,291 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <!-- data-on-load ให้แกนเรียก initInventoryOrder(element, context) ตอนเปิดหน้า
+           และเรียกฟังก์ชันที่คืนกลับไปตอนออกจากหน้า จึงผูกปุ่มลัดระดับเอกสารได้
+           โดยไม่ทิ้ง event listener ค้างไว้เวลาเปลี่ยนหน้าแบบ SPA -->
+      <form data-form="inventoryOrder" action="api/inventory/order/save" method="post" data-ajax-submit="true" data-load-api="api/inventory/order/get"
+            data-load-query-params="true" autocomplete="off" data-on-load="initInventoryOrder">
+        <div class="card-groups">
+          <header>
+            <div>
+              <h1 class="icon-file" data-text="(template ? template.topic : '{LNG_Order}') + (order_no ? ' ' + order_no : '')"></h1>
+              <p data-text="mode == 'buy' ? '{LNG_Purchase}' : '{LNG_Sales}'" data-i18n></p>
+            </div>
+            <div>
+              <a class="btn icon-arrow-left" href="/inventory-orders" data-i18n>{LNG_Back}</a>
+              <!-- พิมพ์เอกสาร/ซองจดหมาย เปิดแท็บใหม่ (เอกสารที่บันทึกแล้วเท่านั้น) -->
+              <a class="btn btn-secondary icon-print" target="_blank" data-if="id > 0"
+                 data-attr="href:'export.php?module=inventory&typ=billing&id=' + id" data-i18n>{LNG_Print}</a>
+              <a class="btn btn-secondary icon-email" target="_blank" data-if="id > 0"
+                 data-attr="href:'export.php?module=inventory&typ=envelope&id=' + id" data-i18n>{LNG_Envelope}</a>
+              <!-- ปุ่มของโมดูลอื่นที่ขอมาแทรกที่นี่ (hook initOrderActions)
+                   โมดูลนี้ไม่รู้จักโมดูลไหนเป็นพิเศษ — ถอดโมดูลนั้นออกปุ่มหายไปเอง
+                   ⚠️ ค่าที่ลงท้ายใน data-* ต้องผูกด้วย data-attr เท่านั้น
+                   TemplateManager ข้ามการแทนค่าใน data-* อื่น ค่าจะค้างเป็นข้อความ
+                   แล้วปุ่มกดไม่ขึ้นแบบเงียบ ๆ · ตัวคั่นของ data-attr คือ "," -->
+              <span data-for="act in document_actions">
+                <template>
+                  <button type="button" data-class="act.className"
+                          data-attr="data-modal:act.modal, data-modal-api:act.url, data-param-id:act.param_id"
+                          data-text="act.title" data-i18n></button>
+                </template>
+              </span>
+            </div>
+          </header>
+          <div class="content-body">
+
+            <fieldset>
+              <legend class="icon-customer"><span data-i18n>{LNG_Details of}</span> <span data-text="mode == 'buy' ? '{LNG_Supplier}' : '{LNG_Customer}'" data-i18n></span></legend>
+              <!-- ค้นได้ทั้งจากรหัสและจากชื่อ เลือกช่องไหนอีกช่องเติมให้เอง
+                   ผ่าน data-fill ของ TextElementFactory — ไม่ต้องเขียน JS ประกบ -->
+              <div class="form-group bottom">
+                <div class="width20">
+                  <label for="customer_no"><span data-text="mode == 'buy' ? '{LNG_Supplier}' : '{LNG_Customer}'" data-i18n></span> (F2)</label>
+                  <span class="form-control icon-barcode">
+                    <input type="text" id="customer_no" name="customer_no" data-attr="value:customer_no" autocomplete="off"
+                           data-autocomplete="true" data-source="api/inventory/customers/autocomplete?by=customer_no"
+                           data-min-length="1" data-max-results="20" data-fill="customer_id">
+                  </span>
+                </div>
+                <div class="width60">
+                  <label for="customer_id" data-i18n>{LNG_Company name}</label>
+                  <span class="form-control icon-users">
+                    <!-- ช่องนี้แสดง "ชื่อ" แต่ค่าที่ส่งไปคือ customer_id เพราะ autocomplete
+                         เก็บ value ไว้ใน hidden input ชื่อเดียวกัน ส่วนช่องที่เห็นถือ text
+                         ⚠️ ต้องผูกกับคู่ {value, text} (customer_option) ห้ามผูกกับชื่ออย่างเดียว
+                         ตัวจัดการจะเขียนชื่อลง hidden ด้วย แล้วบันทึกไปเป็นลูกค้า 0 เงียบ ๆ -->
+                    <input type="text" id="customer_id" name="customer_id" data-attr="value:customer_option" autocomplete="off"
+                           data-autocomplete="true" data-source="api/inventory/customers/autocomplete"
+                           data-min-length="1" data-max-results="20" data-fill="customer_no"
+                           placeholder="{LNG_Fill some of the :name to find}">
+                  </span>
+                </div>
+                <div class="width20">
+                  <!-- data-modal + data-modal-api = ModalDataBinder ยิง API แล้วให้
+                       ResponseHandler เปิด modal จาก action ที่ API คืนมา -->
+                  <button type="button" class="btn btn-success icon-register fullwidth" data-modal="inventoryCustomer"
+                          data-modal-api="api/inventory/customer/modal" data-param-id="0"
+                          data-param-from="order" data-i18n>{LNG_Add}</button>
+                </div>
+              </div>
+              <div class="comment" id="result_customer_id"></div>
+            </fieldset>
+
+            <fieldset>
+              <legend class="icon-cart" data-i18n>{LNG_Transaction details}</legend>
+              <div class="form-group">
+                <div class="width34">
+                  <label for="order_no" data-i18n>{LNG_Order No.}</label>
+                  <span class="form-control icon-number">
+                    <input type="text" id="order_no" name="order_no" maxlength="20" data-attr="value:order_no"
+                           placeholder="{LNG_Leave empty for generate auto}">
+                  </span>
+                  <div class="comment" id="result_order_no"></div>
+                </div>
+                <div class="width33">
+                  <label for="order_date" data-i18n>{LNG_Transaction date}</label>
+                  <span class="form-control icon-calendar">
+                    <input type="date" id="order_date" name="order_date" data-attr="value:order_date">
+                  </span>
+                </div>
+                <div class="width33" id="due_date_group">
+                  <label for="due_date" data-i18n>{LNG_Due date}</label>
+                  <span class="form-control icon-calendar">
+                    <input type="date" id="due_date" name="due_date" data-attr="value:due_date">
+                  </span>
+                </div>
+              </div>
+
+              <!-- ช่องค้นหาสินค้าต้องอยู่นอกตาราง LineItemsManager ฟังการเลือกจากช่องนี้
+                   แล้วยิง data-detail-api โดยใช้ data-role เป็นชื่อพารามิเตอร์
+                   ช่องจำนวนมี data-role="quantity" จึงถูกส่งไปด้วย เพิ่มทีละหลายชิ้นได้
+                   เหมือนระบบเดิม (data-api-params เก็บทุก [data-role] ในฟอร์ม) -->
+              <div class="form-group bottom">
+                <div class="width15">
+                  <label for="product_quantity" data-i18n>{LNG_Quantity}</label>
+                  <span class="form-control icon-number">
+                    <input type="number" id="product_quantity" data-role="quantity" value="1" min="1" step="1">
+                  </span>
+                </div>
+                <div class="width70">
+                  <!-- ช่องค้นหาต้องมีทั้ง name และ data-role
+                       name: LineItemsManager._getInputValue() ใช้หา hidden ที่ TextElementFactory
+                             สร้างคู่กับช่อง autocomplete ถ้าไม่มี name จะได้ "ข้อความที่แสดง"
+                             แทนรหัสสินค้า แล้ว detail API หาไม่เจอ แถวจึงไม่ถูกเพิ่ม
+                       data-role: เป็นชื่อพารามิเตอร์ที่ยิงไป data-detail-api -->
+                  <label for="product_code" data-i18n>{LNG_Product code}/{LNG_Barcode} (F4)</label>
+                  <span class="form-control icon-search">
+                    <input type="text" id="product_code" name="product_code" data-role="product_code" autocomplete="off"
+                           data-autocomplete="true" data-source="api/inventory/products/autocomplete"
+                           data-min-length="1" data-max-results="20"
+                           placeholder="{LNG_Fill some of the :name to find}">
+                  </span>
+                </div>
+                <div class="width15">
+                  <button type="button" class="btn btn-secondary icon-new fullwidth" data-modal="inventoryProduct"
+                          data-modal-api="api/inventory/product/modal" data-i18n>{LNG_Add} (F7)</button>
+                </div>
+              </div>
+
+              <div class="tablebody">
+                <!-- การคำนวณทำผ่าน data-on-calculate เท่านั้น
+                     (data-auto-calc / data-sum-to ที่เขียนไว้ในคอมเมนต์ของ LineItemsManager.js
+                      ไม่มีโค้ดรองรับจริง ทั้งในซอร์สและใน Now/dist ที่แอปโหลด — อย่าใช้) -->
+                <table class="table border fullwidth" data-line-items="items" data-detail-api="api/inventory/products/detail"
+                       data-listen-select="[data-role='product_code']" data-api-params="[data-role]" data-merge="true" data-merge-key="product_code"
+                       data-allow-delete="true" data-attr="data:items" data-on-calculate="calculateInventoryOrder">
+                  <thead>
+                    <tr>
+                      <th data-field="inventory_id" data-type="text" data-hidden="true">ID</th>
+                      <th data-field="product_code" data-readonly="true" data-size="8" class="center" data-i18n>{LNG_Product code}</th>
+                      <th data-field="topic" data-type="text" data-i18n>{LNG_Detail}</th>
+                      <th data-field="quantity" data-type="number" data-min="1" data-size="4" class="center" data-i18n>{LNG_Quantity}</th>
+                      <th data-field="unit" data-readonly="true" data-size="4" class="center" data-i18n>{LNG_Unit}</th>
+                      <!-- ปุ่มบวกภาษีหัก ณ ที่จ่ายเข้าไปในราคา (งานเดียวกับ <a class="tax"> ของระบบเดิม)
+                           ใส่ "ชื่อฟังก์ชันเปล่า ๆ" ไม่ใช่รูปแบบ event:handler เพราะปุ่มในตารางนี้
+                           วิ่งเข้า LineItemsManager._handleCustomAction ซึ่งเรียก window[ชื่อ] แล้ว
+                           เอาค่าที่คืนมาเขียนลงช่องให้เอง พร้อมสั่งคำนวณใหม่ต่อทันที
+                           (ถ้าใส่รูปแบบมีเครื่องหมาย : จะโดน EventSystemManager จับไปอีกทางหนึ่งด้วย
+                            กลายเป็นทำงานซ้ำสองรอบ ส่วนทางนี้จะหาฟังก์ชันไม่เจอ) -->
+                      <th data-field="price" data-type="currency" data-size="7" class="center"
+                          data-button-click="calcInventoryLineTax"
+                          data-button-class="btn btn-brown icon-calculator"
+                          data-button-title="{LNG_Calculate} {LNG_Withholding tax}" data-i18n>{LNG_Unit price}</th>
+                      <th data-field="vat" data-type="switch" data-size="3" class="center" data-i18n>{LNG_VAT}</th>
+                      <th data-field="discount" data-type="number" data-size="4" class="center" data-i18n>{LNG_Discount} (%)</th>
+                      <th data-field="total" data-type="currency" data-size="8" data-readonly="true" class="center" data-i18n>{LNG_Amount}</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+
+              <!-- หมายเหตุอยู่ซ้าย สรุปยอดอยู่ขวา ระดับเดียวกับตาราง
+                   เห็นยอดรวมทันทีที่เพิ่มสินค้าโดยไม่ต้องเลื่อนจอ เหมือน tfoot ของระบบเดิม -->
+              <div class="form-group">
+                <div class="width50 flex column gap-2">
+                  <div>
+                    <label for="comment" data-i18n>{LNG_Annotation} ({LNG_Print})</label>
+                    <span class="form-control icon-file">
+                      <textarea id="comment" name="comment" rows="11" data-text="comment"></textarea>
+                    </span>
+                  </div>
+                  <div>
+                    <label for="remark" data-i18n>{LNG_Notes or Additional Notes}</label>
+                    <span class="form-control icon-file">
+                      <textarea id="remark" name="remark" rows="3" data-text="remark"></textarea>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="width50 flex gap-2 right column">
+                  <div class="flex gap-2 middle justify-between">
+                    <label for="sub_total" data-i18n>{LNG_Sub total}</label>
+                    <span class="form-control">
+                      <input type="currency" id="sub_total" readonly>
+                      <span class="unit" data-i18n>{LNG_Baht}</span>
+                    </span>
+                  </div>
+                  <div class="flex gap-2 middle justify-between">
+                    <label for="discount_percent" data-i18n>{LNG_Discount} (F8)</label>
+                    <span class="form-control right">
+                      <input type="number" size="4" id="discount_percent" name="discount_percent"
+                             data-attr="value:discount_percent" data-on="input:reCalculateInventoryOrder">
+                      <span class="unit">%</span>
+                    </span>
+                    <span class="form-control">
+                      <input type="currency" id="total_discount" name="total_discount" data-attr="value:discount"
+                             data-on="change:reCalculateInventoryOrder">
+                      <span class="unit" data-i18n>{LNG_Baht}</span>
+                    </span>
+                  </div>
+                  <div class="flex gap-2 middle justify-between">
+                    <label for="amount" data-i18n>{LNG_Total Before Tax}</label>
+                    <span class="form-control">
+                      <input type="currency" id="amount" name="amount" data-attr="value:total" readonly>
+                      <span class="unit" data-i18n>{LNG_Baht}</span>
+                    </span>
+                  </div>
+                  <div class="flex gap-2 middle justify-between">
+                    <label for="vat_status" data-i18n>{LNG_VAT}</label>
+                    <span class="form-control right">
+                      <select id="vat_status" name="vat_status" data-attr="value:vat_status"
+                              data-on="change:reCalculateInventoryOrder">
+                        <option value="0" data-i18n>{LNG_No VAT}</option>
+                        <option value="1" data-i18n>{LNG_VAT excluded}</option>
+                        <option value="2" data-i18n>{LNG_VAT included}</option>
+                      </select>
+                    </span>
+                    <span class="form-control">
+                      <input type="currency" id="vat_total" name="vat_total" data-attr="value:vat" readonly>
+                      <span class="unit" data-i18n>{LNG_Baht}</span>
+                    </span>
+                  </div>
+                  <div class="flex gap-2 middle justify-between">
+                    <label for="grand_total" data-i18n>{LNG_Grand total}</label>
+                    <span class="form-control">
+                      <input type="currency" id="grand_total" readonly>
+                      <span class="unit" data-i18n>{LNG_Baht}</span>
+                    </span>
+                  </div>
+                  <div class="flex gap-2 middle justify-between">
+                    <label for="tax_status" data-i18n>{LNG_Withholding tax}</label>
+                    <span class="form-control right">
+                      <!-- อัตราคงที่ชุดเดียวกับระบบเดิม (WH_TAX) ปุ่มคิดราคาในตารางอ่านค่าจากที่นี่ -->
+                      <select id="tax_status" name="tax_status" data-attr="value:tax_status"
+                              data-on="change:reCalculateInventoryOrder">
+                        <option value="0" data-i18n>{LNG_No tax}</option>
+                        <option value="0.75">0.75%</option>
+                        <option value="1">1.0%</option>
+                        <option value="2">2.0%</option>
+                        <option value="3">3.0%</option>
+                        <option value="5">5.0%</option>
+                        <option value="10">10.0%</option>
+                      </select>
+                    </span>
+                    <span class="form-control">
+                      <input type="currency" id="tax_total" name="tax_total" data-attr="value:tax" readonly>
+                      <span class="unit" data-i18n>{LNG_Baht}</span>
+                    </span>
+                  </div>
+                  <div class="flex gap-2 middle justify-between">
+                    <label for="payment_amount" data-i18n>{LNG_Payment Amount}</label>
+                    <span class="form-control">
+                      <input type="currency" id="payment_amount" readonly>
+                      <span class="unit" data-i18n>{LNG_Baht}</span>
+                    </span>
+                  </div>
+                  <div class="flex gap-2 middle justify-between">
+                    <label for="document_type" data-i18n>{LNG_Status} (F9)</label>
+                    <span class="form-control icon-star0">
+                      <select id="document_type" name="document_type" data-options-key="document_type" data-attr="value:document_type"
+                              data-on="change:onInventoryStatusChanged"></select>
+                    </span>
+                  </div>
+                  <!-- อัตรา VAT และแผนที่ว่าเอกสารชนิดไหนใช้วันครบกำหนด ส่งมาจากฝั่งเซิร์ฟเวอร์ -->
+                  <input type="hidden" id="vat_rate" name="vat_rate" data-attr="value:vat_rate">
+                  <input type="hidden" id="due_date_map" data-attr="value:due_date_map">
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset class="submit">
+              <button type="submit" class="btn btn-primary icon-save" data-i18n>{LNG_Save} (F10)</button>
+              <!-- ไม่จำค่าข้ามการเปิดหน้า — ติ๊กค้างไว้แล้วกดบันทึกเอกสารถัดไป
+                   จะได้ใบใหม่ทั้งที่ตั้งใจแก้ใบเดิม เลขที่และวันที่ของใบใหม่ออกให้ที่เซิร์ฟเวอร์ -->
+              <input type="checkbox" id="save_and_create" name="save_and_create" class="switch" value="1">
+              <label for="save_and_create" data-i18n>{LNG_Save and recreate/duplicate as a new document}</label>
+              <input type="hidden" name="id" data-attr="value:id">
+            </fieldset>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2025 Now.js - <a href="https://nowjs.net">nowjs.net</a></p>
+  </footer>
+</div>

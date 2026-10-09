@@ -1,0 +1,49 @@
+<!-- แท็บ "บาร์โค้ด" ของสินค้า — ระบบเดิมคือ module=inventory-write&tab=items
+     ตารางแก้ไขทั้งตารางแล้วกดบันทึกครั้งเดียว (เพิ่ม/ลบแถวได้) เหมือนหน้าหมวดหมู่
+     คอลัมน์มาจากฝั่ง PHP เพราะคอลัมน์ "ตัดสต๊อก" มีเฉพาะสินค้าที่ไม่ได้นับแยกรายชิ้น -->
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <form data-form="inventoryItems" action="api/inventory/items/save" method="post" data-ajax-submit="true"
+            data-load-api="api/inventory/items/get" data-load-query-params="true" autocomplete="off">
+        <div class="card-groups">
+          <header>
+            <div>
+              <h1 class="icon-barcode" data-text="topic"></h1>
+              <p data-text="'{LNG_Product code}/{LNG_Barcode} ' + product_no" data-i18n></p>
+            </div>
+            <div>
+              <a class="btn icon-arrow-left" href="/inventory-setup" data-i18n>{LNG_Back}</a>
+            </div>
+          </header>
+          <nav class="inventory-tabs">
+            <a class="inventory-tab" data-attr="href:'/inventory-overview?id=' + id" data-i18n>{LNG_Overview}</a>
+            <a class="inventory-tab" data-attr="href:'/inventory-write?id=' + id" data-i18n>{LNG_Product}</a>
+            <a class="inventory-tab active" data-attr="href:'/inventory-barcode?id=' + id" data-i18n>{LNG_Barcode}</a>
+            <a class="inventory-tab" data-attr="href:'/inventory-detail?id=' + id" data-i18n>{LNG_Other details}</a>
+            <a class="inventory-tab" data-attr="href:'/inventory-stock?id=' + id" data-i18n>{LNG_Inventory}</a>
+          </nav>
+          <div class="content-body">
+            <fieldset class="grid">
+              <div class="tablebody">
+                <table class="table border fullwidth" data-table="inventoryItems" data-editable-rows="true"
+                       data-attr="data:options" data-dynamic-columns="true">
+                  <tbody></tbody>
+                </table>
+              </div>
+            </fieldset>
+            <fieldset class="submit">
+              <button type="submit" class="btn btn-primary icon-save" data-i18n>{LNG_Save}</button>
+              <input type="hidden" name="id" data-attr="value:id">
+            </fieldset>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 e-OMS - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

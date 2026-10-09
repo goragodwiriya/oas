@@ -1,0 +1,58 @@
+<!-- สมุดบัญชีสต๊อกรวมทุกสินค้า
+
+     ⚠️ นี่คือ "ความจริง" ของระบบสต๊อก ยอดคงเหลือในทะเบียนสินค้าเป็นแค่ผลสรุป
+     ของหน้านี้ ถ้ายอดไหนน่าสงสัย ให้ตามที่นี่ ไม่ใช่แก้ตัวเลขในทะเบียน -->
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups">
+        <header>
+          <div>
+            <h1 class="icon-list" data-i18n>{LNG_Stock ledger}</h1>
+            <p data-i18n>Every stock movement in the system, newest first</p>
+          </div>
+          <a class="btn btn-secondary icon-product" href="/inventory-products" data-i18n>{LNG_List of} {LNG_Inventory}</a>
+          <a class="btn btn-secondary icon-report" href="/inventory-cost-layers" data-i18n>{LNG_Cost layers}</a>
+        </header>
+        <div class="content-body">
+          <div class="tablebody">
+            <table class="table border fullwidth" data-table="movements" data-source="api/inventory/movements"
+                   data-default-sort="id desc" data-page-size="50" data-search-columns="product_topic,sku,reference_no">
+              <thead>
+                <tr>
+                  <th data-field="occurred_at" data-sort="occurred_at" data-size="14" class="center" data-cell-class="center"
+                      data-format="datetime" data-i18n>{LNG_Date}</th>
+                  <th data-field="product_topic" data-i18n>{LNG_Product name}</th>
+                  <th data-field="sku" data-sort="sku" data-size="12" class="center" data-cell-class="center" data-i18n>{LNG_Product code}</th>
+                  <!-- ชนิดเป็นข้อความที่แปลแล้วจากฝั่งเซิร์ฟเวอร์ (movement_type_text)
+                       ไม่ใช่คีย์ภาษา จึงใส่เป็นเซลล์ธรรมดาได้ -->
+                  <th data-field="movement_type_text" data-size="16" class="center" data-cell-class="center" data-i18n>{LNG_Type}</th>
+                  <th data-field="movement_direction" data-size="8" class="center" data-cell-class="center"
+                      data-filter="true" data-type="select" data-show-all="true" data-all-value="" data-hidden="true" data-i18n>{LNG_Direction}</th>
+                  <th data-field="inventory_id" data-filter="true" data-type="select" data-show-all="true" data-all-value="" data-hidden="true" data-i18n>{LNG_Product name}</th>
+                  <th data-field="movement_type" data-filter="true" data-type="select" data-show-all="true" data-all-value="" data-hidden="true" data-i18n>{LNG_Type}</th>
+                  <th data-field="reference_type" data-filter="true" data-type="select" data-show-all="true" data-all-value="" data-hidden="true" data-i18n>{LNG_Source}</th>
+                  <!-- เลขที่เอกสารต้องกดกลับไปที่เอกสารได้ สมุดบัญชีที่ตามกลับไม่ได้ตรวจสอบไม่จบ -->
+                  <th data-field="reference_no" data-size="14" class="center" data-cell-class="center"
+                      data-formatter="formatLedgerReference" data-i18n>{LNG_Document No}</th>
+                  <!-- จำนวนแสดงพร้อมเครื่องหมาย : ตารางเก็บเป็นบวกเสมอ ทิศทางอยู่คนละคอลัมน์
+                       ถ้าโชว์เลขดิบ คนอ่านจะบวกทุกแถวแล้วได้ยอดที่ไม่มีความหมาย -->
+                  <th data-field="signed_quantity" data-sort="quantity" data-size="10" class="right" data-cell-class="right"
+                      data-formatter="formatLedgerQuantity" data-i18n>{LNG_Quantity}</th>
+                  <th data-field="unit_cost" data-size="10" class="right" data-cell-class="right" data-format="currency" data-i18n>{LNG_Cost}</th>
+                  <th data-field="total_cost" data-size="10" class="right" data-cell-class="right" data-format="currency" data-i18n>{LNG_Total}</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 e-OMS - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

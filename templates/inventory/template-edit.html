@@ -1,0 +1,154 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <form data-form="inventoryTemplate" action="api/inventory/template/save" method="post" data-ajax-submit="true" data-load-api="api/inventory/template/get"
+            data-load-query-params="true" data-confirm="Confirm save">
+        <div class="card-groups">
+          <header>
+            <div>
+              <h1 class="icon-file" data-text="id > 0 ? '{LNG_Edit} {LNG_Template}' : '{LNG_Add} {LNG_Template}'" data-i18n></h1>
+            </div>
+            <div>
+              <a class="btn icon-arrow-left" href="/inventory-templates" data-i18n>{LNG_Back}</a>
+            </div>
+          </header>
+          <div class="content-body">
+            <fieldset>
+              <legend class="icon-file" data-i18n>{LNG_Template}</legend>
+              <div class="form-group">
+                <div class="width50">
+                  <label for="document_type" data-i18n>{LNG_Code}</label>
+                  <span class="form-control icon-edit">
+                    <input type="text" id="document_type" name="document_type" maxlength="3" data-attr="value:document_type" required>
+                  </span>
+                  <div class="comment" id="result_status" data-i18n>Up to 3 characters, e.g. QUO</div>
+                </div>
+                <div class="width50">
+                  <label for="topic" data-i18n>{LNG_Name}</label>
+                  <span class="form-control icon-edit">
+                    <input type="text" id="topic" name="topic" maxlength="150" data-attr="value:topic" required>
+                  </span>
+                  <div class="comment" id="result_topic"></div>
+                </div>
+              </div>
+              <div>
+                <label for="mode" data-i18n>{LNG_Mode}</label>
+                <span class="form-control icon-config">
+                  <select id="mode" name="mode" data-options-key="mode" data-attr="value:mode"></select>
+                </span>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="icon-list" data-i18n>{LNG_Stock}</legend>
+              <div class="form-group">
+                <div class="width50">
+                  <label for="in_stock" data-i18n>{LNG_Stock in}</label>
+                  <span class="form-control icon-config">
+                    <select id="in_stock" name="in_stock" data-attr="value:in_stock">
+                      <option value="0" data-i18n>{LNG_No}</option>
+                      <option value="1" data-i18n>{LNG_Yes}</option>
+                    </select>
+                  </span>
+                </div>
+                <div class="width50">
+                  <label for="cut_stock" data-i18n>{LNG_Stock out}</label>
+                  <span class="form-control icon-config">
+                    <select id="cut_stock" name="cut_stock" data-attr="value:cut_stock">
+                      <option value="0" data-i18n>{LNG_No}</option>
+                      <option value="1" data-i18n>{LNG_Yes}</option>
+                    </select>
+                  </span>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="width50">
+                  <label for="due_date" data-i18n>{LNG_Due date}</label>
+                  <span class="form-control icon-config">
+                    <select id="due_date" name="due_date" data-attr="value:due_date">
+                      <option value="0" data-i18n>{LNG_No}</option>
+                      <option value="1" data-i18n>{LNG_Yes}</option>
+                    </select>
+                  </span>
+                </div>
+                <div class="width50">
+                  <label for="published" data-i18n>{LNG_Active}</label>
+                  <span class="form-control icon-config">
+                    <select id="published" name="published" data-attr="value:published">
+                      <option value="1" data-i18n>{LNG_Yes}</option>
+                      <option value="0" data-i18n>{LNG_No}</option>
+                    </select>
+                  </span>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="icon-number" data-i18n>{LNG_Running number}</legend>
+              <div class="form-group">
+                <div class="width50">
+                  <label for="prefix" data-i18n>{LNG_Prefix}</label>
+                  <span class="form-control icon-edit">
+                    <input type="text" id="prefix" name="prefix" maxlength="20" data-attr="value:prefix">
+                  </span>
+                  <div class="comment" id="result_prefix" data-i18n>%Y = Buddhist year (2 digits), %M = month, e.g. QUO%Y%M- gives QUO6909-</div>
+                </div>
+                <div class="width50">
+                  <label for="number_format" data-i18n>{LNG_Format}</label>
+                  <span class="form-control icon-edit">
+                    <input type="text" id="number_format" name="number_format" maxlength="20" data-attr="value:number_format">
+                  </span>
+                  <div class="comment" id="result_number_format" data-i18n>Number such as %04d (%04d means 4 digits, maximum 11 digits)</div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="icon-edit" data-i18n>{LNG_Print}</legend>
+              <div class="form-group">
+                <div class="width33">
+                  <label for="signature_1" data-i18n>{LNG_Signature} 1</label>
+                  <span class="form-control icon-gesture">
+                    <input type="text" id="signature_1" name="signature_1" maxlength="150" data-attr="value:signature_1">
+                  </span>
+                </div>
+                <div class="width33">
+                  <label for="signature_2" data-i18n>{LNG_Signature} 2</label>
+                  <span class="form-control icon-gesture">
+                    <input type="text" id="signature_2" name="signature_2" maxlength="150" data-attr="value:signature_2">
+                  </span>
+                </div>
+                <div class="width33">
+                  <label for="signature_3" data-i18n>{LNG_Signature} 3</label>
+                  <span class="form-control icon-gesture">
+                    <input type="text" id="signature_3" name="signature_3" maxlength="150" data-attr="value:signature_3">
+                  </span>
+                </div>
+              </div>
+              <div class="comment" data-i18n>Leave a signer blank to hide that signature box. The company stamp and signature go on the last filled box</div>
+              <div>
+                <label for="columns" data-i18n>{LNG_Item columns}</label>
+                <span class="form-control icon-config">
+                  <select id="columns" name="columns[]" multiple size="7" data-options-key="columns" data-attr="value:columns"></select>
+                </span>
+                <div class="comment" id="result_columns" data-i18n>Which columns the item table of this document shows</div>
+              </div>
+              <div>
+                <label for="comment" data-i18n>{LNG_Note}</label>
+                <span class="form-control icon-edit">
+                  <textarea id="comment" name="comment" rows="3" data-text="comment"></textarea>
+                </span>
+              </div>
+            </fieldset>
+            <fieldset class="submit">
+              <button type="submit" class="btn btn-primary icon-save" data-i18n>{LNG_Save}</button>
+              <input type="hidden" name="id" data-attr="value:id">
+            </fieldset>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2025 Now.js - <a href="https://nowjs.net">nowjs.net</a></p>
+  </footer>
+</div>

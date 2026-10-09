@@ -1,0 +1,64 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <form data-form="inventorySettings" action="api/inventory/settings/save" method="post" data-ajax-submit="true" data-load-api="api/inventory/settings/get"
+            data-confirm="Confirm save">
+        <div class="card-groups">
+          <header>
+            <div>
+              <h1 class="icon-cog" data-i18n>{LNG_Accounting settings}</h1>
+              <p data-i18n>Values used across the whole system</p>
+            </div>
+            <div>
+              <a class="btn icon-edit" href="/inventory-templates" data-i18n>{LNG_Document number} &raquo; {LNG_Template}</a>
+            </div>
+          </header>
+          <div class="content-body">
+            <fieldset>
+              <legend class="icon-money" data-i18n>{LNG_Accounting}</legend>
+              <div>
+                <label for="vat" data-i18n>{LNG_VAT} (%)</label>
+                <span class="form-control icon-money">
+                  <input type="number" step="0.01" min="0" max="100" id="vat" name="vat" data-attr="value:vat">
+                </span>
+              </div>
+              <div>
+                <label for="currency_unit" data-i18n>{LNG_Currency}</label>
+                <span class="form-control icon-money">
+                  <select id="currency_unit" name="currency_unit"
+                          data-options-key="currency_unit" data-attr="value:currency_unit"></select>
+                </span>
+                <div class="comment" data-i18n>Currency for goods and services</div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="icon-number" data-i18n>{LNG_Running number}</legend>
+              <div>
+                <label for="customer_no" data-i18n>{LNG_Customer code}</label>
+                <span class="form-control icon-edit">
+                  <input type="text" id="customer_no" name="customer_no" maxlength="20" data-attr="value:customer_no">
+                </span>
+                <div class="comment" data-i18n>Number such as %04d (%04d means 4 digits, maximum 11 digits)</div>
+              </div>
+              <div>
+                <label for="product_no" data-i18n>{LNG_Product code}</label>
+                <span class="form-control icon-edit">
+                  <input type="text" id="product_no" name="product_no" maxlength="20" data-attr="value:product_no">
+                </span>
+                <div class="comment" data-i18n>Used when a product code is left blank, e.g. P%04d</div>
+              </div>
+            </fieldset>
+            <fieldset class="submit">
+              <button type="submit" class="btn btn-primary icon-save" data-i18n>{LNG_Save}</button>
+            </fieldset>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2025 Now.js - <a href="https://nowjs.net">nowjs.net</a></p>
+  </footer>
+</div>

@@ -1,0 +1,38 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups">
+        <header>
+          <div>
+            <h1 class="icon-product" data-i18n>{LNG_Inventory}</h1>
+            <p data-i18n>Items available for documents</p>
+          </div>
+        </header>
+        <div class="content-body">
+          <div class="tablebody">
+            <table class="table border fullwidth" data-table="products" data-source="api/inventory/products" data-default-sort="topic asc" data-page-size="25" data-search-columns="topic,product_code">
+              <thead>
+                <tr>
+                  <th data-field="product_code" data-sort="product_code" data-size="12" class="center" data-cell-class="center" data-i18n>{LNG_Product code}</th>
+                  <th data-field="topic" data-sort="topic" data-i18n>{LNG_Product name}</th>
+                  <th data-field="category_id" class="center" data-cell-class="center" data-filter="true" data-type="select" data-show-all="true" data-all-value="" data-format="lookup" data-i18n>{LNG_Category}</th>
+                  <th data-field="unit" class="center" data-cell-class="center" data-i18n>{LNG_Unit}</th>
+                  <th data-field="price" class="right" data-cell-class="right" data-sort="price" data-format="currency" data-i18n>{LNG_Price}</th>
+                  <!-- สินค้าที่ไม่นับสต๊อกต้องขึ้นขีด ไม่ใช่เลข 0 — เป็นตรรกะ ไม่ใช่รูปแบบ -->
+                  <th data-field="stock" class="center" data-cell-class="center" data-sort="stock"
+                      data-formatter="formatInventoryStock" data-i18n>{LNG_Balance}</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2025 Now.js - <a href="https://nowjs.net">nowjs.net</a></p>
+  </footer>
+</div>

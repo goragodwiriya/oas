@@ -1,0 +1,131 @@
+<body>
+<!--PAPER:a4-->
+  <style>
+    /* ป้อนซองแนวตั้งโดยติดไว้กับกระดาษ A4 — สำหรับเครื่องพิมพ์ที่ไม่มีถาดป้อนซอง
+       ซองอยู่ "ชิดมุมล่างซ้าย" ของกระดาษ : ขอบล่างคือปลายที่เข้าเครื่องทีหลัง
+       เครื่องจึงคาบกระดาษเปล่าก่อน ส่วนชิดซ้ายเพื่อให้ฝาซองหนีบขอบกระดาษไว้ได้
+       ซองจึงไม่เลื่อนตอนป้อน
+       ข้อความถูกหมุน 90° ให้อ่านถูกทางเมื่อแกะซองออกจากกระดาษ */
+    @page { size: %PAGEW%mm %PAGEH%mm; margin: 0; }
+    body {
+      width: %PAGEW%mm;
+      min-height: %PAGEH%mm;
+      margin: 1cm auto;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-end;
+    }
+    /* คำแนะนำอยู่บนสุดเสมอ ส่วนซองถูกดันลงไปชิดขอบล่าง */
+    body > .paper-guide { margin-bottom: auto; }
+    @media print { body { margin: 0; } }
+  </style>
+<!--/PAPER-->
+<!--PAPER:env-->
+  <style>
+    /* ป้อนซองแนวตั้งเข้าถาด/ช่องป้อนซองโดยตรง — หน้ากระดาษเท่ากับตัวซองพอดี
+       ด้านสั้นของซองคือความกว้างของหน้า ด้านยาวคือความสูง */
+    @page { size: %PAGEW%mm %PAGEH%mm; margin: 0; }
+    body { width: %PAGEW%mm; min-height: %PAGEH%mm; margin: 1cm auto; padding: 0; }
+    @media print { body { margin: 0; } }
+  </style>
+<!--/PAPER-->
+  <style>
+    /* พื้นที่ของซองบนหน้ากระดาษ (แนวตั้ง) กับตัวจ่าหน้าที่ถูกหมุนเข้าไปวางข้างใน */
+    .env-area { width: %ENVH%mm; height: %ENVW%mm; }
+    .sheet { width: %ENVW%mm; height: %ENVH%mm; transform: %ROTATE%; }
+  </style>
+  <div class="paper-guide noprint">
+<!--PAPER:a4-->
+    <h2>{LNG_Envelope} — {LNG_Printer without envelope feeder}</h2>
+<!--/PAPER-->
+<!--PAPER:env-->
+    <h2>{LNG_Envelope} — {LNG_Printer with envelope feeder}</h2>
+<!--/PAPER-->
+    <!-- ⚠️ ด้านยาวของซองกว้างกว่าทางเดินกระดาษของเครื่องพิมพ์ A4 (210 มม.)
+         ป้อนแบบนอนจึงไม่เข้าเครื่อง ทุกโหมดของหน้านี้จึงเป็นการป้อนแนวตั้ง -->
+    <p class="guide-note">{LNG_The envelope must be fed portrait (short edge first). Its long side is wider than the printer paper path, so feeding it landscape will not go through.}</p>
+    %TOOWIDE%
+    <div class="guide-row">
+      <div class="guide-figure">
+<!--PAPER:a4-->
+        <div class="tray a4">
+          <div class="env-on-tray portrait at-bottom"><span>{LNG_Envelope}</span></div>
+          <span class="tray-label">{LNG_A4 paper}</span>
+        </div>
+<!--/PAPER-->
+<!--PAPER:env-->
+        <div class="tray envelope-only portrait">
+          <div class="env-on-tray portrait"><span>{LNG_Envelope}</span></div>
+          <span class="tray-label">{LNG_Envelope feeder}</span>
+        </div>
+<!--/PAPER-->
+        <div class="feed-arrow">{LNG_Feed direction}</div>
+      </div>
+      <ol class="guide-steps">
+        <li>{LNG_Turn the envelope upright (portrait) so its short edge goes in first}</li>
+        <li>{LNG_The address side faces the same way as normal paper}</li>
+        <li>{LNG_Feed} %LEADEDGE% {LNG_into the printer first}</li>
+<!--PAPER:a4-->
+        <li>{LNG_Put the envelope at the bottom-left corner of the A4 sheet}</li>
+        <li>{LNG_Clamp the edge of the sheet with the envelope flap so it cannot shift while feeding}</li>
+        <li>{LNG_Feed the whole A4 sheet as usual and set the paper size to A4 portrait}</li>
+<!--/PAPER-->
+<!--PAPER:env-->
+        <li>{LNG_Set the printer paper size to} %PAGEW% x %PAGEH% {LNG_mm}</li>
+<!--/PAPER-->
+        <li>{LNG_If the text comes out upside down, switch the rotation below and print again}</li>
+      </ol>
+    </div>
+    <!-- เลือกขนาดซอง/ที่มากระดาษ/ทิศการหมุน ได้ตอนพิมพ์ ไม่ต้องแก้โค้ด
+         ส่งเป็น GET ธรรมดา หน้าพิมพ์จึงไม่ต้องพึ่ง JavaScript เลย -->
+    <form class="guide-controls" method="get" action="export.php">
+      <input type="hidden" name="module" value="inventory">
+      <input type="hidden" name="typ" value="envelope">
+      %TARGETINPUT%
+      <label>{LNG_Envelope size}
+        <select name="size" onchange="this.form.submit()">%SIZEOPTIONS%</select>
+      </label>
+      <label>{LNG_Rotation}
+        <select name="rotate" onchange="this.form.submit()">%ROTATEOPTIONS%</select>
+      </label>
+      <input type="hidden" name="paper" value="%PAPER%">
+      <noscript><button type="submit">{LNG_Apply}</button></noscript>
+    </form>
+    <p><a href="%SWITCHURL%">
+<!--PAPER:a4-->
+      {LNG_Printer with envelope feeder}
+<!--/PAPER-->
+<!--PAPER:env-->
+      {LNG_Printer without envelope feeder}
+<!--/PAPER-->
+    </a></p>
+  </div>
+  <div class="env-area">
+    <div class="sheet">
+      <table class="envelope-address">
+        <tbody>
+          <tr>
+            <td class="sender">
+              <b>%AUTHORITYNAME%</b><br>
+              %AUTHORITYADDRESS%<br>
+              {LNG_Phone} %AUTHORITYPHONE%<br>
+              <span class="zipcode">%AUTHORITYZIPCODE%</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="receiver">
+              <div class="to">{LNG_Send to}</div>
+              <b>%COMPANY%</b><br>
+              %CONTACTOR%<br>
+              %ADDRESS% %PROVINCE%<br>
+              {LNG_Phone} %PHONE%<br>
+              <span class="zipcode big">%ZIPCODE%</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>

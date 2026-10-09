@@ -1,0 +1,78 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups">
+        <header>
+          <div>
+            <h1 class="icon-line" data-i18n>LINE Settings</h1>
+            <p data-i18n>LINE configuration and system settings</p>
+          </div>
+        </header>
+        <div class="content-body">
+          <!-- Settings Form -->
+          <form data-form="settings" action="api/index/settings/save" method="POST" data-ajax-submit="true" data-load-api="api/index/settings/line" data-confirm="Confirm save">
+            <!-- LINE Settings -->
+            <fieldset>
+              <legend class="icon-line" data-i18n>LINE Login</legend>
+              <div>
+                <label for="line_channel_id" data-i18n>Channel ID</label>
+                <a href="https://www.goragod.com/index.php?module=knowledge&amp;id=3903" target="_blank" class="icon-help"></a>
+                <span class="form-control icon-number">
+                  <input type="number" name="line_channel_id" id="line_channel_id" data-attr="value:line_channel_id" size="20">
+                </span>
+              </div>
+              <div>
+                <label for="line_channel_secret" data-i18n>Channel secret</label>
+                <span class="form-control icon-password">
+                  <input type="text" name="line_channel_secret" id="line_channel_secret" data-attr="value:line_channel_secret">
+                </span>
+                <div id="result_line_channel_secret" class="comment" data-i18n>For logging in with a LINE account</div>
+              </div>
+              <div>
+                <label for="line_callback_url" data-i18n>Callback URL</label>
+                <span class="form-control icon-copy">
+                  <input type="text" name="line_callback_url" id="line_callback_url" data-attr="value:line_callback_url" disabled>
+                </span>
+              </div>
+            </fieldset>
+            <!-- LINE Messaging API -->
+            <fieldset>
+              <legend class="icon-line" data-i18n>Messaging API</legend>
+              <div>
+                <label for="line_official_account" data-i18n>Bot basic ID</label>
+                <a href="https://www.goragod.com/index.php?module=knowledge&amp;id=3904" target="_blank" class="icon-help"></a>
+                <span class="form-control icon-line">
+                  <input type="text" name="line_official_account" id="line_official_account" data-attr="value:line_official_account">
+                </span>
+                <div id="result_line_official_account" class="comment" data-i18n>LINE's official account (with @ in front, such as @xxxx)</div>
+              </div>
+              <div>
+                <label for="line_channel_access_token" data-i18n>Channel access token (long-lived)</label>
+                <span class="form-control icon-password">
+                  <input type="text" name="line_channel_access_token" id="line_channel_access_token" data-attr="value:line_channel_access_token">
+                </span>
+                <div id="result_line_channel_access_token" class="comment" data-i18n>Send messages to users when they add LINE's official account as a friend</div>
+              </div>
+              <div>
+                <label for="line_webhook_url" data-i18n>Webhook URL</label>
+                <span class="form-control icon-copy">
+                  <input readonly="" type="text" name="line_webhook_url" id="line_webhook_url" data-attr="value:line_webhook_url" disabled>
+                </span>
+              </div>
+            </fieldset>
+            <!-- Submit Button -->
+            <fieldset class="submit">
+              <input type="hidden" name="module" value="line">
+              <button type="submit" class="btn btn-primary icon-save" data-i18n>Save</button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

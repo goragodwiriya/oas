@@ -1,0 +1,224 @@
+/**
+ * Custom Color Picker Styles
+ * Complete color picker UI without native input dependencies
+ */
+.custom-colorpicker {
+  overflow: hidden;
+  min-width: max-content;
+}
+.custom-colorpicker.open .colorpicker-arrow {
+  transform: rotate(180deg);
+}
+.colorpicker-dropdown {
+  padding: 16px;
+  min-width: 300px;
+  max-height: 321px;
+}
+/* Color Input Section */
+.color-input-section {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eee;
+}
+.hex-input {
+  flex: 1;
+  padding: 6px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 14px;
+}
+.hex-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+.clear-color-btn {
+  padding: 6px 12px;
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  color: #666;
+  transition: all 0.2s ease;
+}
+.clear-color-btn:hover {
+  background: #e9ecef;
+  color: #333;
+}
+/* Palette Sections */
+.palette-section h4 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+.color-palette {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 4px;
+  padding-bottom: 16px;
+}
+.basic-colors .color-palette {
+  grid-template-columns: repeat(8, 1fr);
+}
+.extended-colors .color-palette {
+  grid-template-columns: repeat(8, 1fr);
+}
+.color-swatch {
+  width: 28px;
+  height: 28px;
+  border: 2px solid #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.color-swatch:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+.color-swatch:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #007bff;
+  z-index: 1;
+}
+.color-swatch.selected {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px #007bff;
+  transform: scale(1.05);
+}
+.color-swatch.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
+}
+/* Form integration */
+.form-control:focus-within {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+/* Disabled state */
+.custom-colorpicker.disabled .colorpicker-display {
+  background-color: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+}
+.custom-colorpicker.disabled .colorpicker-arrow {
+  color: #ccc;
+}
+/* Readonly state */
+.custom-colorpicker.readonly .colorpicker-display {
+  background-color: #f8f9fa;
+  cursor: default;
+}
+/* Dark theme support */
+[data-theme="dark"] .custom-colorpicker .colorpicker-display {
+  background: #2d3748;
+  border-color: #4a5568;
+  color: #e2e8f0;
+}
+[data-theme="dark"] .colorpicker-dropdown {
+  background: #2d3748;
+  border-color: #4a5568;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+[data-theme="dark"] .palette-section h4 {
+  color: #e2e8f0;
+}
+[data-theme="dark"] .hex-input {
+  background: #1a202c;
+  border-color: #4a5568;
+  color: #e2e8f0;
+}
+[data-theme="dark"] .clear-color-btn {
+  background: #4a5568;
+  border-color: #4a5568;
+  color: #e2e8f0;
+}
+[data-theme="dark"] .clear-color-btn:hover {
+  background: #718096;
+}
+/* Responsive design */
+@media (max-width: 768px) {
+  .color-palette {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  .color-swatch {
+    width: 32px;
+    height: 32px;
+  }
+}
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .color-swatch {
+    border-width: 3px;
+  }
+  .color-swatch.selected {
+    outline: 3px solid;
+    outline-offset: 2px;
+  }
+}
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .color-swatch {
+    transition: none;
+  }
+  .color-swatch:hover {
+    transform: none;
+  }
+}
+/* Scrollbar styling for dropdown */
+.colorpicker-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+.colorpicker-dropdown::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+.colorpicker-dropdown::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+.colorpicker-dropdown::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+/* Special colors */
+.color-swatch[data-color="#FFFFFF"] {
+  border-color: #ddd;
+}
+.color-swatch[data-color="#000000"] {
+  border-color: #333;
+}
+/* Transparent color indicator */
+.color-swatch[data-color="transparent"],
+.color-swatch[data-color=""] {
+  background: linear-gradient(45deg, #ccc 25%, transparent 25%),
+    linear-gradient(-45deg, #ccc 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #ccc 75%),
+    linear-gradient(-45deg, transparent 75%, #ccc 75%);
+  background-size: 8px 8px;
+  background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
+}
+.color-swatch[data-color="transparent"]::before,
+.color-swatch[data-color=""]::before {
+  content: '∅';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #666;
+  font-weight: bold;
+  font-size: 14px;
+}

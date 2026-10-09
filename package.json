@@ -1,0 +1,44 @@
+{
+  "name": "now-js-framework",
+  "version": "1.0.0",
+  "description": "Modern JavaScript Framework",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "dev": "vite",
+    "build": "npm run build:core && npm run build:table && npm run build:graph && npm run build:serviceworker && npm run build:queue && npm run build:eventcalendar && npm run build:editor && npm run build:formbuilder && npm run build:syntaxhighlighter",
+    "build:core": "cross-env BUILD_TARGET=core vite build",
+    "build:table": "cross-env BUILD_TARGET=table vite build",
+    "build:graph": "cross-env BUILD_TARGET=graph vite build",
+    "build:serviceworker": "cross-env BUILD_TARGET=serviceworker vite build",
+    "build:queue": "cross-env BUILD_TARGET=queue vite build",
+    "build:eventcalendar": "cross-env BUILD_TARGET=eventcalendar vite build",
+    "build:editor": "cross-env BUILD_TARGET=editor vite build",
+    "build:formbuilder": "cross-env BUILD_TARGET=formbuilder vite build",
+    "build:syntaxhighlighter": "cross-env BUILD_TARGET=syntaxhighlighter vite build",
+    "build:all": "npm run build",
+    "watch:formbuilder": "cross-env BUILD_TARGET=formbuilder vite build --watch"
+  },
+  "devDependencies": {
+    "cross-env": "^10.1.0",
+    "jsdom": "^29.1.1",
+    "puppeteer-core": "^25.3.0",
+    "terser": "^5.44.1",
+    "vite": "^8.0.0",
+    "vitest": "^5.0.2"
+  },
+  "keywords": [
+    "framework",
+    "javascript",
+    "kotchasan",
+    "nowjs",
+    "php"
+  ],
+  "author": "Goragod Wiriya",
+  "license": "MIT",
+  "allowScripts": {
+    "esbuild@0.28.1": true,
+    "esbuild@0.28.2": true
+  }
+}

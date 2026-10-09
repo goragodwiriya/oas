@@ -1,0 +1,99 @@
+<!-- แท็บ "ภาพรวม" ของสินค้า — ระบบเดิมคือ module=inventory-write&tab=overview
+     ตัวเลขสรุปชุดเดียวกับของเดิม (ขาย / ต้นทุน / กำไรขั้นต้น / สินค้าคงคลัง)
+     คิดต้นทุนแบบเข้าก่อนออกก่อน แล้วต่อด้วยรายงานความเคลื่อนไหวรายเดือน -->
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <!-- data-on-load เรียกหลังข้อมูลมาถึงและผูกค่าเข้าหน้าแล้ว ใช้สั่งให้กราฟโหลด
+           ข้อมูลของตัวเอง — GraphComponent อ่าน data-url ตอนสร้าง instance ซึ่งเกิดก่อน
+           ที่ data-attr จะเติม URL ให้ ถ้าไม่สั่งซ้ำกราฟจะว่างเปล่า -->
+      <div class="card-groups" data-component="api" data-endpoint="api/inventory/overview/get" data-url-params="true" data-url-params-fields="id,year"
+           data-on-load="initInventoryOverview">
+        <header>
+          <div>
+            <h1 class="icon-chart" data-text="'{LNG_Product Overview} ' + topic" data-i18n></h1>
+            <p data-text="'{LNG_Product code} ' + product_no" data-i18n></p>
+          </div>
+          <div>
+            <a class="btn icon-arrow-left" href="/inventory-setup" data-i18n>{LNG_Back}</a>
+          </div>
+        </header>
+        <nav class="inventory-tabs">
+          <a class="inventory-tab active" data-attr="href:'/inventory-overview?id=' + id" data-i18n>{LNG_Overview}</a>
+          <a class="inventory-tab" data-attr="href:'/inventory-write?id=' + id" data-i18n>{LNG_Product}</a>
+          <a class="inventory-tab" data-attr="href:'/inventory-barcode?id=' + id" data-i18n>{LNG_Barcode}</a>
+          <a class="inventory-tab" data-attr="href:'/inventory-detail?id=' + id" data-i18n>{LNG_Other details}</a>
+          <a class="inventory-tab" data-attr="href:'/inventory-stock?id=' + id" data-i18n>{LNG_Inventory}</a>
+        </nav>
+        <div class="content-body">
+          <div class="inventory-cards" data-for="card in cards">
+            <template>
+              <div class="stat-card">
+                <div class="stat-header">
+                  <span data-text="card.label"></span>
+                  <a class="icon-help" data-attr="title:card.hint"></a>
+                </div>
+                <div class="stat-value" data-text="card.amount_text"></div>
+                <div class="comment">
+                  <span data-i18n>{LNG_Quantity}</span> <span data-text="card.quantity_text"></span>
+                  &nbsp;/&nbsp;
+                  <span data-i18n>{LNG_Avg Price}</span> <span data-text="card.average_text"></span>
+                </div>
+              </div>
+            </template>
+          </div>
+
+          <fieldset>
+            <legend class="icon-chart" data-i18n>{LNG_Product activity report}</legend>
+            <div class="form-group">
+              <div class="width25">
+                <label for="overview_year" data-i18n>{LNG_year}</label>
+                <span class="form-control icon-calendar">
+                  <!-- เปลี่ยนปีแล้วเปิดหน้าเดิมด้วยปีใหม่ (ตัวเลข ตาราง และกราฟอ่านปีจาก URL)
+                       ⚠️ ใช้ data-for สร้าง <option> เอง เพราะ data-options-key ทำงานกับฟอร์ม
+                       (FormManager) เท่านั้น ข้างใน data-component="api" ไม่มี options ให้อ่าน -->
+                  <select id="overview_year" name="year" data-on="change:navigateInventoryFilter" data-for="y in years">
+                    <template>
+                      <option data-attr="value:y.value,selected:y.selected" data-text="y.text"></option>
+                    </template>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <!-- กราฟอ่านข้อมูลจาก endpoint ของตัวเอง ถ้าวาดไม่ได้ยังมีตารางข้างล่างให้ดูตัวเลขครบ -->
+            <!-- URL ของกราฟประกอบมาจากฝั่งเซิร์ฟเวอร์ (มี id/ปี ครบแล้ว) เพราะ GraphComponent
+                 อ่าน data-url ตอนสร้าง ไม่ได้ต่อ query ของหน้าให้เอง
+                 ถ้ากราฟวาดไม่ขึ้น ตารางด้านล่างยังแสดงตัวเลขชุดเดียวกันครบ -->
+            <div class="inventory-chart" data-component="graph" data-type="bar" data-height="280"
+                 data-attr="data-url:chart_url"></div>
+            <div class="tablebody">
+              <table class="table border fullwidth">
+                <thead>
+                  <tr>
+                    <th data-i18n>{LNG_monthly}</th>
+                    <th class="center" data-i18n>{LNG_Buy}</th>
+                    <th class="center" data-i18n>{LNG_Sell}</th>
+                  </tr>
+                </thead>
+                <tbody data-for="month in months">
+                  <template>
+                    <tr>
+                      <td data-text="month.label"></td>
+                      <td class="center" data-text="month.buy"></td>
+                      <td class="center" data-text="month.sell"></td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 e-OMS - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

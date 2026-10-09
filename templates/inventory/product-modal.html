@@ -1,0 +1,96 @@
+<!-- ฟอร์มเพิ่มสินค้า/บริการ แบบหน้าต่างซ้อน เปิดจากปุ่มในหน้าเอกสาร
+     (api/inventory/product/modal คืน action ชนิด modal ที่ชี้มาที่ไฟล์นี้)
+
+     ไม่มี data-load-query-params เพราะหน้าต่างนี้ใช้เพิ่มรายการใหม่เสมอ
+     ช่อง modal=1 บอกฝั่งเซิร์ฟเวอร์ว่าให้ปิดหน้าต่างแล้วส่งรหัสสินค้ากลับมา
+     ใส่ช่องค้นหาในเอกสาร ซึ่งจะเพิ่มเป็นบรรทัดใหม่ให้ทันที
+
+     ⚠️ ชื่อช่องต้องตรงกับที่ Product\Controller::save() อ่าน — มันอ่านเฉพาะคีย์
+     ที่รู้จัก ช่องที่ชื่อไม่ตรงจะถูกทิ้งเงียบ ๆ ไม่มีข้อผิดพลาดให้เห็น
+     (เคยเป็น product_no/inuse ซึ่ง save() ไม่อ่าน ผลคือรหัสสินค้าหาย และ
+      สินค้าใหม่ถูกสร้างเป็น "ปิดใช้งาน" ทุกครั้ง) -->
+<form data-form="inventoryProductModal" action="api/inventory/product/save" method="post" data-ajax-submit="true"
+      data-load-api="api/inventory/product/get" autocomplete="off">
+  <fieldset>
+    <div class="form-group">
+      <div class="width40">
+        <label for="modal_product_code" data-i18n>{LNG_Product code}</label>
+        <span class="form-control icon-barcode">
+          <input type="text" id="modal_product_code" name="product_code" maxlength="150" data-attr="value:product_code"
+                 placeholder="{LNG_Leave empty for generate auto}">
+        </span>
+        <div class="comment" id="result_modal_product_code"></div>
+      </div>
+      <div class="width60">
+        <label for="modal_topic" data-i18n>{LNG_Product name}</label>
+        <span class="form-control icon-edit">
+          <input type="text" id="modal_topic" name="topic" maxlength="150" data-attr="value:topic" required autofocus>
+        </span>
+        <div class="comment" id="result_modal_topic"></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="width50">
+        <label for="modal_category_id" data-i18n>{LNG_Category}</label>
+        <span class="form-control icon-tags">
+          <input type="text" id="modal_category_id" name="category_id" data-options-key="category_id" data-attr="value:category_id">
+        </span>
+        <div class="comment" data-i18n>Type a new name to add it to the list</div>
+      </div>
+      <div class="width50">
+        <label for="modal_unit" data-i18n>{LNG_Unit}</label>
+        <span class="form-control icon-tags">
+          <input type="text" id="modal_unit" name="unit" data-options-key="unit" data-attr="value:unit">
+        </span>
+        <div class="comment" data-i18n>Type a new name to add it to the list</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="width50">
+        <label for="modal_count_stock" data-i18n>{LNG_Stock}</label>
+        <span class="form-control icon-config">
+          <select id="modal_count_stock" name="count_stock" data-options-key="count_stock" data-attr="value:count_stock"></select>
+        </span>
+      </div>
+      <div class="width50">
+        <label for="modal_stock" data-i18n>{LNG_Balance}</label>
+        <span class="form-control icon-list">
+          <input type="number" step="0.01" id="modal_stock" name="stock" data-attr="value:stock">
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="width50">
+        <label for="modal_price" data-i18n>{LNG_Price}</label>
+        <span class="form-control icon-money">
+          <input type="number" step="0.01" id="modal_price" name="price" data-attr="value:price">
+        </span>
+      </div>
+      <div class="width50">
+        <label for="modal_cost" data-i18n>{LNG_Cost}</label>
+        <span class="form-control icon-money">
+          <input type="number" step="0.01" id="modal_cost" name="cost" data-attr="value:cost">
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="width50">
+        <!-- ⚠️ ภาษีของราคาขายมีสามค่า ห้ามทำเป็นช่องติ๊ก ไม่งั้นเก็บ "รวมภาษี" (2) ไม่ได้ -->
+        <label for="modal_vat" data-i18n>{LNG_VAT}</label>
+        <span class="form-control icon-money">
+          <select id="modal_vat" name="vat" data-options-key="vat" data-attr="value:vat"></select>
+        </span>
+      </div>
+      <div class="width50">
+        <input type="checkbox" id="modal_is_active" name="is_active" class="switch" value="1" data-attr="checked:is_active">
+        <label for="modal_is_active" data-i18n>{LNG_Active}</label>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset class="submit right">
+    <button type="button" class="btn modal-close" data-i18n>{LNG_Cancel}</button>
+    <button type="submit" class="btn btn-primary icon-save" data-i18n>{LNG_Save}</button>
+    <input type="hidden" name="id" data-attr="value:id">
+    <input type="hidden" name="modal" value="1">
+  </fieldset>
+</form>

@@ -1,0 +1,47 @@
+<!-- แม่แบบใบเสร็จของเครื่องพิมพ์ขนาดเล็ก (กระดาษม้วน 80 / 58 มม.)
+
+     กระดาษม้วนไม่มีความยาวตายตัว จึงไม่แบ่งหน้า พิมพ์ยาวไปเรื่อย ๆ
+     ใช้คอลัมน์เดียวทั้งหมด เพราะกว้างแค่ 54-74 มม. ตารางหลายคอลัมน์อ่านไม่ออก
+     รายการหนึ่งชิ้นกินสองบรรทัด (ชื่อสินค้า / จำนวน x ราคา = จำนวนเงิน)
+     ใช้กับงาน POS ที่จะทำต่อได้ทันที
+-->
+<body>
+<section class="slip %SHEETCLASS%">
+  <header class="slip-head">
+    %LOGO%
+    <h1>%AUTHORITYNAME% %AUTHORITYBRANCH%</h1>
+    <div class="slip-meta">
+      <div>%AUTHORITYADDRESS%</div>
+      <div>{LNG_Tax ID} %AUTHORITYTAXID%</div>
+      <div>{LNG_Phone} %AUTHORITYPHONE%</div>
+    </div>
+    <h2>{TOPIC}</h2>
+  </header>
+
+  <div class="slip-info">
+    <div><span>{LNG_Order No.}</span><b>%ORDERNO%</b></div>
+    <div><span>{LNG_Date}</span><b class="doc-date">%ORDERDATE%</b></div>
+    <div><span>{LNG_Customer}</span><b>%COMPANY%</b></div>
+  </div>
+
+  <table class="slip-items">
+    <tbody>%ITEMROWS%</tbody>
+  </table>
+
+  <div class="slip-sum">
+    <div class="sum-row"><span>{LNG_Total}</span><b>%SUBTOTAL%</b></div>
+    <div class="sum-row"><span>{LNG_Discount}</span><b>%DISCOUNT%</b></div>
+    <div class="sum-row"><span>{LNG_Less W/H Tax}</span><b>%TAX%</b></div>
+    <div class="sum-row"><span>{LNG_VAT}</span><b>%VAT%</b></div>
+    <div class="sum-row grand"><span>{LNG_Grand total}</span><b>%NETAMOUNT%</b></div>
+  </div>
+
+  <div class="slip-baht">%THAIBAHT%</div>
+  <div class="slip-comment">{COMMENT}</div>
+  <div class="slip-signs">%SIGNATURES%</div>
+  <div class="slip-foot">
+    <div>{LNG_Items} %ITEMS%</div>
+    <div>%AUTHORITYEMAIL%</div>
+  </div>
+</section>
+</body>
