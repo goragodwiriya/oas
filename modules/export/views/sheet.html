@@ -1,0 +1,102 @@
+<body>
+<section class="sheet %SHEETCLASS%">
+  <header class="sheet-head">
+    <div class="brand">
+      <div class="brand-logo">%LOGO%</div>
+      <div class="brand-text">
+        <div class="eyebrow">%AUTHORITYBRANCH%</div>
+        <h1>%AUTHORITYNAME%</h1>
+        <div class="brand-meta">
+          <div class="%AUTHORITYADDRESSCLASS%">%AUTHORITYADDRESS% %AUTHORITYZIPCODE%</div>
+          <div class="%AUTHORITYPHONECLASS%">%AUTHORITYPHONE%</div>
+          <div class="%AUTHORITYEMAILCLASS%">%AUTHORITYEMAIL%</div>
+          <div class="%AUTHORITYTAXIDCLASS%">%AUTHORITYTAXID%</div>
+        </div>
+      </div>
+    </div>
+    <div class="doc-card">
+      <h2>{TOPIC}</h2>
+      <div class="badge-row">
+        <span class="badge">{LNG_Page} %PAGE%/%PAGES%</span>
+      </div>
+      <div class="doc-meta">
+        <div>
+          <div class="doc-label">{LNG_Order No.}</div>
+          <div class="doc-value">%ORDERNO%</div>
+        </div>
+        <div>
+          <div class="doc-label">{LNG_Date}</div>
+          <div class="doc-value doc-date">%ORDERDATE%</div>
+        </div>
+        <div class="%DUECLASS%">
+          <div class="doc-label">{LNG_Due date}</div>
+          <div class="doc-value doc-date">%DUEDATE%</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="party">
+    <div class="party-card">
+      <h3>{LNG_Customer}</h3>
+      <div class="party-name">%COMPANY% %BRANCH%</div>
+      <p>%ADDRESS% %ZIPCODE%</p>
+      <p class="%TAXIDCLASS%">%TAXID%</p>
+    </div>
+    <div class="party-card">
+      <h3>{LNG_Contactor}</h3>
+      <div class="party-name %CONTACTORCLASS%">%CONTACTOR%</div>
+      <p class="%PHONECLASS%">%PHONE%</p>
+      <p class="%EMAILCLASS%">%EMAIL%</p>
+    </div>
+  </section>
+
+  <div class="items-wrap">
+    <table class="items">
+      <thead>
+        <tr>%ITEMHEAD%</tr>
+      </thead>
+      <tbody>%ITEMROWS%<tr class="filler"><td colspan="%COLSPAN%"></td></tr></tbody>
+      <tfoot>
+        <tr class="carry %BROUGHTCLASS%">
+          <td class="right" colspan="%COLSPAN%">
+            <span>{LNG_Brought forward}</span> <b>%BROUGHT%</b>
+          </td>
+        </tr>
+        <tr class="carry only-cont">
+          <td class="right" colspan="%COLSPAN%">
+            <span>{LNG_Carried forward}</span> <b>%CARRIED%</b>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <p class="cont-note only-cont">{LNG_There is a continuation on the next page.}</p>
+
+  <section class="sheet-sum only-last">
+    <div class="note-card">
+      <h3>{LNG_Note}</h3>
+      <div class="comment">{COMMENT}</div>
+      <p class="baht"><span>{LNG_In words}</span> %THAIBAHT%</p>
+    </div>
+    <div class="sum-card">
+      <h3>{LNG_Summary}</h3>
+      <div class="sum-row"><span>{LNG_Total}</span><b>%SUBTOTAL%</b></div>
+      <div class="sum-row"><span>{LNG_Discount}</span><b class="minus">%DISCOUNT%</b></div>
+      %SHIPPINGROW%<div class="sum-row"><span>{LNG_Value amount}</span><b>%AMOUNT%</b></div>
+      <div class="sum-row"><span>{LNG_Less W/H Tax}</span><b class="minus">%TAX%</b></div>
+      <div class="sum-row"><span>{LNG_Total price}</span><b>%TOTAL%</b></div>
+      <div class="sum-row"><span>{LNG_VAT}</span><b>%VAT%</b></div>
+      <div class="sum-row grand"><span>{LNG_Grand Total} (%CURRENCY%)</span><b>%NETAMOUNT%</b></div>
+    </div>
+  </section>
+
+  <section class="signs only-last">%SIGNATURES%</section>
+
+  <footer class="sheet-foot">
+    <span><b>{LNG_Order No.}</b> %ORDERNO%</span>
+    <span><b>{LNG_Items}</b> %ITEMS% &nbsp;|&nbsp; <b>{LNG_Page}</b> %PAGE%/%PAGES%</span>
+  </footer>
+</section>
+</body>

@@ -1,0 +1,28 @@
+/**
+ * Main CSS
+ * Imports all CSS components in the correct order
+ * Created: 23-11-2025
+ */
+@import 'variables.css';
+@import 'theme-dark.css';
+@import 'reset.css';
+@import 'animations.css';
+@import 'notification.css';
+@import 'modal.css';
+@import 'dialog.css';
+@import 'media-base.css';
+@import 'media-viewer.css';
+@import 'image-gallery.css';
+@import 'slideshow.css';
+@import 'galleryslideshow.css';
+@import 'layout.css';
+@import 'menu.css';
+@import 'button.css';
+@import 'tabs.css';
+@import 'colorpicker.css';
+@import 'dropdown-panel.css';
+@import 'input-group.css';
+@import 'range-slider.css';
+@import 'calendar.css';
+@import 'components.css';
+@import 'utilities.css';

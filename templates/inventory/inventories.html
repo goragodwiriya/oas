@@ -1,0 +1,52 @@
+<div class="card-groups">
+  <header>
+    <div>
+      <h1 class="icon-product" data-i18n>Products and services</h1>
+      <p data-i18n>{LNG_List of} {LNG_Products and services}</p>
+    </div>
+    <div>
+      <a class="btn btn-primary icon-new" href="/inventory-write" data-i18n>{LNG_Add} {LNG_Product}</a>
+      <a class="btn icon-import" href="/inventory-import?type=product" data-i18n>{LNG_Import}</a>
+      <a class="btn icon-export" target="_blank" href="export.php?module=inventory&typ=csv&type=product" data-i18n>{LNG_Export}</a>
+    </div>
+  </header>
+  <div class="content-body">
+    <div class="tablebody">
+      <!-- บรรทัดละสินค้า (DESIGN.md ข้อ 2) — แบบ (สี · ไซซ์) ของสินค้าอยู่ในหน้าสินค้า
+           ปุ่มแก้ไขเปิดหน้าสินค้าที่แบบแรก (variant_id) เพราะหน้าย่อยทุกหน้าใช้ id ของแบบ -->
+      <table class="table border fullwidth" data-table="inventories" data-source="api/inventory/inventories" data-default-sort="id desc" data-page-size="25"
+             data-search-columns="topic,product_code" data-show-checkbox="true" data-actions='{"delete":"Delete"}'
+             data-action-url="api/inventory/inventories/action" data-row-actions='{
+               "edit": {
+                "title": "Edit",
+                "className": "btn btn-success icon-edit",
+                "url": "/inventory-write?id={variant_id}",
+                "method": "get"
+              },
+               "barcode": {
+                "title": "Sale units",
+                "className": "btn btn-info icon-barcode",
+                "url": "/inventory-barcode?id={variant_id}",
+                "method": "get"
+              }
+             }'>
+        <thead>
+          <tr>
+            <th data-field="product_code" data-sort="product_code" data-size="12" class="center" data-cell-class="center" data-i18n>{LNG_Product code}</th>
+            <th data-field="topic" data-sort="topic" data-i18n>{LNG_Product name}</th>
+            <th data-field="category_id" class="center" data-cell-class="center" data-filter="true" data-type="select" data-show-all="true" data-all-value=""
+                data-format="lookup" data-i18n>{LNG_Category}</th>
+            <th data-field="count_stock" class="center" data-cell-class="center" data-filter="true" data-type="select" data-format="lookup" data-i18n>
+              {LNG_Stock}</th>
+            <th data-field="variants" class="center" data-cell-class="center" data-sort="variants" data-i18n>{LNG_Variants}</th>
+            <th data-field="price" class="right" data-cell-class="right" data-sort="price" data-formatter="formatInventoryPriceRange" data-i18n>{LNG_Price}</th>
+            <th data-field="stock" class="center" data-cell-class="center" data-sort="stock" data-formatter="formatInventoryStock" data-i18n>{LNG_Balance}</th>
+            <th data-field="is_active" class="center" data-cell-class="center" data-filter="true" data-type="select" data-show-all="true" data-all-value=""
+                data-template="<button class='btn-table-action' data-action='active' data-value='${is_active}'></button>" data-i18n>{LNG_Active}</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>

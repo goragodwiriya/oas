@@ -1,0 +1,73 @@
+<form data-form="inventorySettings" action="api/inventory/settings/save" method="post" data-ajax-submit="true" data-load-api="api/inventory/settings/get"
+      data-confirm="Confirm save">
+  <div class="card-groups">
+    <header>
+      <div>
+        <h1 class="icon-cog" data-i18n>{LNG_Accounting Settings}</h1>
+        <p data-i18n>Values used across the whole system</p>
+      </div>
+    </header>
+    <div class="content-body">
+      <fieldset>
+        <legend class="icon-money" data-i18n>{LNG_Accounting}</legend>
+        <div>
+          <label for="vat" data-i18n>{LNG_VAT}</label>
+          <span class="form-control icon-money">
+            <input type="number" step="0.01" min="0" max="100" id="vat" name="vat" data-attr="value:vat">
+            <span class="unit">%</span>
+          </span>
+        </div>
+        <div>
+          <!-- ภาษีซื้อที่ขอคืนได้ไม่ใช่ต้นทุนสินค้า (TAS 2) — ปิดเมื่อกิจการไม่ได้จดทะเบียน VAT -->
+          <input type="checkbox" id="input_vat_creditable" name="input_vat_creditable" class="switch" value="1" data-attr="checked:input_vat_creditable">
+          <label for="input_vat_creditable" data-i18n>{LNG_Input VAT can be credited}</label>
+          <div class="comment" data-i18n>{LNG_On: inventory cost excludes input VAT · Off: input VAT is part of inventory cost}</div>
+        </div>
+        <div>
+          <label for="currency_unit" data-i18n>{LNG_Currency}</label>
+          <span class="form-control icon-money">
+            <select id="currency_unit" name="currency_unit"
+                    data-options-key="currency_unit" data-attr="value:currency_unit"></select>
+          </span>
+          <div class="comment" data-i18n>Currency for goods and services</div>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend class="icon-number" data-i18n>{LNG_Running number}</legend>
+        <div>
+          <label for="customer_no" data-i18n>{LNG_Customer code}</label>
+          <span class="form-control icon-number">
+            <input type="text" id="customer_no" name="customer_no" maxlength="20" data-attr="value:customer_no">
+          </span>
+          <div class="comment" data-i18n>Number such as %04d (%04d means 4 digits, maximum 11 digits)</div>
+        </div>
+        <div>
+          <label for="product_code_format" data-i18n>{LNG_Product code}</label>
+          <span class="form-control icon-number">
+            <input type="text" id="product_code_format" name="product_code_format" maxlength="20" data-attr="value:product_code_format">
+          </span>
+          <div class="comment" data-i18n>Used when a product code is left blank, e.g. P%04d</div>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend class="icon-product" data-i18n>{LNG_Stock}</legend>
+        <div>
+          <label for="stock_method" data-i18n>{LNG_Stock method}</label>
+          <span class="form-control icon-config">
+            <select id="stock_method" name="stock_method" data-options-key="stock_method" data-attr="value:stock_method"></select>
+          </span>
+          <div class="comment" data-i18n>{LNG_Used when a document line does not name a lot or a serial number}</div>
+          <!-- TAS 8 : เปลี่ยนวิธีตัด = เปลี่ยนนโยบายการบัญชี มีผลไปข้างหน้า (ของที่ตัดไปแล้วไม่เปลี่ยน) -->
+          <div class="comment" data-i18n>{LNG_Changing the stock method is a change in accounting policy — it applies only to stock issued after the change, so change it at the start of an accounting period}</div>
+        </div>
+        <div>
+          <input type="checkbox" id="lot_tracking" name="lot_tracking" class="switch" value="1" data-attr="checked:lot_tracking">
+          <label for="lot_tracking" data-i18n>{LNG_Lot and expiry date on document lines}</label>
+        </div>
+      </fieldset>
+      <fieldset class="submit">
+        <button type="submit" class="btn btn-primary icon-save" data-i18n>{LNG_Save}</button>
+      </fieldset>
+    </div>
+  </div>
+</form>

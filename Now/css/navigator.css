@@ -1,0 +1,55 @@
+/**
+ * PageNavigator progress bar
+ *
+ * Two steps: while a page loads the bar runs to --page-progress-at (80%) and waits
+ * there; once the page is in it fills to 100% and fades out. Most pages arrive in a
+ * moment, so the first step is quick. Themes tune it with the variables below.
+ */
+:root {
+  --page-progress-color: var(--color-primary);
+  --page-progress-height: 3px;
+  --page-progress-at: 0.8;
+  --page-progress-start: 0.5s;
+  --page-progress-end: 0.2s;
+}
+
+.page-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--page-progress-height);
+  background: var(--page-progress-color);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  opacity: 0;
+  pointer-events: none;
+  z-index: var(--z-index-toast);
+}
+
+[dir="rtl"] .page-progress {
+  transform-origin: 100% 50%;
+}
+
+/* Step 1: fast at first, easing into 80% */
+.page-progress.is-loading {
+  opacity: 1;
+  transform: scaleX(var(--page-progress-at));
+  transition: transform var(--page-progress-start) cubic-bezier(0.1, 0.8, 0.3, 1);
+}
+
+/* Step 2: fill from wherever it got to, then fade */
+.page-progress.is-done {
+  opacity: 0;
+  transform: scaleX(1);
+  transition:
+    transform var(--page-progress-end) ease-out,
+    opacity var(--page-progress-end) ease var(--page-progress-end);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-progress.is-loading,
+  .page-progress.is-done {
+    transition: none;
+  }
+}
