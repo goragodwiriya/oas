@@ -1,0 +1,168 @@
+<div class="user-details-view">
+  <!-- User Header -->
+  <div class="user-header">
+    <div class="avatar-large">
+      <img data-attr="src:avatar,alt:name" src="/images/default-avatar.png">
+    </div>
+    <div class="user-title">
+      <h2 data-text="name"></h2>
+      <p class="text-muted">@<span data-text="username"></span></p>
+      <div class="badges">
+        <span data-text="status_text" data-attr="class:status_badge" class="badge"></span>
+        <span data-text="active_text" data-template="<span class='badge {{active ? 'status2' : 'status3'}}'>{{active_text}}</span>"></span>
+        <span data-attr="class:social_icon" class="icon"></span>
+        <span data-text="social_text"></span>
+      </div>
+    </div>
+  </div>
+  <!-- User Information -->
+  <div class="user-info-grid">
+    <!-- Personal Information -->
+    <div class="info-section">
+      <h3 data-i18n>Personal Information</h3>
+      <dl>
+        <dt data-i18n>Gender</dt>
+        <dd data-text="sex_text"></dd>
+        <dt data-i18n>Birthday</dt>
+        <dd data-text="birthday_formatted"></dd>
+        <dt data-i18n>ID Card</dt>
+        <dd data-text="id_card"></dd>
+        <dt data-i18n>Tax ID</dt>
+        <dd data-text="tax_id"></dd>
+      </dl>
+    </div>
+    <!-- Contact Information -->
+    <div class="info-section">
+      <h3 data-i18n>Contact Information</h3>
+      <dl>
+        <dt data-i18n>Phone</dt>
+        <dd>
+          <span class="icon-phone"></span>
+          <span data-text="phone"></span>
+        </dd>
+        <dt data-i18n>Fax</dt>
+        <dd>
+          <span class="icon-print"></span>
+          <span data-text="phone1"></span>
+        </dd>
+        <dt data-i18n>Website</dt>
+        <dd>
+          <a data-attr="href:website" data-text="website" target="_blank"></a>
+        </dd>
+        <dt data-i18n>Company</dt>
+        <dd data-text="company"></dd>
+      </dl>
+    </div>
+    <!-- Address Information -->
+    <div class="info-section">
+      <h3 data-i18n>Address</h3>
+      <dl>
+        <dt data-i18n>Address (Thai)</dt>
+        <dd data-text="address"></dd>
+        <dt data-i18n>Address (English)</dt>
+        <dd data-text="address2"></dd>
+        <dt data-i18n>Province</dt>
+        <dd data-text="province_name"></dd>
+        <dt data-i18n>Zipcode</dt>
+        <dd data-text="zipcode"></dd>
+        <dt data-i18n>Country</dt>
+        <dd data-text="country"></dd>
+      </dl>
+    </div>
+    <!-- Account Information -->
+    <div class="info-section">
+      <h3 data-i18n>Account Information</h3>
+      <dl>
+        <dt data-i18n>User ID</dt>
+        <dd data-text="id"></dd>
+        <dt data-i18n>Created Date</dt>
+        <dd data-text="created_at_formatted"></dd>
+        <dt data-i18n>Total Visits</dt>
+        <dd data-text="visited"></dd>
+        <dt data-i18n>LINE UID</dt>
+        <dd data-text="line_uid"></dd>
+      </dl>
+    </div>
+  </div>
+</div>
+<style>
+  .user-details-view {
+    padding: 1rem;
+  }
+
+  .user-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border, #e0e0e0);
+  }
+
+  .avatar-large {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--color-primary, #007bff);
+  }
+
+  .avatar-large img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .user-title h2 {
+    margin: 0 0 0.25rem 0;
+  }
+
+  .user-title .text-muted {
+    margin: 0 0 0.5rem 0;
+    color: #666;
+  }
+
+  .badges {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .user-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .info-section h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
+    color: var(--color-primary, #007bff);
+  }
+
+  .info-section dl {
+    margin: 0;
+  }
+
+  .info-section dt {
+    font-weight: 600;
+    margin-top: 0.75rem;
+    color: #555;
+    font-size: 0.9rem;
+  }
+
+  .info-section dt:first-child {
+    margin-top: 0;
+  }
+
+  .info-section dd {
+    margin: 0.25rem 0 0 0;
+    color: #333;
+  }
+
+  .info-section dd:empty::before {
+    content: '-';
+    color: #999;
+  }
+</style>

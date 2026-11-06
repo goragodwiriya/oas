@@ -1,0 +1,187 @@
+/**
+ * Slideshow Component CSS
+ * Inline slideshow for banners and hero sections
+ * Extends media-base.css
+ */
+/* ===== Container ===== */
+.slideshow {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 400px;
+  margin-bottom: 20px;
+}
+.slideshow-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+/* ===== Slides ===== */
+.slideshow-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity var(--media-transition-speed, 0.3s) ease,
+    transform var(--media-transition-speed, 0.3s) ease;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.slideshow-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+/* ===== Controls (uses media-nav-btn from base) ===== */
+.slideshow-controls {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  z-index: 10;
+  padding: 0 1rem;
+}
+.slideshow-prev,
+.slideshow-next {
+  background: var(--media-bg-overlay, rgba(0, 0, 0, 0.5));
+  border: none;
+  color: white;
+  font-size: 1.25rem;
+  width: var(--media-nav-size, 3rem);
+  height: var(--media-nav-size, 3rem);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  transition: opacity var(--media-transition-speed, 0.3s) ease,
+    background var(--media-transition-speed, 0.3s) ease;
+}
+.slideshow-prev:hover,
+.slideshow-next:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.2);
+}
+.slideshow-prev:focus,
+.slideshow-next:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4);
+}
+.slideshow-indicators {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+.slideshow-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.3s ease;
+}
+.slideshow-indicator.active {
+  background: white;
+}
+.slideshow-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: 15px 20px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  text-align: center;
+  z-index: 5;
+}
+.slideshow-caption-bottom {
+  bottom: 0;
+}
+.slideshow-caption-top {
+  top: 0;
+}
+.slideshow-caption-center {
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.7);
+}
+.slideshow-fullscreen {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  font-size: 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+.slideshow-fullscreen:hover {
+  opacity: 1;
+}
+.slideshow.slideshow-fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  z-index: 9999;
+  background: #000;
+}
+/* รองรับ Responsive */
+@media (max-width: 768px) {
+  .slideshow {
+    height: 300px;
+  }
+  .slideshow-controls {
+    display: flex;
+  }
+  .slideshow-prev,
+  .slideshow-next {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    margin: 0 10px;
+  }
+  .slideshow-indicator {
+    width: 10px;
+    height: 10px;
+  }
+  .slideshow-caption {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+@media (max-width: 480px) {
+  .slideshow {
+    height: 250px;
+  }
+  .slideshow-prev,
+  .slideshow-next {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+    margin: 0 8px;
+  }
+}
