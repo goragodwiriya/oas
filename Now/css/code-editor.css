@@ -1,0 +1,315 @@
+/**
+ * CodeEditor
+ *
+ * A <textarea> with transparent text lies exactly over a <pre> that shows the
+ * same text in colour. Both layers must use the same font, size, line height,
+ * padding and tab size, or the caret drifts from the letters — change them
+ * through the --code-editor-* variables only, never on one layer alone.
+ */
+.code-editor {
+  --code-editor-font-family: var(--font-family-mono, ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace);
+  --code-editor-font-size: 13px;
+  --code-editor-line-height: 20px;
+  --code-editor-pad-y: 8px;
+  --code-editor-pad-x: 12px;
+  --code-editor-min-lines: 3;
+  --code-editor-tab-size: 2;
+  --code-editor-gutter-digits: 2;
+
+  --code-editor-bg: #fbfcfe;
+  --code-editor-text: #1f2937;
+  --code-editor-border: var(--color-border, #d6dbe3);
+  --code-editor-gutter-bg: #f2f4f8;
+  --code-editor-gutter-text: #8a94a6;
+  --code-editor-active-line: rgba(59, 130, 246, 0.07);
+  --code-editor-selection: rgba(59, 130, 246, 0.26);
+  --code-editor-caret: #111827;
+  --code-editor-focus: var(--color-primary, #3b82f6);
+  --code-editor-invalid: var(--notification-error-border, #dc2626);
+
+  --ce-keyword: #7c3aed;
+  --ce-string: #047857;
+  --ce-comment: #6b7280;
+  --ce-number: #b45309;
+  --ce-constant: #c2410c;
+  --ce-function: #1d4ed8;
+  --ce-property: #0e7490;
+  --ce-builtin: #9d174d;
+  --ce-operator: #475569;
+  --ce-punctuation: #64748b;
+  --ce-regex: #c2410c;
+  --ce-variable: #be185d;
+  --ce-tag: #b91c1c;
+  --ce-attr-name: #a16207;
+  --ce-attr-value: #047857;
+  --ce-selector: #1d4ed8;
+  --ce-entity: #0e7490;
+  --ce-meta: #6d28d9;
+
+  position: relative;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--code-editor-border);
+  border-radius: var(--border-radius, 6px);
+  background: var(--code-editor-bg);
+  color: var(--code-editor-text);
+  overflow: hidden;
+  text-align: left;
+  direction: ltr;
+}
+
+[data-theme="dark"] .code-editor:not([data-theme="light"]),
+.code-editor[data-theme="dark"] {
+  --code-editor-bg: #0f172a;
+  --code-editor-text: #e2e8f0;
+  --code-editor-border: rgba(255, 255, 255, 0.14);
+  --code-editor-gutter-bg: #131d33;
+  --code-editor-gutter-text: #64748b;
+  --code-editor-active-line: rgba(148, 163, 184, 0.09);
+  --code-editor-selection: rgba(96, 165, 250, 0.32);
+  --code-editor-caret: #f8fafc;
+
+  --ce-keyword: #c4b5fd;
+  --ce-string: #86efac;
+  --ce-comment: #94a3b8;
+  --ce-number: #fdba74;
+  --ce-constant: #fca5a5;
+  --ce-function: #93c5fd;
+  --ce-property: #67e8f9;
+  --ce-builtin: #f9a8d4;
+  --ce-operator: #cbd5e1;
+  --ce-punctuation: #94a3b8;
+  --ce-regex: #fdba74;
+  --ce-variable: #f9a8d4;
+  --ce-tag: #fca5a5;
+  --ce-attr-name: #fcd34d;
+  --ce-attr-value: #86efac;
+  --ce-selector: #93c5fd;
+  --ce-entity: #67e8f9;
+  --ce-meta: #c4b5fd;
+}
+
+.code-editor[data-theme="light"] {
+  color-scheme: light;
+}
+
+.code-editor.is-focused {
+  border-color: var(--code-editor-focus);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.code-editor:has(.code-editor-input.invalid) {
+  border-color: var(--code-editor-invalid);
+}
+
+.code-editor:has(.code-editor-input:disabled) {
+  opacity: 0.7;
+}
+
+.code-editor-scroller {
+  display: flex;
+  align-items: flex-start;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.code-editor .code-editor-gutter,
+.code-editor .code-editor-highlight,
+.code-editor .code-editor-input {
+  font-family: var(--code-editor-font-family);
+  font-size: var(--code-editor-font-size);
+  line-height: var(--code-editor-line-height);
+  font-weight: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  text-indent: 0;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0;
+  tab-size: var(--code-editor-tab-size);
+  -moz-tab-size: var(--code-editor-tab-size);
+  white-space: pre;
+  overflow-wrap: normal;
+  word-break: normal;
+  box-sizing: border-box;
+}
+
+/* The tokens and line numbers are elements of their own, so a page's
+   `* { font-family: ... }` reaches them directly instead of letting them inherit:
+   hand them back the layer's font, or the caret drifts from the letters. */
+.code-editor .code-editor-highlight *,
+.code-editor .code-editor-gutter * {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  font-style: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  word-spacing: inherit;
+  text-transform: none;
+}
+
+.code-editor .code-editor-gutter {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  flex: none;
+  min-height: 100%;
+  background: var(--code-editor-gutter-bg);
+  border-right: 1px solid var(--code-editor-border);
+  color: var(--code-editor-gutter-text);
+  text-align: right;
+  user-select: none;
+  cursor: default;
+}
+
+.code-editor-gutter-numbers {
+  position: relative;
+  box-sizing: border-box;
+  min-width: calc(var(--code-editor-gutter-digits) * 1ch + 20px);
+  min-height: calc(var(--code-editor-min-lines) * var(--code-editor-line-height) + 2 * var(--code-editor-pad-y));
+  padding: var(--code-editor-pad-y) 8px var(--code-editor-pad-y) 12px;
+}
+
+.code-editor.no-line-numbers .code-editor-gutter {
+  display: none;
+}
+
+/* Width (flex-basis) and height are set from the line count and the widest
+   line, so the browser never measures the whole file */
+.code-editor .code-editor-body {
+  position: relative;
+  flex: 1 0 auto;
+  min-width: 0;
+  min-height: 100%;
+  font-family: var(--code-editor-font-family);
+  font-size: var(--code-editor-font-size);
+}
+
+.code-editor .code-editor-highlight {
+  position: relative;
+  z-index: 0;
+  display: block;
+  width: auto;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  text-shadow: none;
+  /* Wider than the textarea's text by a few characters, so the caret after the
+     longest line never makes the textarea scroll sideways */
+  padding: var(--code-editor-pad-y) calc(var(--code-editor-pad-x) + 4ch) var(--code-editor-pad-y) var(--code-editor-pad-x);
+  min-height: calc(var(--code-editor-min-lines) * var(--code-editor-line-height) + 2 * var(--code-editor-pad-y));
+  background: transparent;
+  color: var(--code-editor-text);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.code-editor .code-editor-highlight code,
+.code-editor .code-editor-gutter-lines {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  white-space: inherit;
+}
+
+/* The real textarea: transparent text over the coloured copy. The !important
+   rules hold it in place against field styles and inline sizes set by other
+   scripts (auto-resize, validation shadows). */
+.code-editor .code-editor-input {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  margin: 0;
+  padding: var(--code-editor-pad-y) var(--code-editor-pad-x);
+  border: 0 !important;
+  border-radius: 0;
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  caret-color: var(--code-editor-caret);
+  resize: none !important;
+  overflow: hidden !important;
+  transition: none;
+}
+
+.code-editor .code-editor-input::selection {
+  background: var(--code-editor-selection);
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.code-editor .code-editor-input::placeholder {
+  color: var(--input-placeholder, #9ca3af);
+  -webkit-text-fill-color: var(--input-placeholder, #9ca3af);
+  opacity: 1;
+}
+
+.code-editor-active-line,
+.code-editor-gutter-active {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--code-editor-line-height);
+  pointer-events: none;
+  display: none;
+}
+
+.code-editor-active-line {
+  z-index: 0;
+  background: var(--code-editor-active-line);
+}
+
+.code-editor-gutter-active {
+  background: var(--code-editor-active-line);
+}
+
+.code-editor.is-focused .code-editor-active-line,
+.code-editor.is-focused .code-editor-gutter-active {
+  display: block;
+}
+
+/* Tokens */
+.code-editor .ce-keyword { color: var(--ce-keyword); }
+.code-editor .ce-string { color: var(--ce-string); }
+.code-editor .ce-comment { color: var(--ce-comment); }
+.code-editor .ce-number { color: var(--ce-number); }
+.code-editor .ce-constant { color: var(--ce-constant); }
+.code-editor .ce-function { color: var(--ce-function); }
+.code-editor .ce-property { color: var(--ce-property); }
+.code-editor .ce-builtin { color: var(--ce-builtin); }
+.code-editor .ce-operator { color: var(--ce-operator); }
+.code-editor .ce-punctuation { color: var(--ce-punctuation); }
+.code-editor .ce-regex { color: var(--ce-regex); }
+.code-editor .ce-variable { color: var(--ce-variable); }
+.code-editor .ce-tag { color: var(--ce-tag); }
+.code-editor .ce-attr-name { color: var(--ce-attr-name); }
+.code-editor .ce-attr-value { color: var(--ce-attr-value); }
+.code-editor .ce-selector { color: var(--ce-selector); }
+.code-editor .ce-entity { color: var(--ce-entity); }
+.code-editor .ce-meta { color: var(--ce-meta); }
+
+/* Touch screens zoom into fields smaller than 16px on focus */
+@media (pointer: coarse) {
+  .code-editor {
+    --code-editor-font-size: 16px;
+    --code-editor-line-height: 24px;
+  }
+}

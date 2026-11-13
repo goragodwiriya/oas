@@ -1,0 +1,83 @@
+<!-- นโยบายความเป็นส่วนตัว — เปิดได้ทั้งผู้ที่ยังไม่เข้าระบบ (ลิงก์จากแถบ cookie, js/components/CookieBanner.js)
+     ข้อความทุกบรรทัดเป็นคีย์ภาษา (language/th.json) · อีเมล DPO มาจากตั้งค่า Cookie Policy (data_controller) -->
+<div class="auth-container">
+  <div class="auth-card legal-card">
+    <article class="auth-form legal-page">
+      <div class="auth-header">
+        <a href="/" class="auth-logo icon-verfied"></a>
+        <h1 data-i18n>Privacy Policy</h1>
+        <p data-i18n>This policy explains what personal information this system collects, why it is collected and how it is protected, in accordance with the Personal Data Protection Act (PDPA).</p>
+      </div>
+      <section>
+        <h2 data-i18n>Information we collect</h2>
+        <ul>
+          <li data-i18n>Account information you provide, such as your name, username, email address and phone number.</li>
+          <li data-i18n>Information you record while using the system, according to the work you do in it.</li>
+          <li data-i18n>Usage records, such as sign-in times, IP address, browser type and the pages you use, for security and troubleshooting.</li>
+        </ul>
+      </section>
+      <section>
+        <h2 data-i18n>How we use your information</h2>
+        <ul>
+          <li data-i18n>To sign you in and provide the services of the system.</li>
+          <li data-i18n>To contact you about your account, such as password resets and notifications.</li>
+          <li data-i18n>To keep the system secure, prevent misuse and comply with the law.</li>
+        </ul>
+      </section>
+      <section>
+        <h2 data-i18n>Cookie Policy</h2>
+        <p data-i18n>The system uses only the cookies and browser storage that are necessary for it to work, such as keeping you signed in, protecting forms and remembering your language and display settings. They are not used for advertising or for tracking you across websites.</p>
+      </section>
+      <section>
+        <h2 data-i18n>Disclosure of information</h2>
+        <p data-i18n>Your information is not sold or disclosed to others, except where required by law or with your consent.</p>
+      </section>
+      <section>
+        <h2 data-i18n>Retention and security</h2>
+        <p data-i18n>Information is kept only as long as necessary for the purposes above. Access is limited to authorized persons, and passwords are never stored in readable form.</p>
+      </section>
+      <section>
+        <h2 data-i18n>Your rights</h2>
+        <p data-i18n>You may ask to see, correct or delete your personal information, or withdraw your consent, by contacting the system administrator or the Data Protection Officer.</p>
+      </section>
+      <section data-component="api" data-endpoint="api/index/config/login" data-cache="true" data-cache-time="300000">
+        <h2 data-i18n>Contact Us</h2>
+        <p data-i18n>For questions about this policy or to exercise your rights, contact the system administrator.</p>
+        <p data-if="data_controller"><span data-i18n>Data Protection Officer</span> (DPO): <a data-attr="href:'mailto:' + data_controller" data-text="data_controller"></a></p>
+      </section>
+      <div class="center">
+        <a href="terms" data-i18n>Terms of Service</a> · <a href="/" class="icon-home" data-i18n>Return to home page</a>
+      </div>
+    </article>
+  </div>
+</div>
+<style>
+  .legal-card {
+    max-width: 860px;
+    margin: var(--space-8, 2rem) 0;
+  }
+  .legal-page {
+    gap: var(--space-5, 1.25rem);
+    line-height: 1.7;
+  }
+  .legal-page h1 {
+    font-size: var(--font-size-2xl, 1.75rem);
+  }
+  .legal-page h2 {
+    font-size: var(--font-size-lg, 1.125rem);
+    margin: 0 0 var(--space-2, 0.5rem);
+  }
+  .legal-page p,
+  .legal-page ul {
+    margin: 0;
+  }
+  .legal-page ul {
+    padding-left: 1.25rem;
+  }
+  @media (max-width: 640px) {
+    .legal-card {
+      margin: 0;
+      padding: 1.5rem 1rem;
+    }
+  }
+</style>

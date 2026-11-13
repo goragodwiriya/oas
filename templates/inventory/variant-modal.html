@@ -1,0 +1,77 @@
+<!-- แบบสินค้าหนึ่งแบบ (variant = กองสต๊อก) — เปิดจากตารางแบบในหน้าสินค้า (Variants\Controller::handleEditAction)
+     ช่องตัวเลือกมีเฉพาะที่สินค้าตั้งชื่อไว้ (สี · ไซซ์) · หน่วยขายฐานและยอดยกมาเฉพาะแบบใหม่ -->
+<form data-form="inventoryVariant" action="api/inventory/variant/save" method="post" data-ajax-submit="true" autocomplete="off">
+  <fieldset>
+    <div class="form-group">
+      <div class="width50">
+        <label for="variant_sku" data-i18n>SKU</label>
+        <span class="form-control icon-barcode">
+          <input type="text" id="variant_sku" name="sku" maxlength="150" data-attr="value:sku" required autofocus>
+        </span>
+      </div>
+      <div class="width50">
+        <label for="variant_price" data-i18n>{LNG_Selling price}</label>
+        <span class="form-control icon-money">
+          <input type="number" step="0.01" min="0" id="variant_price" name="price" data-attr="value:price">
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="width33" data-if="option1_name">
+        <label for="variant_option1" data-text="option1_name"></label>
+        <span class="form-control icon-edit">
+          <input type="text" id="variant_option1" name="option1" maxlength="100" data-attr="value:option1">
+        </span>
+      </div>
+      <div class="width33" data-if="option2_name">
+        <label for="variant_option2" data-text="option2_name"></label>
+        <span class="form-control icon-edit">
+          <input type="text" id="variant_option2" name="option2" maxlength="100" data-attr="value:option2">
+        </span>
+      </div>
+      <div class="width33" data-if="option3_name">
+        <label for="variant_option3" data-text="option3_name"></label>
+        <span class="form-control icon-edit">
+          <input type="text" id="variant_option3" name="option3" maxlength="100" data-attr="value:option3">
+        </span>
+      </div>
+    </div>
+    <div data-if="id == 0">
+      <div>
+        <label for="variant_barcode" data-i18n>{LNG_Barcode}</label>
+        <span class="form-control icon-barcode">
+          <input type="text" id="variant_barcode" name="barcode" maxlength="150" data-attr="value:barcode" placeholder="{LNG_Same as} SKU">
+        </span>
+      </div>
+      <div class="form-group" data-if="count_stock == 1">
+        <div class="width33">
+          <label for="variant_stock" data-i18n>{LNG_Beginning Inventory}</label>
+          <span class="form-control icon-list">
+            <input type="number" step="0.01" min="0" id="variant_stock" name="stock" data-attr="value:stock">
+          </span>
+        </div>
+        <div class="width33">
+          <label for="variant_cost" data-i18n>{LNG_Cost}</label>
+          <span class="form-control icon-money">
+            <input type="number" step="0.01" min="0" id="variant_cost" name="cost" data-attr="value:cost">
+          </span>
+        </div>
+        <div class="width33">
+          <label for="variant_create_date" data-i18n>{LNG_Transaction date}</label>
+          <span class="form-control icon-calendar">
+            <input type="date" id="variant_create_date" name="create_date" data-attr="value:create_date">
+          </span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <input type="checkbox" id="variant_is_active" name="is_active" class="switch" value="1" data-attr="checked:is_active">
+      <label for="variant_is_active" data-i18n>{LNG_Active}</label>
+    </div>
+  </fieldset>
+  <fieldset class="submit right">
+    <button type="submit" class="btn btn-primary icon-save" data-i18n>{LNG_Save}</button>
+    <input type="hidden" name="id" data-attr="value:id">
+    <input type="hidden" name="product_id" data-attr="value:product_id">
+  </fieldset>
+</form>

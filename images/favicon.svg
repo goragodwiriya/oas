@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="120" height="120"><svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>Now.js Clock Mono Logo</title>
+
+  <style>
+    .clock-border { fill: none; stroke: #000; stroke-width: 10; stroke-linecap: round; }
+    .hand { stroke: #000; stroke-width: 8; stroke-linecap: round; }
+    .center-dot { fill: #000; }
+  </style>
+
+  <!-- Clock Frame -->
+  <circle cx="60" cy="60" r="45" class="clock-border"></circle>
+
+  <!-- Hour hand: shorter, pointing straight up -->
+  <line x1="60" y1="60" x2="60" y2="28" class="hand"></line>
+
+  <!-- Minute hand: longer, slightly right (3 o'clock) -->
+  <line x1="60" y1="60" x2="84" y2="60" class="hand"></line>
+
+  <!-- Center dot -->
+  <circle cx="60" cy="60" r="4" class="center-dot"></circle>
+</svg><style>@media (prefers-color-scheme: light) { :root { filter: none; } }
+@media (prefers-color-scheme: dark) { :root { filter: none; } }
+</style></svg>
