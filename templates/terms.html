@@ -1,0 +1,78 @@
+<!-- ข้อกำหนดในการให้บริการ — เปิดได้ทั้งผู้ที่ยังไม่เข้าระบบ (ลิงก์จากแถบ cookie, js/components/CookieBanner.js)
+     ข้อความทุกบรรทัดเป็นคีย์ภาษา (language/th.json) · อีเมล DPO มาจากตั้งค่า Cookie Policy (data_controller) -->
+<div class="auth-container">
+  <div class="auth-card legal-card">
+    <article class="auth-form legal-page">
+      <div class="auth-header">
+        <a href="/" class="auth-logo icon-file"></a>
+        <h1 data-i18n>Terms of Service</h1>
+        <p data-i18n>By using this system, you agree to these terms. If you do not agree, please do not use the system.</p>
+      </div>
+      <section>
+        <h2 data-i18n>Your account</h2>
+        <ul>
+          <li data-i18n>Keep your username and password secret and do not let others use your account.</li>
+          <li data-i18n>You are responsible for everything done with your account. Tell the system administrator at once if you suspect misuse.</li>
+        </ul>
+      </section>
+      <section>
+        <h2 data-i18n>Acceptable use</h2>
+        <ul>
+          <li data-i18n>Use the system only for its intended purpose and within your permissions.</li>
+          <li data-i18n>Do not try to reach information or functions you are not permitted to use, or interfere with the operation of the system.</li>
+          <li data-i18n>Do not upload unlawful content, malware or information that infringes the rights of others.</li>
+        </ul>
+      </section>
+      <section>
+        <h2 data-i18n>Information in the system</h2>
+        <p data-i18n>You are responsible for the accuracy of the information you record. Personal information is handled as described in the Privacy Policy.</p>
+      </section>
+      <section>
+        <h2 data-i18n>Availability of the service</h2>
+        <p data-i18n>We try to keep the system available at all times but cannot guarantee uninterrupted service. Access may be suspended for maintenance or when these terms are not followed.</p>
+      </section>
+      <section>
+        <h2 data-i18n>Changes to these terms</h2>
+        <p data-i18n>These terms may be updated from time to time. Continuing to use the system after a change means you accept the updated terms.</p>
+      </section>
+      <section data-component="api" data-endpoint="api/index/config/login" data-cache="true" data-cache-time="300000">
+        <h2 data-i18n>Contact Us</h2>
+        <p data-i18n>For questions about these terms, contact the system administrator.</p>
+        <p data-if="data_controller"><span data-i18n>Data Protection Officer</span> (DPO): <a data-attr="href:'mailto:' + data_controller" data-text="data_controller"></a></p>
+      </section>
+      <div class="center">
+        <a href="privacy" data-i18n>Privacy Policy</a> · <a href="/" class="icon-home" data-i18n>Return to home page</a>
+      </div>
+    </article>
+  </div>
+</div>
+<style>
+  .legal-card {
+    max-width: 860px;
+    margin: var(--space-8, 2rem) 0;
+  }
+  .legal-page {
+    gap: var(--space-5, 1.25rem);
+    line-height: 1.7;
+  }
+  .legal-page h1 {
+    font-size: var(--font-size-2xl, 1.75rem);
+  }
+  .legal-page h2 {
+    font-size: var(--font-size-lg, 1.125rem);
+    margin: 0 0 var(--space-2, 0.5rem);
+  }
+  .legal-page p,
+  .legal-page ul {
+    margin: 0;
+  }
+  .legal-page ul {
+    padding-left: 1.25rem;
+  }
+  @media (max-width: 640px) {
+    .legal-card {
+      margin: 0;
+      padding: 1.5rem 1rem;
+    }
+  }
+</style>

@@ -1,0 +1,44 @@
+<!-- แม่แบบอีเมลแจ้งเอกสารถึงลูกค้า
+
+     ระบบเดิมเก็บข้อความนี้ไว้ในตาราง emailtemplate (module=inventory) ซึ่งแก้ไขได้
+     จากเว็บผู้ดูแลระบบอีกเว็บหนึ่งเท่านั้น ผู้ใช้เว็บนี้แก้เองไม่ได้ ที่นี่จึงเก็บเป็นไฟล์
+     ในโมดูลเหมือนแม่แบบเอกสารสำหรับพิมพ์ เจ้าของเว็บแก้ข้อความได้เองโดยตรง
+
+     ข้อความ {LNG_...} ถูกแปลตามภาษาที่ใช้งานอยู่ จึงเขียนไฟล์เดียวใช้ได้ทุกภาษา
+     (ระบบเดิมต้องมีคนละแถวต่อหนึ่งภาษา)
+
+     ตัวแปรที่แทนค่าได้ :
+     %TOPIC%    ชื่อชนิดเอกสาร เช่น ใบเสนอราคา (มาจากแม่แบบเอกสารจริง)
+     %ORDERNO%  เลขที่เอกสาร
+     %NAME%     ชื่อผู้ติดต่อ (ถ้าไม่มีใช้ชื่อบริษัท)
+     %COMPANY%  ชื่อบริษัทของลูกค้า
+     %URL%      ลิงก์เปิดเอกสารเพื่อสั่งพิมพ์ (เปิดได้โดยไม่ต้องเข้าระบบ)
+     %WEBTITLE% ชื่อเว็บไซต์
+     %WEBURL%   ที่อยู่เว็บไซต์
+-->
+<subject>%TOPIC% %ORDERNO% - %WEBTITLE%</subject>
+<body>
+<div style="padding: 10px; background-color: #f7f7f7;">
+  <table style="border-collapse: collapse; max-width: 600px;">
+    <tbody>
+      <tr>
+        <th style="border-width: 1px; border-style: none solid; border-color: #3b5998; padding: 5px 10px; text-align: left; color: #ffffff; font-family: tahoma, sans-serif; font-size: 10pt; background-color: #3b5998;">%TOPIC% %ORDERNO%</th>
+      </tr>
+      <tr>
+        <td style="border-width: 1px; border-style: none solid solid; border-color: #cccccc #cccccc #3b5998; padding: 15px; line-height: 1.8em; font-family: tahoma, sans-serif; font-size: 10pt;">
+          {LNG_Dear} %NAME%<br>
+          <br>
+          {LNG_You can open and print this document from the link below}<br>
+          <a href="%URL%" rel="nofollow">%URL%</a>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 15px; color: #999999; font-family: tahoma, sans-serif; font-size: 9pt;">
+          {LNG_Thank you}<br>
+          <a href="%WEBURL%" rel="nofollow">%WEBTITLE%</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</body>

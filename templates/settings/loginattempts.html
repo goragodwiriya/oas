@@ -1,0 +1,28 @@
+<div class="card-groups">
+  <header>
+    <div>
+      <h1 class="icon-lock" data-i18n>Failed login attempts</h1>
+      <p data-i18n>Failed logins are counted toward the lockout. Delete them to unlock an IP address or username right away.</p>
+    </div>
+  </header>
+  <div class="content-body">
+    <div class="tablebody">
+      <!-- Login Attempts Table (filters: data-filter on the columns) -->
+      <table class="table border fullwidth" data-table="loginattempts" data-source="api/index/loginattempts" data-default-sort="attempted_at desc" data-page-size="25"
+             data-search-columns="username,ip_address" data-show-checkbox="true" data-action-url="api/index/loginattempts/action" data-action-button="Process|btn-success"
+             data-actions='{"delete":"Delete"}'>
+        <thead>
+          <tr>
+            <th data-field="id" data-sort="id" data-i18n>ID</th>
+            <th data-field="attempted_at" data-sort="attempted_at" data-format="datetime" data-filter="true" data-type="daterange" data-range-names="from,to"
+                data-range-presets="today,7d,30d,thismonth" data-label="Date" data-i18n>Date</th>
+            <th data-field="username" data-sort="username" data-i18n>Username</th>
+            <th data-field="ip_address" data-sort="ip_address" data-i18n>IP Address</th>
+            <th data-field="user_agent" data-template="<span title='${user_agent}' class='one_line'>${user_agent}</span>" data-i18n>User agent</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>

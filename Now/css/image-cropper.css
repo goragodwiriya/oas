@@ -1,0 +1,89 @@
+/**
+ * ImageCropper (Now/js/ImageCropper.js)
+ * Feature bundle 'imagecrop' -> Now/dist/now.imagecrop.min.css
+ */
+.image-cropper-modal .modal-dialog {
+  max-width: 640px;
+}
+.image-cropper-modal .modal-body {
+  overflow: hidden;
+}
+.image-cropper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.image-cropper-stage {
+  position: relative;
+  height: min(60vh, 420px);
+  overflow: hidden;
+  border-radius: var(--border-radius);
+  background-color: #1f1f1f;
+  background-image:
+    linear-gradient(45deg, #2a2a2a 25%, transparent 25%, transparent 75%, #2a2a2a 75%),
+    linear-gradient(45deg, #2a2a2a 25%, transparent 25%, transparent 75%, #2a2a2a 75%);
+  background-position: 0 0, 10px 10px;
+  background-size: 20px 20px;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.image-cropper-stage.dragging {
+  cursor: grabbing;
+}
+.image-cropper-stage:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+.image-cropper-image {
+  position: absolute;
+  max-width: none;
+  max-height: none;
+  transform-origin: center center;
+  will-change: transform;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+.image-cropper-frame {
+  position: absolute;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+}
+.image-cropper-frame.circle {
+  border-radius: 50%;
+}
+.image-cropper-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.image-cropper-toolbar .btn {
+  min-width: 2.5em;
+  justify-content: center;
+}
+.image-cropper-toolbar .btn:before {
+  margin: 0;
+}
+.image-cropper-zoom {
+  flex: 1 1 160px;
+  max-width: 260px;
+  accent-color: var(--color-primary);
+}
+.image-cropper-warning {
+  font-size: var(--font-size-sm);
+  color: var(--color-warning-hover);
+  text-align: center;
+}
+.image-cropper-warning[hidden] {
+  display: none;
+}
+@media (max-width: 640px) {
+  .image-cropper-stage {
+    height: 55vh;
+  }
+}

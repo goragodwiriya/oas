@@ -1,0 +1,47 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <form data-form="register" class="auth-form" novalidate action="api/index/auth/register" method="post" data-ajax-submit="true" data-validate="true"
+          data-load-api="api/index/config/login" data-load-cache="true" data-load-cache-time="300000">
+      <div class="auth-header">
+        <a href="/" class="auth-logo icon-register"></a>
+        <h1 data-i18n>Create Account</h1>
+        <p class="login-message" data-i18n>Join us today! Create your free account.</p>
+      </div>
+      <fieldset>
+        <div>
+          <label for="register_username" data-i18n>Username/Email</label>
+          <span class="form-control icon-email">
+            <input maxlength="255" type="email" id="register_username" name="username" autocomplete="email" autofocus required placeholder="your@email.com">
+          </span>
+        </div>
+        <div>
+          <label for="register_name" data-i18n>Full Name</label>
+          <span class="form-control icon-profile">
+            <input maxlength="150" type="text" id="register_name" name="name" autocomplete="name" required>
+          </span>
+        </div>
+        <div>
+          <label for="register_password" data-i18n>Password</label>
+          <span class="form-control icon-password">
+            <input data-element="password" maxlength="20" type="password" id="register_password" name="password" autocomplete="new-password" data-password-criteria-list="false"
+                   data-password-strength="bar">
+          </span>
+        </div>
+        <div>
+          <label for="register_repassword" data-i18n>Confirm Password</label>
+          <span class="form-control icon-password">
+            <input data-element="password" maxlength="20" type="password" id="register_repassword" name="repassword" data-target-password="register_password">
+          </span>
+        </div>
+        <div class="comment" id="result_register_password" data-i18n>Password must be at least 8 characters long and contain at least one uppercase letter and one lowercase letter.
+        </div>
+      </fieldset>
+      <fieldset class="center">
+        <button type="submit" class="btn btn-primary fullwidth large icon-register" data-i18n>Create Account</button>
+      </fieldset>
+      <div class="center">
+        <span data-i18n>Already have an account?</span> <a href="login" data-i18n>Sign in</a>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+<!-- layout ของหน้าในระบบหลังบ้าน — RouterManager วางหน้าลง data-router-outlet
+     และเก็บ layout นี้ไว้ตลอดที่หน้าถัดไปยังใช้ layout เดียวกัน
+     sidebar/topbar จึงไม่ถูกสร้างใหม่และไม่ดึง auth/me ซ้ำทุกครั้งที่เปลี่ยนหน้า
+     (หน้าที่ไม่มี sidebar เช่น login ตั้ง layout: false ใน js/main.js) -->
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content" data-router-outlet></main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>
